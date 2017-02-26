@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9F5F8B88-D33A-41DE-9962-C2838525AAE8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TeamworkDB</RootNamespace>
+    <AssemblyName>TeamworkDB</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Project\OperationSystem.cs" />
+    <Compile Include="Project\Project.cs" />
+    <Compile Include="Project\ProjectCustomer.cs" />
+    <Compile Include="Project\ProjectDuration.cs" />
+    <Compile Include="Project\ProjectFile.cs" />
+    <Compile Include="Project\ProjectObjective.cs" />
+    <Compile Include="Project\ProjectStage.cs" />
+    <Compile Include="Project\ProjectType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Staff\Account\AccessLevel.cs" />
+    <Compile Include="Staff\Account\Account.cs" />
+    <Compile Include="Staff\CategoryFactory\ElementCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\IElement.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\AccessLevelCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\CitizenshipCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\CityCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\CompanyCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\CountryCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\EducationEntitlingDocumentCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\EducationFacilityCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\EducationSpecialtyCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\GroupCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\LanguageCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\LanguageProficiencyCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\PositionCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\SkillProficiencyCreator.cs" />
+    <Compile Include="Staff\CategoryFactory\SpecificCreators\WebServiceCreator.cs" />
+    <Compile Include="Staff\Education\EducationEntitlingDocument.cs" />
+    <Compile Include="Staff\Education\EducationFacility.cs" />
+    <Compile Include="Staff\Education\EducationSpecialty.cs" />
+    <Compile Include="Staff\Employee\Citizenship.cs" />
+    <Compile Include="Staff\Employee\City.cs" />
+    <Compile Include="Staff\Employee\Country.cs" />
+    <Compile Include="Staff\Employee\Employee.cs" />
+    <Compile Include="Staff\Employee\EmployeeAndMail.cs" />
+    <Compile Include="Staff\Employee\EmployeeAndPhone.cs" />
+    <Compile Include="Staff\Employee\EmployeeAndWeb.cs" />
+    <Compile Include="Staff\Employee\Person.cs" />
+    <Compile Include="Staff\Employee\WebService.cs" />
+    <Compile Include="Staff\Experience\Company.cs" />
+    <Compile Include="Staff\Experience\Position.cs" />
+    <Compile Include="Staff\Language\Language.cs" />
+    <Compile Include="Staff\Language\LanguageProficiency.cs" />
+    <Compile Include="Staff\ManyToMany\CountryAndCity.cs" />
+    <Compile Include="Staff\ManyToMany\EmployeeAndEducation.cs" />
+    <Compile Include="Staff\ManyToMany\EmployeeAndExperience.cs" />
+    <Compile Include="Staff\ManyToMany\EmployeeAndLanguage.cs" />
+    <Compile Include="Staff\ManyToMany\EmployeeAndProject.cs" />
+    <Compile Include="Staff\ManyToMany\EmployeeAndSkill.cs" />
+    <Compile Include="Staff\Skill\Skill.cs" />
+    <Compile Include="Staff\Skill\SkillProficiency.cs" />
+    <Compile Include="Staff\Skill\SkillsGroup.cs" />
+    <Compile Include="Task\TaskComment.cs" />
+    <Compile Include="Task\TaskFile.cs" />
+    <Compile Include="Task\TaskIssue.cs" />
+    <Compile Include="Task\TaskPriority.cs" />
+    <Compile Include="Task\TaskStatus.cs" />
+    <Compile Include="Task\TaskType.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

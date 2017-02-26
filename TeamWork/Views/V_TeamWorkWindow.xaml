@@ -1,0 +1,640 @@
+﻿<Controls:MetroWindow x:Class="TeamWork.V_TeamWorkWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeamWork"
+        xmlns:metro="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+        mc:Ignorable="d"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        ShowTitleBar="True"
+        ShowIconOnTitleBar="True"
+        ShowMinButton="True"
+        ShowMaxRestoreButton="True"
+        ShowCloseButton="True"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen"
+        Title="Team Work" Height="600" Width="900" Icon="/TeamWork;component/Status-mail-task-icon.png">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="ChangeAppStyleButtonClick" ToolTip="Change Style">
+                <iconPacks:PackIconMaterial Kind="Settings" Width="14" Height="14" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Margin="0" VerticalAlignment="Top" >
+            <MenuItem Header="Main">
+                <MenuItem Header="Users">
+                    <MenuItem Header="Add" Command="{Binding MAddEmployee_Click}"></MenuItem>
+                    <MenuItem Header="Show all info" Command="{Binding MShwAllEmployee_Click}"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Projects">
+                    <MenuItem Header="Edit supporting information" Command="{Binding MEditPrjSupp_Click}"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Task">
+                    <MenuItem Header="Edit supporting information" Command="{Binding MEditTskSupp_Click}"></MenuItem>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Exit" Click="MenuItem_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem Header="Color" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="ChangeAppStyleButtonClick">
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <iconPacks:PackIconMaterial Kind="Account" VerticalAlignment="Center" Margin="5,0,0,0" />
+            <Label Content="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="0" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" Grid.Column="1" />
+            <ComboBox ItemsSource="{Binding SysPMList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding iSysPMList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Margin="10,1,0,1" BorderThickness="1"/>
+
+        </Grid>
+        <DockPanel Margin="0" Grid.Row="2">
+            <Expander DockPanel.Dock="Left" ExpandDirection="Right">
+                <Expander.Header>
+                    <TextBlock Text="PROJECTS" Foreground="White">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <Grid>
+                    <ScrollViewer Margin="0" >
+                        <StackPanel>
+                            <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemPr, Mode=TwoWay}" BorderBrush="White" >
+                                <TreeView.Resources>
+                                    <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
+                                        </StackPanel>
+                                    </HierarchicalDataTemplate>
+                                </TreeView.Resources>
+                            </local:ExtendedTreeView>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Expander>
+            <Expander DockPanel.Dock="Left" ExpandDirection="Right">
+                <Expander.Header>
+                    <TextBlock Text="TASKS" VerticalAlignment="Top" Foreground="White">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <Grid>
+                    <ScrollViewer Margin="0">
+                        <StackPanel>
+                            <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemTask, Mode=TwoWay}" BorderBrush="White" >
+                                <TreeView.Resources>
+                                    <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
+                                        </StackPanel>
+                                    </HierarchicalDataTemplate>
+                                </TreeView.Resources>
+                            </local:ExtendedTreeView>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Expander>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <GridSplitter Grid.Row="0" Grid.Column="1" Width="5"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Center"></GridSplitter>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label VerticalContentAlignment="Stretch" HorizontalAlignment="Left">Project:</Label>
+                        <Label Content="{Binding CurProjName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5,0" Height="26" Grid.Column="1" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" />
+                    </Grid>
+                    <Grid Margin="0" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Command="{Binding BSetFavProj_Click}"  Content="{iconPacks:PackIconMaterial Star}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" IsEnabled="{Binding IsEnabledFavPr}"/>
+                        <Button Command="{Binding BAddProj_Click}" Content="{iconPacks:PackIconModern Add}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="1" IsEnabled="{Binding IsEnabledAddPr}"/>
+                        <Button Command="{Binding BSaveProj_Click}"  Content="{iconPacks:PackIconEntypo Save}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="2" IsEnabled="{Binding IsEnabledSavePr}"/>
+                        <Button Command="{Binding BDelProj_Click}" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="3" IsEnabled="{Binding IsEnabledDelPr}"/>
+                    </Grid>
+                    <ScrollViewer Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
+                        <StackPanel IsEnabled="{Binding IsSelectedPrjct}" >
+                            <Expander Header="Base info" Margin="0"  VerticalAlignment="Top">
+                                <Grid Margin="0"  VerticalAlignment="Top">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="*" MinWidth="100"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Content="Project name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Height="26" Width="82"></Label>
+                                    <TextBox Text="{Binding CurProjName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" ></TextBox>
+                                    <Button Command="{Binding BPrName}" Visibility="{Binding VPrName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}"  Width="30" Height="30"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2"   Style="{DynamicResource MetroCircleButtonStyle}" Background="Red" IsTabStop="False"/>
+                                    <Label Content="Customer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1"/>
+                                    <ComboBox ItemsSource="{Binding ListProjCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjCustomer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="1" Grid.Column="1" />
+                                    <Button Command="{Binding BCustomerName}" Visibility="{Binding VCustomerName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="1" IsTabStop="False" />
+
+                                    <Label Content="Stage:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="2" Height="26" Width="62"/>
+                                    <ComboBox ItemsSource="{Binding ListProjStage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjStage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="2" Grid.Column="1" />
+                                    <Button Command="{Binding BStage}" Visibility="{Binding VStage}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
+                                    <Label Content="Creation Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="3" Height="26" Width="86"/>
+                                    <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjCreationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="10" Format="Custom"  IsEnabled="False"/>
+                                    <Label Content="DueDate:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="4" Height="26" Width="59"/>
+                                    <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Margin="10" Format="Custom" />
+                                    <Button Command="{Binding BDueDate}" Visibility="{Binding VDueDate}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
+                                    <Label Content="Duration:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="5"/>
+                                    <ComboBox ItemsSource="{Binding ListProjDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjDuration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" Grid.Row="5" />
+                                    <Button Command="{Binding BDuration}" Visibility="{Binding VDuration}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
+                                    <Label Content="Objective:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="6" Height="26" Width="62"/>
+                                    <ComboBox ItemsSource="{Binding ListProjObjective, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjObjective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="6" Grid.Column="1" />
+                                    <Button Command="{Binding BObjective}" Visibility="{Binding VObjective}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="6" IsTabStop="False" />
+                                    <Label Content="Description:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="9" Height="26" Width="73"/>
+                                    <Button Command="{Binding BDescription}" Visibility="{Binding VDescription}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="9" IsTabStop="False" />
+                                    <TextBox Text="{Binding CurProjDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="10" Grid.ColumnSpan="3"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
+                                </Grid>
+                            </Expander>
+                            <Expander Header="Operation system" >
+                                <Grid Margin="0" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Operation system:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"  Height="26" Width="106"/>
+                                    <Grid Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition  />
+                                            <ColumnDefinition  Width="50"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrOS_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
+                                        <ComboBox ItemsSource="{Binding ListProjOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center"></ComboBox>
+                                        <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrOS_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
+                                    </Grid>
+                                    <ListBox ItemsSource="{Binding CurProjOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2
+                                             ">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ClickMode="Release"></CheckBox>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+
+                            </Expander>
+                            <Expander Header="Skills" >
+                                <Grid Margin="0" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Skills:" Margin="10"></Label>
+                                    <Grid Grid.Column="1" Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition  />
+                                            <ColumnDefinition  Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Margin="10" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrSkills_Click}" Grid.Column="0" Grid.Row="5"/>
+                                        <ComboBox ItemsSource="{Binding ListProjSkills , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center"></ComboBox>
+                                        <Button Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrSkills_Click}" Grid.Column="2" Grid.Row="5"/>
+                                    </Grid>
+                                    <ListBox ItemsSource="{Binding CurProjSkills, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrSkill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ClickMode="Release"></CheckBox>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+
+                            </Expander>
+
+                            <Expander Header="Development team" >
+                                <Grid Margin="0" VerticalAlignment="Top" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Lead:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Height="26" Width="38"/>
+                                    <ComboBox ItemsSource="{Binding ListProjLead, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjLead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Height="20" Grid.Column="1" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Value}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <Label Content="Development team:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1" Height="26" Width="114"/>
+                                    <Grid Grid.Column="1" Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition  />
+                                            <ColumnDefinition  Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddEmplPrjct_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
+                                        <ComboBox ItemsSource="{Binding ListEmpl , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBEmplPrjct}" Grid.Column="1" VerticalAlignment="Center">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Value}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelEmplPrjct_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
+                                    </Grid>
+                                    <ListBox ItemsSource="{Binding DevelopTeam, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurEmplPrjct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.ColumnSpan="3">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ListBox>
+
+                                </Grid>
+                            </Expander>
+                            <Expander Header="Types" >
+                                <Grid Margin="0" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Types:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="2"/>
+                                    <Grid Grid.Column="1" Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition  />
+                                            <ColumnDefinition  Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrTypes_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
+                                        <ComboBox ItemsSource="{Binding ListProjTypes , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill}" Grid.Column="1" VerticalAlignment="Center"></ComboBox>
+                                        <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrTypes_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
+                                    </Grid>
+                                    <ListBox ItemsSource="{Binding CurProjTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.ColumnSpan="3">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ClickMode="Release"></CheckBox>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </Expander>
+                            <Expander Header="Files" >
+                                <ScrollViewer IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <Grid Margin="0" VerticalAlignment="Top" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="Files:" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+                                        <Grid Grid.Column="1" Grid.ColumnSpan="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddPrFiles_Click}" Grid.Row="0" Width="30" Height="30"/>
+                                            <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrFiles_Click}" Grid.Column="1" Grid.Row="0" Width="30" Height="30"/>
+                                            <Button Margin="0" Content="{iconPacks:PackIconMaterial Download}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDownPrFiles_Click}" Grid.Column="2" Grid.Row="0" Width="30" Height="30"/>
+
+                                        </Grid>
+
+                                        <DataGrid ItemsSource="{Binding CurProjFiles}" Grid.Row="1" Grid.ColumnSpan="4" CanUserAddRows="False" AutoGenerateColumns="False">
+                                            <DataGrid.Columns>
+                                                <DataGridCheckBoxColumn Binding="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                    <DataGridCheckBoxColumn.ElementStyle>
+                                                        <Style TargetType="CheckBox"/>
+                                                    </DataGridCheckBoxColumn.ElementStyle>
+                                                </DataGridCheckBoxColumn>
+                                                <DataGridTextColumn Header="Name" Binding="{Binding chClass.Name}"/>
+                                                <DataGridTextColumn Header="Size(Kb)" Binding="{Binding chClass.SizeKBytes}"/>
+                                                <DataGridTextColumn Header="Extension" Binding="{Binding chClass.Extension}"/>
+                                                <DataGridTextColumn Header="Path" Binding="{Binding chClass.Path}"/>
+                                                <DataGridTextColumn Header="Load date" Binding="{Binding chClass.LoadDate}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                    </Grid>
+                                </ScrollViewer>
+                            </Expander>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                </Grid>
+                <Grid Margin="10" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0" Height="30" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label VerticalContentAlignment="Stretch" HorizontalAlignment="Left">Task:</Label>
+                        <Label Content="{Binding CurTaskName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5,0" Height="26" Grid.Column="1" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" />
+                    </Grid>
+                    <Grid Margin="0" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Command="{Binding BAddTask_Click}" Content="{iconPacks:PackIconModern Add}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30"/>
+                        <Button Command="{Binding BSaveTask_Click}"  Content="{iconPacks:PackIconEntypo Save}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30" Grid.Column="1"></Button>
+                        <Button Command="{Binding BDelTask_Click}" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30" Grid.Column="2"></Button>
+                    </Grid>
+                    <Grid Grid.Row="2" >
+                        <ScrollViewer Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <StackPanel IsEnabled="{Binding IsSelectedPrjct}">
+                                <Expander Header="Base info" Margin="0" VerticalAlignment="Top">
+                                    <Grid Margin="0" VerticalAlignment="Top">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Task name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"></Label>
+                                        <TextBox Text="{Binding CurTaskName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="0" Grid.Column="1" />
+                                        <Button Command="{Binding BTaskName}" Visibility="{Binding VTaskName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
+                                        <Label Content="Creation Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1" ></Label>
+                                        <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurTaskCreationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="10" Format="Custom"  IsEnabled="False"/>
+                                        <Label Content="DueDate:" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="10" Grid.Row="2" ></Label>
+                                        <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurTaskDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="10" Format="Custom" />
+                                        <Button Command="{Binding BDueDateTask}" Visibility="{Binding VDueDateTask}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
+                                        <Label Content="Creator:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="3" ></Label>
+                                        <Label Content="{Binding CurTaskCreator, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="3" Grid.Column="1" />
+                                       <Label Content="Status:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="4" ></Label>
+                                        <ComboBox SelectedValue="{Binding CurTaskStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Margin="10" Grid.Row="4" Grid.Column="1" >
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Value}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Command="{Binding BStatus}" Visibility="{Binding VStatus}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
+                                        <Label Content="Priority:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="5" ></Label>
+                                        <ComboBox SelectedValue="{Binding CurTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="5" Grid.Column="1">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Value}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Command="{Binding BTaskPriority}" Visibility="{Binding VTaskPriority}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
+                                        <Label Content="Type:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="6" ></Label>
+                                        <ComboBox SelectedValue="{Binding CurTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="6" Grid.Column="1">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Value}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Command="{Binding BTaskType}" Visibility="{Binding VTaskType}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="6" IsTabStop="False" />
+                                        <Label Content="Project:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="7"></Label>
+                                        <Label Content="{Binding CurTaskProject, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Column="1" Grid.Row="7"/>
+                                    </Grid>
+                                </Expander>
+                                <Expander Header="Assignees">
+                                    <Grid Margin="0" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50" />
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Assignees:" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+
+                                        <Grid Grid.Column="1" Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition  />
+                                                <ColumnDefinition  Width="50"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Margin="10" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurTaskAssignees_Click}" Grid.Column="0" Grid.Row="5"/>
+                                            <ComboBox ItemsSource="{Binding ListTaskAssignees , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelTaskAssignees}" Grid.Column="1" VerticalAlignment="Center">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Path=Value}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <Button Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelTaskAssignees_Click}" Grid.Column="2" Grid.Row="5"/>
+                                        </Grid>
+                                        <Button Command="{Binding BTaskAssignees}" Visibility="{Binding VTaskAssignees}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
+                                        <ListBox ItemsSource="{Binding TaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurTaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="6" Grid.ColumnSpan="3">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ListBox>
+                                    </Grid>
+                                </Expander>
+                                <Expander Header="Description">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50" />
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,14,0,10"></Label>
+                                        <Button Command="{Binding BTaskDescription}" Visibility="{Binding VTaskDescription}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
+                                        <TextBox Text="{Binding CurTaskDescription, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
+                                    </Grid>
+
+                                </Expander>
+                               
+
+                                <Expander Header="Comments" >
+                                    <Grid IsEnabled="{Binding IsNewTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <ScrollViewer Margin="10,5" >
+                                            <ListBox ItemsSource="{Binding ListComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,10,41">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Vertical" >
+                                                            <StackPanel Orientation="Horizontal" >
+                                                                <Label Content="Employee: "></Label>
+                                                                <Label Content="{Binding Creator.Name}"></Label>
+                                                                <Label Content="{Binding Creator.Surname}"></Label>
+                                                                <Label Content="{Binding CreationDate}"></Label>
+                                                            </StackPanel>
+                                                            <Label Content="Text:"></Label>
+                                                            <Label Content="{Binding Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </ScrollViewer>
+                                        <TextBox Margin="10,0,51,10"  VerticalAlignment="Bottom" Text="{Binding CommentText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1"/>
+                                        <Button Margin="326,0,10,10" Command="{Binding BSendComment_Click}" VerticalAlignment="Bottom" Content="Send" HorizontalAlignment="Right" Grid.Row="1"></Button>
+                                    </Grid>
+
+                                </Expander>
+                                <Expander Header="Files" >
+                                    <ScrollViewer IsEnabled="{Binding IsNewTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <Grid Margin="0" VerticalAlignment="Top" >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Content="Files:" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+                                            <Grid Grid.Column="1" Grid.ColumnSpan="3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddTaskFiles_Click}" Grid.Row="0" Width="30" Height="30"/>
+                                                <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelTaskFiles_Click}" Grid.Column="1" Grid.Row="0" Width="30" Height="30"/>
+                                                <Button Margin="0" Content="{iconPacks:PackIconMaterial Download}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDownTaskFiles_Click}" Grid.Column="2" Grid.Row="0" Width="30" Height="30"/>
+
+                                            </Grid>
+
+                                            <DataGrid ItemsSource="{Binding TaskFiles }" CanUserAddRows="False" Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="False">
+                                                <DataGrid.Columns>
+                                                    <DataGridCheckBoxColumn Binding="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                        <DataGridCheckBoxColumn.ElementStyle>
+                                                            <Style TargetType="CheckBox"/>
+                                                        </DataGridCheckBoxColumn.ElementStyle>
+                                                    </DataGridCheckBoxColumn>
+                                                    <DataGridTextColumn Header="Name" Binding="{Binding chClass.Name}"/>
+                                                    <DataGridTextColumn Header="Size(Kb)" Binding="{Binding chClass.SizeKBytes}"/>
+                                                    <DataGridTextColumn Header="Extension" Binding="{Binding chClass.Extension}"/>
+                                                    <DataGridTextColumn Header="Path" Binding="{Binding chClass.Path}"/>
+                                                    <DataGridTextColumn Header="Load date" Binding="{Binding chClass.LoadDate}"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Expander>
+                            </StackPanel>
+                        </ScrollViewer>
+                       
+                    </Grid>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Controls:MetroWindow>
+

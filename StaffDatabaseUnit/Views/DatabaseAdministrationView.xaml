@@ -1,0 +1,163 @@
+﻿<Controls:MetroWindow x:Class="StaffDatabaseUnit.DatabaseAdministrationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="Database Administration" Height="580" Width="600" WindowStartupLocation="CenterScreen" BorderBrush="{DynamicResource AccentColorBrush}" 
+                      BorderThickness="2" ResizeMode="CanMinimize" Icon="/StaffDatabaseUnit;component/Status-mail-task-icon.png">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="ChangeAppStyleButtonClick" ToolTip="Change Style">
+                <iconPacks:PackIconMaterial Kind="Settings" Width="14" Height="14" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <TabControl HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch">
+            <TabItem Header="Skills">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" Orientation="Vertical">
+                            <Label Content="Skills" HorizontalAlignment="Center" Margin="5,0,5,0" VerticalAlignment="Stretch" FontSize="18" MinHeight="34"/>
+                            <ListBox x:Name="lb_SkillsList" Margin="5" MinHeight="430" MaxHeight="430" FontSize="16"
+                                     ItemsSource="{Binding ChosenSkills, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                     SelectedItem="{Binding SelectedSkill, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"/>
+                                            <Label Margin="0" FontSize="16" MinWidth="170"
+                                                   Content="{Binding Skill.Name, Mode=OneWay}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ListBoxSkills}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ListBox>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
+                        <Label Content="Position Filter" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+                        <ComboBox x:Name="cb_PositionFilter" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" FontSize="16"
+                                  ItemsSource="{Binding Positions, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding CurrentPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding ComboBoxPositionFilter}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                        <Label Content="Group Filter" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+                        <ComboBox x:Name="cb_GroupFilter" HorizontalAlignment="Stretch" Margin="5,5,5,50" VerticalAlignment="Stretch" FontSize="16"
+                                  ItemsSource="{Binding Groups, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding CurrentGroup, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding ComboBoxGroupFilter}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                        <TextBox x:Name="tb_SkillName" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" FontSize="16"
+                                 Text="{Binding NewSkill.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                        <Button x:Name="b_AddSkill" Content="Add skill" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonAddNewSkill}" FontSize="14"/>
+                        <Button x:Name="b_DeleteSkill" Content="Delete skill" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonDeleteSkill}" FontSize="14"/>
+                        <TextBox x:Name="tb_SkillForEdition" HorizontalAlignment="Stretch" Margin="5,50,5,5" VerticalAlignment="Stretch" FontSize="16"
+                                 Text="{Binding EditSkill.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 IsReadOnly="{Binding IsNotEditableSkill, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                        <Button x:Name="b_EditSkill" Content="Edit skill" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonEditSkill}" FontSize="14"/>
+                        <Button x:Name="b_RefreshDataFromSkillsTab" Content="Update" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonRefreshData}" FontSize="14"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="General">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" Orientation="Vertical">
+                            <Label HorizontalAlignment="Center" Margin="5,0,5,0" VerticalAlignment="Stretch" FontSize="18" MinHeight="34"
+                                   Content="{Binding CurrentMainFilter, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
+                            <ListBox x:Name="lb_GeneralElementList" Margin="5" MinHeight="430" MaxHeight="430" FontSize="16" 
+                                     ItemsSource="{Binding GeneralElementsList, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                     SelectedItem="{Binding SelectedElement, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"/>
+                                            <Label Margin="0" FontSize="16" MinWidth="170"
+                                                   Content="{Binding CategoryElement.Name, Mode=OneWay}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ListBoxElements}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ListBox>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
+                        <Label Content="Main Filter" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+                        <ComboBox x:Name="cb_GeneralFilter" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" FontSize="16"
+                                  SelectedItem="{Binding CurrentMainFilter, Mode=TwoWay}"
+                                  ItemsSource="{Binding MainFilterList, Mode=OneTime}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding ComboBoxMainFilter}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                        <Label Content="Supplementary Filter" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+                        <ComboBox x:Name="cb_ResidenceFilter" HorizontalAlignment="Stretch" Margin="5,5,5,50" VerticalAlignment="Stretch" FontSize="16"
+                                  ItemsSource="{Binding SupplementaryCategoryElements, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"    
+                                  DisplayMemberPath="Name"       
+                                  SelectedItem="{Binding CurrentSupplementaryElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                  IsEnabled="{Binding IsSupplementaryFilter, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding ComboBoxResidenceFilter}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                        <TextBox x:Name="tb_GeneralElementName" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" FontSize="16"
+                                 Text="{Binding NewElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                        <Button x:Name="b_AddGeneralElement" Content="Add element" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonAddNewElement}" FontSize="14"/>
+                        <Button x:Name="b_DeleteGeneralElement" Content="Delete element" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonDeleteElements}" FontSize="14"/>
+                        <TextBox x:Name="tb_ElementForEdition" HorizontalAlignment="Stretch" Margin="5,50,5,5" VerticalAlignment="Stretch" FontSize="16"
+                                 Text="{Binding EditElementName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 IsReadOnly="{Binding IsNotEditableElement, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                 Controls:TextBoxHelper.ClearTextButton="True"/>
+                        <Button x:Name="b_EditElement" Content="Edit element" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonEditElement}" FontSize="14"/>
+                        <Button x:Name="b_RefreshDataFromGeneralTab" Content="Update" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"
+                                Command="{Binding ButtonRefreshData}" FontSize="14"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Controls:MetroWindow>
+

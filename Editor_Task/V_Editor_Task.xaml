@@ -1,0 +1,187 @@
+﻿<Controls:MetroWindow x:Class="Editor_Task.V_Editor_Task"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Editor_Task"
+                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+            ShowTitleBar="True"
+            ShowIconOnTitleBar="True"
+            ShowMinButton="True"
+            ShowMaxRestoreButton="False"
+            ShowCloseButton="True"
+            GlowBrush="{DynamicResource AccentColorBrush}"
+            WindowStartupLocation="CenterScreen"
+        Title="Editor Task" Height="400" Width="600" ResizeMode="CanMinimize" Icon="Status-mail-task-icon.png">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="ChangeAppStyleButtonClick" ToolTip="Change Style">
+                <iconPacks:PackIconMaterial Kind="Settings" Width="14" Height="14" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <TabControl HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch">
+          
+            <TabItem Header="Priority">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Add new Priority" VerticalContentAlignment="Center" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="38*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="New Priority name:" VerticalContentAlignment="Center" Margin="10"/>
+                        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding NameNewPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Column="1" />
+                        <Button ToolTip="Add new priority" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Add}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddPriority_Click}" Grid.Column="2" />
+                    </Grid>
+                    <Label Content="Delete Priority" VerticalContentAlignment="Center" Grid.Row="2" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Priority name:" VerticalContentAlignment="Center" Margin="10"/>
+                        <ComboBox ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" />
+                        <Button ToolTip="Delete selected priority" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconMaterial Kind=DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPriority_Click}" Grid.Column="2" />
+                    </Grid>
+                    <Label Content="Edit Priority" VerticalContentAlignment="Center" Grid.Row="4" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="1" Content="New name Priority:" VerticalContentAlignment="Center" Margin="10"/>
+                        <TextBox Grid.Row="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding EdNameNewPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Grid.Column="1" ></TextBox>
+                        <Label Content="Old name Priority:" VerticalContentAlignment="Center" Margin="10" Grid.Row="0"/>
+                        <ComboBox ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" />
+                        <Button ToolTip="Edit selected priority" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Edit}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BEditPriority_Click}" Grid.Column="2" Grid.RowSpan="2" />
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+          
+            <TabItem Header="Status">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Add new Status" VerticalContentAlignment="Center" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="38*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="New Status name:" VerticalContentAlignment="Center" Margin="10"/>
+                        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding NameNewStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Column="1" />
+                        <Button ToolTip="Add new status" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Add}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddStatus_Click}" Grid.Column="2" />
+                    </Grid>
+                    <Label Content="Delete Status" VerticalContentAlignment="Center" Grid.Row="2" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Status name:" VerticalContentAlignment="Center" Margin="10"/>
+                        <ComboBox ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" />
+                        <Button ToolTip="Delete selected status" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconMaterial Kind=DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelStatus_Click}" Grid.Column="2" />
+                    </Grid>
+                    <Label Content="Edit Status" VerticalContentAlignment="Center" Grid.Row="4" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="1" Content="New name Status:" VerticalContentAlignment="Center" Margin="10"/>
+                        <TextBox Grid.Row="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding EdNameNewStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Grid.Column="1" ></TextBox>
+                        <Label Content="Old name Status:" VerticalContentAlignment="Center" Margin="10" Grid.Row="0"/>
+                        <ComboBox ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" />
+                        <Button ToolTip="Edit selected status" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Edit}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BEditStatus_Click}" Grid.Column="2" Grid.RowSpan="2" />
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Type">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Add new Type" VerticalContentAlignment="Center" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="38*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="New Type name:" VerticalContentAlignment="Center" Margin="10"/>
+                        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding NameNewType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Column="1" />
+                        <Button ToolTip="Add new type" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Add}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddType_Click}" Grid.Column="2" />
+                    </Grid>
+                    <Label Content="Delete Type" VerticalContentAlignment="Center" Grid.Row="2" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Type name:" VerticalContentAlignment="Center" Margin="10"/>
+                        <ComboBox ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" />
+                        <Button ToolTip="Delete selected type" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconMaterial Kind=DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelType_Click}" Grid.Column="2" />
+                    </Grid>
+                    <Label Content="Edit Type" VerticalContentAlignment="Center" Grid.Row="4" Margin="10" HorizontalAlignment="Center"/>
+                    <Grid Grid.Row="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="1" Content="New name Type:" VerticalContentAlignment="Center" Margin="10"/>
+                        <TextBox Grid.Row="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding EdNameNewType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Grid.Column="1" ></TextBox>
+                        <Label Content="Old name Type:" VerticalContentAlignment="Center" Margin="10" Grid.Row="0"/>
+                        <ComboBox ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" />
+                        <Button ToolTip="Edit selected type" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Edit}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BEditType_Click}" Grid.Column="2" Grid.RowSpan="2"  />
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Controls:MetroWindow>
