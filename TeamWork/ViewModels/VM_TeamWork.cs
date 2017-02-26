@@ -143,6 +143,7 @@ namespace TeamWork
 
         public VM_TeamWork()
         {
+            string i = "sadasd";
             WsfConName ="";
             SysPMList = new List<string>();
             uiContext = SynchronizationContext.Current;
