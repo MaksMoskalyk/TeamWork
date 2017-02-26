@@ -143,7 +143,7 @@ namespace TeamWork
 
         public VM_TeamWork()
         {
-            string i = "test chages";
+            string i = "fuck MS";
             WsfConName ="";
             SysPMList = new List<string>();
             uiContext = SynchronizationContext.Current;
