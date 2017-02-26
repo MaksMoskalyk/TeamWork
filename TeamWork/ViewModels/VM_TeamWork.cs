@@ -143,7 +143,7 @@ namespace TeamWork
 
         public VM_TeamWork()
         {
-            string i = "sadasd";
+            string i = "test chages";
             WsfConName ="";
             SysPMList = new List<string>();
             uiContext = SynchronizationContext.Current;
