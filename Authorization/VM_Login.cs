@@ -14,6 +14,8 @@ using StaffDatabaseUnit;
 using TeamworkDB;
 using TeamworkDBEntity;
 using VM_Base;
+using System.Text.RegularExpressions;
+
 namespace Authorization
 {
     public class VM_Login : ViewModelBase
@@ -97,7 +99,6 @@ namespace Authorization
 
 
         private DelegateCommand ButtonEnterClick;
-        private DelegateCommand ButtonRegistryClick;
         public ICommand BEnter_Click
         {
             get
@@ -127,7 +128,7 @@ namespace Authorization
 
         bool IsLogInAvailable()
         {
-            return (_currentLogin != "" && _currentPass != "");
+            return (CurrentPass.Trim().Length >0  && CurrentPass.Trim().Length > 0);
         }
     }
 }
