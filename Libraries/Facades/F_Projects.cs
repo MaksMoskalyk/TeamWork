@@ -819,29 +819,28 @@ namespace Facade
 
        
 
-        public static string GetProjectCustomer(int id)
+        public static KeyValuePair<int, string> GetProjectCustomer(int id)
         {
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = (from project in context.Projects where project.Id == id select project.Customer.Name).Single();
-                    return q.ToString();
+                    var q = (from project in context.Projects where project.Id == id select new { project.Customer.Id, project.Customer.Name });
+                    var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).Single();
+                    return query;
                 }
                 catch (Exception ex)
                 {
-                    return "Exception: " + ex.Message;
+                    return new KeyValuePair<int, string> (-1,"Exception: " + ex.Message);
                 }
             }
         }
 
      
 
-        public static string EditProjectCustomer(int id, string newCustomer)
+        public static string EditProjectCustomer(int id, int CustomerId)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(newCustomer) ||
-                string.IsNullOrEmpty(newCustomer))
+            if (id < 0 || CustomerId<0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
@@ -849,7 +848,7 @@ namespace Facade
                 try
                 {
                     var q = (from project in context.Projects where project.Id == id select project).Single();
-                    var qCustomer = (from customer in context.Customers where customer.Name == newCustomer.Trim() select customer).Single();
+                    var qCustomer = (from customer in context.Customers where customer.Id == CustomerId select customer).Single();
                     q.Customer = qCustomer;
                     context.SaveChanges();
                     return null;
@@ -863,29 +862,28 @@ namespace Facade
 
         
 
-        public static string GetProjectDuration(int id)
+        public static KeyValuePair<int, string> GetProjectDuration(int id)
         {
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = (from project in context.Projects where project.Id == id select project.Duration.Name).Single();
-                    return q.ToString();
+                    var q = (from project in context.Projects where project.Id == id select new { project.Duration.Id, project.Duration.Name });
+                    var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).Single();
+                    return query;
                 }
                 catch (Exception ex)
                 {
-                    return "Exception: " + ex.Message;
+                    return new KeyValuePair<int, string>(-1, "Exception: " + ex.Message);
                 }
             }
         }
 
         
 
-        public static string EditProjectDuration(int id, string newDuration)
+        public static string EditProjectDuration(int id, int DurationId)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(newDuration) ||
-                string.IsNullOrEmpty(newDuration))
+            if (id < 0 || DurationId<0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
@@ -893,7 +891,7 @@ namespace Facade
                 try
                 {
                     var q = (from project in context.Projects where project.Id == id select project).Single();
-                    var qDuration = (from duration in context.Durations where duration.Name == newDuration.Trim() select duration).Single();
+                    var qDuration = (from duration in context.Durations where duration.Id == DurationId select duration).Single();
                     q.Duration = qDuration;
                     context.SaveChanges();
                     return null;
@@ -922,29 +920,28 @@ namespace Facade
         }
 
 
-        public static string GetProjectStage(int id)
+        public static KeyValuePair<int, string> GetProjectStage(int id)
         {
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = (from project in context.Projects where project.Id == id select project.Stage.Name).Single();
-                    return q.ToString();
+                    var q = (from project in context.Projects where project.Id == id select new { project.Stage.Id, project.Stage.Name });
+                    var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).Single();
+                    return query;
                 }
                 catch (Exception ex)
                 {
-                    return "Exception: " + ex.Message;
+                    return new KeyValuePair<int, string>(-1, "Exception: " + ex.Message);
                 }
             }
         }
 
       
 
-        public static string EditProjectStage(int id, string newStage)
+        public static string EditProjectStage(int id, int StageId)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(newStage) ||
-                string.IsNullOrEmpty(newStage))
+            if (id < 0 || StageId < 0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
@@ -952,7 +949,7 @@ namespace Facade
                 try
                 {
                     var q = (from project in context.Projects where project.Id == id select project).Single();
-                    var qStage = (from stage in context.Stages where stage.Name == newStage.Trim() select stage).Single();
+                    var qStage = (from stage in context.Stages where stage.Id == StageId select stage).Single();
                     q.Stage = qStage;
                     context.SaveChanges();
                     return null;
@@ -965,27 +962,26 @@ namespace Facade
         }
 
 
-        public static string GetProjectObjective(int id)
+        public static KeyValuePair<int, string> GetProjectObjective(int id)
         {
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = (from project in context.Projects where project.Id == id select project.Objective.Name).Single();
-                    return q.ToString();
+                    var q = (from project in context.Projects where project.Id == id select new { project.Objective.Id, project.Objective.Name});
+                    var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).Single();
+                    return query;
                 }
                 catch (Exception ex)
                 {
-                    return "Exception: " + ex.Message;
+                    return new KeyValuePair<int, string>(-1, "Exception: " + ex.Message);
                 }
             }
         }
 
-        public static string EditProjectObjective(int id, string newObjective)
+        public static string EditProjectObjective(int id, int ObjectiveId)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(newObjective) ||
-                string.IsNullOrEmpty(newObjective))
+            if (id < 0 || ObjectiveId<0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
@@ -993,7 +989,7 @@ namespace Facade
                 try
                 {
                     var q = (from project in context.Projects where project.Id == id select project).Single();
-                    var qObjective = (from objective in context.Objectives where objective.Name == newObjective.Trim() select objective).Single();
+                    var qObjective = (from objective in context.Objectives where objective.Id == ObjectiveId select objective).Single();
                     q.Objective = qObjective;
                     context.SaveChanges();
                     return null;

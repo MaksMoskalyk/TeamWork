@@ -101,11 +101,11 @@ namespace TeamWork
         private DateTime currentProjDueDate; 
         private DateTime currentProjCreatDate;
         private string currentProjDesc;
-        private string currentProjDuration;
-        private string currentProjCustomer;
+        private KeyValuePair<int, string> currentProjDuration;
+        private KeyValuePair<int, string> currentProjCustomer;
         private KeyValuePair<int, string> currentProjLead;
-        private string currentProjStage;
-        private string currentProjObjective;
+        private KeyValuePair<int, string> currentProjStage;
+        private KeyValuePair<int, string> currentProjObjective;
         private List<checkEl<KeyValuePair<int, string>>> currentProjSkills;
         private List<checkEl<KeyValuePair<int, string>>> currentProjTypes;
         private List<checkEl<KeyValuePair<int, string>>> currentProjOS;
@@ -744,7 +744,7 @@ namespace TeamWork
             set
             {
                 currentProjDueDate = value;
-                if(currentProjDueDate> currentProjCreatDate)
+                if(currentProjDueDate> CurProjCreationDate)
                     VDueDate = Visibility.Collapsed;
                 else
                     VDueDate = Visibility.Visible;
@@ -791,7 +791,7 @@ namespace TeamWork
             }
         }
         
-        public string CurProjDuration
+        public KeyValuePair<int, string> CurProjDuration
         {
             get
             {
@@ -800,12 +800,12 @@ namespace TeamWork
                     return currentProjDuration;
                 }
                 catch { }
-                return null;
+                return new KeyValuePair<int, string>();
             }
             set
             {
                 currentProjDuration = value;
-                if (currentProjDuration.Length > 0)
+                if (currentProjDuration.Value!=null)
                     VDuration = Visibility.Collapsed;
                 else
                     VDuration = Visibility.Visible;
@@ -814,7 +814,7 @@ namespace TeamWork
             }
         }
 
-        public string CurProjCustomer
+        public KeyValuePair<int, string> CurProjCustomer
         {
             get
             {
@@ -823,12 +823,12 @@ namespace TeamWork
                     return currentProjCustomer;
                 }
                 catch { }
-                return null;
+                return new KeyValuePair<int, string>();
             }
             set
             {
                 currentProjCustomer = value;
-                if (currentProjCustomer.Length > 0)
+                if (currentProjCustomer.Value !=null)
                     VCustomerName = Visibility.Collapsed;
                 else
                     VCustomerName = Visibility.Visible;
@@ -853,7 +853,7 @@ namespace TeamWork
             }
         }
         
-        public string CurProjStage
+        public KeyValuePair<int, string> CurProjStage
         {
             get
             {
@@ -862,12 +862,12 @@ namespace TeamWork
                     return currentProjStage;
                 }
                 catch { }
-                return null;
+                return new KeyValuePair<int, string>();
             }
             set
             {
                 currentProjStage = value;
-                if (currentProjStage.Length > 0)
+                if (currentProjStage.Value!=null)
                     VStage = Visibility.Collapsed;
                 else
                     VStage = Visibility.Visible;
@@ -876,7 +876,7 @@ namespace TeamWork
             }
         }
         
-        public string CurProjObjective
+        public KeyValuePair<int, string> CurProjObjective
         {
             get
             {
@@ -885,12 +885,12 @@ namespace TeamWork
                     return currentProjObjective;
             }
                 catch { }
-                return null;
+                return new KeyValuePair<int, string>();
         }
             set
             {
                 currentProjObjective = value;
-                if (currentProjObjective.Length > 0)
+                if (currentProjObjective.Value !=null)
                     VObjective = Visibility.Collapsed;
                 else
                     VObjective = Visibility.Visible;
@@ -1342,8 +1342,9 @@ namespace TeamWork
                 loadAllListPrInfo();
 
                 CurProjName = tempPr.Name;
-                CurProjDueDate = F_Projects.GetProjectDueDate(tempPr.id);
                 CurProjCreationDate = F_Projects.GetProjectCreationDate(tempPr.id);
+                CurProjDueDate = F_Projects.GetProjectDueDate(tempPr.id);
+                
                 CurProjDescription = F_Projects.GetProjectDescription(tempPr.id);
                 CurProjDuration = F_Projects.GetProjectDuration(tempPr.id);
                 CurProjCustomer = F_Projects.GetProjectCustomer(tempPr.id);
@@ -1489,7 +1490,7 @@ namespace TeamWork
             {
                 foreach (var tempst in AllStatus)
                 {
-                    treeElem tempTree = new treeElem("Status: " + tempst, new ObservableCollection<treeElem>(), true);
+                    treeElem tempTree = new treeElem("Status: " + tempst.Value, new ObservableCollection<treeElem>(), true);
                     foreach (var temp in tempTasks)
                     {
 
@@ -1510,7 +1511,7 @@ namespace TeamWork
             {
                 foreach (var tempst in AllStatus)
                 {
-                    treeElem tempTree = new treeElem("Status: " + tempst, new ObservableCollection<treeElem>(), true);
+                    treeElem tempTree = new treeElem("Status: " + tempst.Value, new ObservableCollection<treeElem>(), true);
                     foreach (var temp in tempTasks)
                     {
                         string Status = F_Task.GetIssueStatus(CurrentProject.Id, temp.Key);
@@ -1974,7 +1975,7 @@ namespace TeamWork
             {
                 if (messBoxYesNo("Do you want to save new project?", "Save new project"))
                 {
-                   string mess = F_Projects.AddNewProject(CurProjName, CurProjCustomer, CurProjDuration, CurProjStage, CurProjObjective, CurProjDueDate, CurProjDescription);
+                   string mess = F_Projects.AddNewProject(CurProjName, CurProjCustomer.Value, CurProjDuration.Value, CurProjStage.Value, CurProjObjective.Value, CurProjDueDate, CurProjDescription);
 
                     if (mess == null)
                     {
@@ -2297,7 +2298,7 @@ namespace TeamWork
         }
         private bool IsCustomerNameAvailable()
         {
-            return (CurProjCustomer == null || CurProjCustomer.Length == 0);
+            return (CurProjCustomer.Value == null || CurProjCustomer.Value.Trim().Length == 0);
         }
 
         private DelegateCommand ButtonStage;
@@ -2314,7 +2315,7 @@ namespace TeamWork
         }
         private bool IsStageAvailable()
         {
-            return (CurProjStage == null || CurProjStage.Length == 0);
+            return (CurProjStage.Value == null || CurProjStage.Value.Trim().Length == 0);
         }
 
         private DelegateCommand ButtonDueDate;
@@ -2348,7 +2349,7 @@ namespace TeamWork
         }
         private bool IsDurationAvailable()
         {
-            return (CurProjDuration == null || CurProjDuration.ToString() == "");
+            return (CurProjDuration.Value == null || CurProjDuration.Value.Trim().Length==0);
         }
 
         private DelegateCommand ButtonObjective;
@@ -2365,7 +2366,7 @@ namespace TeamWork
         }
         private bool IsObjectiveAvailable()
         {
-            return (CurProjObjective == null || CurProjObjective.ToString() == "");
+            return (CurProjObjective.Value == null || CurProjObjective.Value.Trim().Length==0);
         }
 
         private DelegateCommand ButtonDescription;
@@ -2560,11 +2561,11 @@ namespace TeamWork
             CurProjCreationDate = DateTime.Now;
             CurProjDueDate = DateTime.Now.AddHours(1);
             CurProjDescription = "";
-            CurProjDuration = "";
-            CurProjCustomer = "";
+            CurProjDuration = new KeyValuePair<int, string>();
+            CurProjCustomer = new KeyValuePair<int, string>();
             CurProjLead = new KeyValuePair<int, string>();
-            CurProjStage = "";
-            CurProjObjective = "";
+            CurProjStage = new KeyValuePair<int, string>();
+            CurProjObjective = new KeyValuePair<int, string>();
             CurProjFiles = new List<checkEl<ProjectFile>>();
             CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>();
             CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>();
@@ -2734,7 +2735,7 @@ namespace TeamWork
             treeElem tempPr = selTreeElemPr as treeElem;
             if (tempPr == null)
                 return;
-            F_Projects.EditProjectStage(tempPr.id, CurProjStage);
+            F_Projects.EditProjectStage(tempPr.id, CurProjStage.Key);
         }
 
         private DelegateCommand ButtonEditPrDueDateClick;
@@ -2774,7 +2775,7 @@ namespace TeamWork
             if (tempPr == null)
                 return;
 
-            F_Projects.EditProjectObjective(tempPr.id, CurProjObjective);
+            F_Projects.EditProjectObjective(tempPr.id, CurProjObjective.Key);
         }
         private DelegateCommand ButtonEditPrOSClick;
         public ICommand BEditPrOS_Click
@@ -3074,7 +3075,7 @@ namespace TeamWork
             treeElem tempPr = selTreeElemPr as treeElem;
             if (tempPr == null)
                 return;
-            F_Projects.EditProjectDuration(tempPr.id, CurProjDuration);
+            F_Projects.EditProjectDuration(tempPr.id, CurProjDuration.Key);
         }
         private DelegateCommand ButtonEditPrCustomerClick;
         public ICommand BEditPrCustomer_Click
@@ -3093,7 +3094,7 @@ namespace TeamWork
             treeElem tempPr = selTreeElemPr as treeElem;
             if (tempPr == null)
                 return;
-            F_Projects.EditProjectCustomer(tempPr.id, CurProjCustomer);
+            F_Projects.EditProjectCustomer(tempPr.id, CurProjCustomer.Key);
         }
         private DelegateCommand ButtonEditPrTypesClick;
         public ICommand BEditPrTypes_Click
