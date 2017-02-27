@@ -35,21 +35,21 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllCustomers()
+        public static List<KeyValuePair<int, string>> GetAllCustomers()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from customers in context.Customers select customers.Name;
-                return q.ToList();
+                var q = from customers in context.Customers select new { customers.Id, customers.Name };
+                var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
+                return query;
             }
         }
 
        
 
-        public static string EditCustomer(string oldName, string newName)
+        public static string EditCustomer(int id, string newName)
         {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
-                string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
+            if (id < 0 || string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
@@ -60,7 +60,7 @@ namespace Facade
                     if (customersWithNewName.Count() > 0)
                         return "Selected operation failed";
 
-                    var q = (from customer in context.Customers where customer.Name == oldName.Trim() select customer).Single();
+                    var q = (from customer in context.Customers where customer.Id == id select customer).Single();
                     q.Name = newName.Trim();
                     context.SaveChanges();
                     return null;
@@ -74,16 +74,16 @@ namespace Facade
 
         
 
-        public static string DeleteCustomer(string name)
+        public static string DeleteCustomer(int id)
         {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
+            if (id<0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = from customer in context.Customers where customer.Name == name.Trim() select customer;
+                    var q = from customer in context.Customers where customer.Id == id select customer;
                     if (q.Count() == 0)
                         return "Selected operation failed";
                     context.Customers.Remove(q.Single());
@@ -125,21 +125,21 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllDurations()
+        public static List<KeyValuePair<int, string>> GetAllDurations()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from durations in context.Durations select durations.Name;
-                return q.ToList();
+                var q = from durations in context.Durations select new { durations.Id, durations.Name };
+                var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
+                return query;
             }
         }
 
        
 
-        public static string EditDuration(string oldName, string newName)
+        public static string EditDuration(int id, string newName)
         {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
-                string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
+            if (id < 0 || string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
@@ -150,7 +150,7 @@ namespace Facade
                     if (durationsWithNewName.Count() > 0)
                         return "Selected operation failed";
 
-                    var q = (from duration in context.Durations where duration.Name == oldName.Trim() select duration).Single();
+                    var q = (from duration in context.Durations where duration.Id == id select duration).Single();
                     q.Name = newName.Trim();
                     context.SaveChanges();
                     return null;
@@ -163,16 +163,16 @@ namespace Facade
         }
 
 
-        public static string DeleteDuration(string name)
+        public static string DeleteDuration(int id)
         {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
+            if (id < 0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = from duration in context.Durations where duration.Name == name.Trim() select duration;
+                    var q = from duration in context.Durations where duration.Id == id select duration;
                     if (q.Count() == 0)
                         return "Selected operation failed";
                     context.Durations.Remove(q.Single());
@@ -214,20 +214,21 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllObjectives()
+        public static List<KeyValuePair<int, string>> GetAllObjectives()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from objectives in context.Objectives select objectives.Name;
-                return q.ToList();
+                var q = from objectives in context.Objectives select new { objectives.Id, objectives.Name };
+                var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
+                return query;
             }
         }
 
       
 
-        public static string EditObjective(string oldName, string newName)
+        public static string EditObjective(int id, string newName)
         {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
+            if (id <0 ||
                 string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
@@ -239,7 +240,7 @@ namespace Facade
                     if (objectivesWithNewName.Count() > 0)
                         return "Selected operation failed";
 
-                    var q = (from objective in context.Objectives where objective.Name == oldName.Trim() select objective).Single();
+                    var q = (from objective in context.Objectives where objective.Id == id select objective).Single();
                     q.Name = newName.Trim();
                     context.SaveChanges();
                     return null;
@@ -253,16 +254,16 @@ namespace Facade
 
       
 
-        public static string DeleteObjective(string name)
+        public static string DeleteObjective(int id)
         {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
+            if (id <0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = from objective in context.Objectives where objective.Name == name.Trim() select objective;
+                    var q = from objective in context.Objectives where objective.Id == id select objective;
                     if (q.Count() == 0)
                         return "Selected operation failed";
                     context.Objectives.Remove(q.Single());
@@ -303,20 +304,20 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllOSs()
+        public static List<KeyValuePair<int, string>> GetAllOSs()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from OSs in context.OperationSystems select OSs.Name;
-                return q.ToList();
+                var q = from OSs in context.OperationSystems select new { OSs.Id, OSs.Name };
+               return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
             }
         }
 
        
 
-        public static string EditOS(string oldName, string newName)
+        public static string EditOS(int id, string newName)
         {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
+            if (id <0 ||
                 string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
@@ -328,7 +329,7 @@ namespace Facade
                     if (OSsWithNewName.Count() > 0)
                         return "Selected operation failed";
 
-                    var q = (from os in context.OperationSystems where os.Name == oldName.Trim() select os).Single();
+                    var q = (from os in context.OperationSystems where os.Id == id select os).Single();
                     q.Name = newName.Trim();
                     context.SaveChanges();
                     return null;
@@ -340,30 +341,6 @@ namespace Facade
             }
         }
 
-       
-
-        public static string DeleteOS(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var q = from os in context.OperationSystems where os.Name == name.Trim() select os;
-                    if (q.Count() == 0)
-                        return "Selected operation failed";
-                    context.OperationSystems.Remove(q.Single());
-                    context.SaveChanges();
-                   return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
 
         public static string DeleteOS(int id)
         {
@@ -390,94 +367,14 @@ namespace Facade
         #endregion
 
         #region Skills
-        public static string AddNewSkill(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name)) return "Selected operation failed";
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var q = from skill in context.Skills where skill.Name == name.Trim() select skill;
-                    if (q.Count() > 0)
-                        return "Selected operation failed";
-                    var group = context.SkillsGroups.Find(1);
-                    Skill s = new Skill();
-                    s.SkillsGroup = group;
-                    s.Name = name.Trim();
-                    context.Skills.Add(s);
-                    context.SaveChanges();
-                    return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
-
-        public static List<string> GetAllSkills()
+        public static List<KeyValuePair<int, string>> GetAllSkills()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from skills in context.Skills select skills.Name;
-                return q.ToList();
+                var q = from skills in context.Skills select new { skills.Id, skills.Name };
+               return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
             }
-        }
-
-      
-
-        public static string EditSkill(string oldName, string newName)
-        {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
-                string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var skillsWithNewName = from skills in context.Skills where skills.Name == newName.Trim() select skills;
-                    if (skillsWithNewName.Count() > 0)
-                        return "Selected operation failed";
-
-                    var q = (from skill in context.Skills where skill.Name == oldName.Trim() select skill).Single();
-                    q.Name = newName.Trim();
-                    context.SaveChanges();
-                    return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
-
-      
-
-        public static string DeleteSkill(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var q = from skill in context.Skills where skill.Name == name.Trim() select skill;
-                    if (q.Count() == 0)
-                        return "Selected operation failed";
-                    context.Skills.Remove(q.Single());
-                    context.SaveChanges();
-                   return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
-
-        
+        }        
         #endregion
 
         #region Stage
@@ -504,12 +401,12 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllStages()
+        public static List<KeyValuePair<int, string>> GetAllStages()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from stage in context.Stages select stage.Name;
-                return q.ToList();
+                var q = from stage in context.Stages select new { stage.Id, stage.Name };
+               return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
             }
         }
 
@@ -523,35 +420,9 @@ namespace Facade
             }
         }
 
-        public static string EditStage(string oldName, string newName)
-        {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
-                string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var stagesWithNewName = from stages in context.Skills where stages.Name == newName.Trim() select stages;
-                    if (stagesWithNewName.Count() > 0)
-                        return "Selected operation failed";
-
-                    var q = (from stages in context.Stages where stages.Name == oldName.Trim() select stages).Single();
-                    q.Name = newName.Trim();
-                    context.SaveChanges();
-                    return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
-
         public static string EditStage(int id, string newName)
         {
-            if (id < 0 ||
+            if (id <0 ||
                 string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
@@ -575,28 +446,6 @@ namespace Facade
             }
         }
 
-        public static string DeleteStage(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var q = from stage in context.Stages where stage.Name == name.Trim() select stage;
-                    if (q.Count() == 0)
-                        return "Selected operation failed";
-                    context.Stages.Remove(q.Single());
-                    context.SaveChanges();
-                   return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
 
         public static string DeleteStage(int id)
         {
@@ -646,12 +495,12 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllTypes()
+        public static List<KeyValuePair<int, string>> GetAllTypes()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from types in context.ProjectTypes select types.Name;
-                return q.ToList();
+                var q = from types in context.ProjectTypes select new { types.Id, types.Name };
+               return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
             }
         }
 
@@ -665,35 +514,9 @@ namespace Facade
             }
         }
 
-        public static string EditType(string oldName, string newName)
-        {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
-                string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var typesWithNewName = from types in context.ProjectTypes where types.Name == newName.Trim() select types;
-                    if (typesWithNewName.Count() > 0)
-                        return "Selected operation failed";
-
-                    var q = (from type in context.ProjectTypes where type.Name == oldName.Trim() select type).Single();
-                    q.Name = newName.Trim();
-                    context.SaveChanges();
-                    return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
-
         public static string EditType(int id, string newName)
         {
-            if (id < 0 ||
+            if (id <0 ||
                 string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
@@ -717,28 +540,6 @@ namespace Facade
             }
         }
 
-        public static string DeleteType(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var q = from type in context.ProjectTypes where type.Name == name.Trim() select type;
-                    if (q.Count() == 0)
-                        return "Selected operation failed";
-                    context.ProjectTypes.Remove(q.Single());
-                    context.SaveChanges();
-                   return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
 
         public static string DeleteType(int id)
         {
@@ -810,12 +611,12 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllProjectsName()
+        public static List<KeyValuePair<int, string>> GetAllProjectsName()
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from projects in context.Projects select projects.Name;
-                return q.ToList();
+                var q = from projects in context.Projects select new { projects.Id, projects.Name };
+               return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
             }
         }
 
@@ -1206,18 +1007,16 @@ namespace Facade
 
 
 
-        public static string AddSkillToProject(int id, string skillName)
+        public static string AddSkillToProject(int Prjid, int SkId)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(skillName) ||
-                string.IsNullOrEmpty(skillName))
+            if (Prjid < 0 || SkId<0)
                 return "Selected operation failed";
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = (from project in context.Projects where project.Id == id select project).Single();
-                    var qSkill = (from skill in context.Skills where skill.Name == skillName.Trim() select skill).Single();
+                    var q = (from project in context.Projects where project.Id == Prjid select project).Single();
+                    var qSkill = (from skill in context.Skills where skill.Id == SkId select skill).Single();
                     q.Skills.Add(qSkill);
                     context.SaveChanges();
                     return "Added";
@@ -1231,7 +1030,7 @@ namespace Facade
 
         
 
-        public static List<string> GetProjectSkills(int id)
+        public static List<KeyValuePair<int, string>> GetProjectSkills(int id)
         {
             if (id < 0)
                 return null;
@@ -1242,9 +1041,9 @@ namespace Facade
                 {
                     var q = (from project in context.Projects
                              where project.Id == id
-                             select project.Skills.Select(s => s.Name)).Single();
+                             select project.Skills.Select(s => new { s.Id, s.Name})).Single();
 
-                    return q.ToList();
+                   return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
                 }
                 catch
                 {
@@ -1255,18 +1054,17 @@ namespace Facade
 
        
 
-        public static string RemoveProjectSkill(int id, string skillName)
+        public static string RemoveProjectSkill(int Prjid, int SkjId)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(skillName) || string.IsNullOrEmpty(skillName))
+            if (Prjid < 0 || SkjId<0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var qProj = (from project in context.Projects where project.Id == id select project).Single();
-                    var qSkill = (from skill in context.Skills where skill.Name == skillName.Trim() select skill).Single();
+                    var qProj = (from project in context.Projects where project.Id == Prjid select project).Single();
+                    var qSkill = (from skill in context.Skills where skill.Id == SkjId select skill).Single();
                     qProj.Skills.Remove(qSkill);
                     context.SaveChanges();
                     return "Removed";
@@ -1280,18 +1078,16 @@ namespace Facade
 
        
 
-        public static string AddTypeToProject(int id, string typeName)
+        public static string AddTypeToProject(int Prjid, int Tpid)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(typeName) ||
-                string.IsNullOrEmpty(typeName))
+            if (Prjid < 0 || Tpid<0)
                 return "Selected operation failed";
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = (from project in context.Projects where project.Id == id select project).Single();
-                    var qType = (from type in context.ProjectTypes where type.Name == typeName.Trim() select type).Single();
+                    var q = (from project in context.Projects where project.Id == Prjid select project).Single();
+                    var qType = (from type in context.ProjectTypes where type.Id == Tpid select type).Single();
                     q.Types.Add(qType);
                     context.SaveChanges();
                     return "Added";
@@ -1302,10 +1098,30 @@ namespace Facade
                 }
             }
         }
+        public static string RemoveProjectType(int Prjid, int Tpid)
+        {
+            if (Prjid < 0 || Tpid < 0)
+                return "Selected operation failed";
 
-       
+            using (var context = new TeamworkDBContext())
+            {
+                try
+                {
+                    var qProj = (from project in context.Projects where project.Id == Prjid select project).Single();
+                    var qType = (from type in context.ProjectTypes where type.Id == Tpid select type).Single();
+                    qProj.Types.Remove(qType);
+                    context.SaveChanges();
+                    return "Removed";
+                }
+                catch (Exception ex)
+                {
+                    return "Exception: " + ex.Message;
+                }
+            }
+        }
 
-        public static List<string> GetProjectTypes(int id)
+
+        public static List<KeyValuePair<int, string>> GetProjectTypes(int id)
         {
             if (id < 0)
                 return null;
@@ -1316,9 +1132,9 @@ namespace Facade
                 {
                     var q =  (from project in context.Projects
                              where project.Id == id
-                             select project.Types.Select(s => s.Name)).Single();
+                             select project.Types.Select(s => new { s.Id, s.Name })).Single();
 
-                    return q.ToList();
+                   return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
                 }
                 catch
                 {
@@ -1328,18 +1144,16 @@ namespace Facade
         }
 
 
-        public static string AddOSToProject(int id, string osName)
+        public static string AddOSToProject(int Prjid, int OSid)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(osName) ||
-                string.IsNullOrEmpty(osName))
+            if (Prjid < 0 || OSid<0)
                 return "Selected operation failed";
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = (from project in context.Projects where project.Id == id select project).Single();
-                    var qOS = (from os in context.OperationSystems where os.Name == osName.Trim() select os).Single();
+                    var q = (from project in context.Projects where project.Id == Prjid select project).Single();
+                    var qOS = (from os in context.OperationSystems where os.Id == OSid select os).Single();
                     q.OperationSystems.Add(qOS);
                     context.SaveChanges();
                     return "Added";
@@ -1353,7 +1167,7 @@ namespace Facade
 
      
 
-        public static List<string> GetProjectOSs(int id)
+        public static List<KeyValuePair<int, string>> GetProjectOSs(int id)
         {
             if (id < 0)
                 return null;
@@ -1364,9 +1178,9 @@ namespace Facade
                 {
                     var q = (from project in context.Projects
                              where project.Id == id
-                             select project.OperationSystems.Select(s => s.Name)).Single();
+                             select project.OperationSystems.Select(s => new { s.Id, s.Name })).Single();
 
-                    return q.ToList();
+                   return q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList(); ;
                 }
                 catch
                 {
@@ -1377,18 +1191,17 @@ namespace Facade
 
         
 
-        public static string RemoveProjectOS(int id, string osName)
+        public static string RemoveProjectOS(int Prjid, int OSid)
         {
-            if (id < 0 ||
-                string.IsNullOrWhiteSpace(osName) || string.IsNullOrEmpty(osName))
+            if (Prjid < 0 || OSid<0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var qProj = (from project in context.Projects where project.Id == id select project).Single();
-                    var qOS = (from os in context.OperationSystems where os.Name == osName.Trim() select os).Single();
+                    var qProj = (from project in context.Projects where project.Id == Prjid select project).Single();
+                    var qOS = (from os in context.OperationSystems where os.Id == OSid select os).Single();
                     qProj.OperationSystems.Remove(qOS);
                     context.SaveChanges();
                     return "Removed";
@@ -1462,7 +1275,7 @@ namespace Facade
                 try
                 {
                     var q = (from proj in context.Projects where proj.Id == id select proj.Files).Single();
-                    return q.ToList();
+                   return q.ToList();
                 }
                 catch
                 {

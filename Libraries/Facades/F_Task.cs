@@ -10,8 +10,6 @@ namespace Facade
 {
     public static class F_Task
     {
-
-
         #region Type
         public static string AddNewType(string name)
         {
@@ -36,16 +34,7 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllTaskTypes()
-        {
-            using (var context = new TeamworkDBContext())
-            {
-                var q = from x in context.TaskTypes select x.Name;
-                return q.ToList();
-            }
-        }
-
-        public static List<KeyValuePair<int, string>> GetAllTaskTypesWithId()
+        public static List<KeyValuePair<int, string>> GetAllTaskTypes()
         {
             using (var context = new TeamworkDBContext())
             {
@@ -55,9 +44,9 @@ namespace Facade
             }
         }
 
-        public static string EditType(string oldName, string newName)
+        public static string EditType(int id, string newName)
         {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
+            if (id <0 ||
                 string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
@@ -69,7 +58,7 @@ namespace Facade
                     if (withNewName.Count() > 0)
                         return "Selected operation failed";
 
-                    var q = (from x in context.TaskTypes where x.Name == oldName.Trim() select x).Single();
+                    var q = (from x in context.TaskTypes where x.Id == id select x).Single();
                     q.Name = newName.Trim();
                     context.SaveChanges();
                     return null;
@@ -82,16 +71,16 @@ namespace Facade
         }
 
 
-        public static string DeleteType(string name)
+        public static string DeleteType(int id)
         {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
+            if (id <0)
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = from x in context.TaskTypes where x.Name == name.Trim() select x;
+                    var q = from x in context.TaskTypes where x.Id == id select x;
                     if (q.Count() == 0)
                         return "Selected operation failed";
                     context.TaskTypes.Remove(q.Single());
@@ -131,16 +120,7 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllPriorityes()
-        {
-            using (var context = new TeamworkDBContext())
-            {
-                var q = from x in context.Priorityes select x.Name;
-                return q.ToList();
-            }
-        }
-
-        public static List<KeyValuePair<int, string>> GetAllPriorityesNameWithId()
+        public static List<KeyValuePair<int, string>> GetAllPriorityes()
         {
             using (var context = new TeamworkDBContext())
             {
@@ -150,9 +130,9 @@ namespace Facade
             }
         }
 
-        public static string EditPriority(string oldName, string newName)
+        public static string EditPriority(int id, string newName)
         {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
+            if (id <0 ||
                 string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
@@ -164,7 +144,7 @@ namespace Facade
                     if (withNewName.Count() > 0)
                         return "Selected operation failed";
 
-                    var q = (from x in context.Priorityes where x.Name == oldName.Trim() select x).Single();
+                    var q = (from x in context.Priorityes where x.Id == id select x).Single();
                     q.Name = newName.Trim();
                     context.SaveChanges();
                     return null;
@@ -177,16 +157,16 @@ namespace Facade
         }
 
 
-        public static string DeletePriority(string name)
+        public static string DeletePriority(int id)
         {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
+            if (id <0 )
                 return "Selected operation failed";
 
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
-                    var q = from x in context.Priorityes where x.Name == name.Trim() select x;
+                    var q = from x in context.Priorityes where x.Id == id select x;
                     if (q.Count() == 0)
                         return "Selected operation failed";
                     context.Priorityes.Remove(q.Single());
@@ -247,16 +227,7 @@ namespace Facade
             }
         }
 
-        public static List<string> GetAllStatuses()
-        {
-            using (var context = new TeamworkDBContext())
-            {
-                var q = from x in context.Statuses select x.Name;
-                return q.ToList();
-            }
-        }
-
-        public static List<KeyValuePair<int, string>> GetAllStatusesNameWithId()
+        public static List<KeyValuePair<int, string>> GetAllStatuses()
         {
             using (var context = new TeamworkDBContext())
             {
@@ -266,9 +237,9 @@ namespace Facade
             }
         }
 
-        public static string EditStatus(string oldName, string newName)
+        public static string EditStatus(int id, string newName)
         {
-            if (string.IsNullOrWhiteSpace(oldName) || string.IsNullOrEmpty(oldName) ||
+            if (id <0 ||
                 string.IsNullOrWhiteSpace(newName) || string.IsNullOrEmpty(newName))
                 return "Selected operation failed";
 
@@ -280,34 +251,10 @@ namespace Facade
                     if (withNewName.Count() > 0)
                         return "Selected operation failed";
 
-                    var q = (from x in context.Statuses where x.Name == oldName.Trim() select x).Single();
+                    var q = (from x in context.Statuses where x.Id == id select x).Single();
                     q.Name = newName.Trim();
                     context.SaveChanges();
                     return null;
-                }
-                catch (Exception ex)
-                {
-                    return "Exception: " + ex.Message;
-                }
-            }
-        }
-
-
-        public static string DeleteStatus(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
-                return "Selected operation failed";
-
-            using (var context = new TeamworkDBContext())
-            {
-                try
-                {
-                    var q = from x in context.Statuses where x.Name == name.Trim() select x;
-                    if (q.Count() == 0)
-                        return "Selected operation failed";
-                    context.Statuses.Remove(q.Single());
-                    context.SaveChanges();
-                   return null;
                 }
                 catch (Exception ex)
                 {

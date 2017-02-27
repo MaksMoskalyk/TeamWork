@@ -169,27 +169,51 @@
 
                                     <Label Content="Project name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Height="26" Width="82"></Label>
                                     <TextBox Text="{Binding CurProjName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" ></TextBox>
-                                    <Button Command="{Binding BPrName}" Visibility="{Binding VPrName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}"  Width="30" Height="30"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2"   Style="{DynamicResource MetroCircleButtonStyle}" Background="Red" IsTabStop="False"/>
+                                    <Button Visibility="{Binding VPrName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}"  Width="30" Height="30"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2"   Style="{DynamicResource MetroCircleButtonStyle}" Background="Red" IsTabStop="False"/>
                                     <Label Content="Customer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1"/>
-                                    <ComboBox ItemsSource="{Binding ListProjCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjCustomer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="1" Grid.Column="1" />
-                                    <Button Command="{Binding BCustomerName}" Visibility="{Binding VCustomerName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="1" IsTabStop="False" />
+                                    <ComboBox ItemsSource="{Binding ListProjCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjCustomer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="1" Grid.Column="1" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Value}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <Button  Visibility="{Binding VCustomerName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="1" IsTabStop="False" />
 
                                     <Label Content="Stage:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="2" Height="26" Width="62"/>
-                                    <ComboBox ItemsSource="{Binding ListProjStage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjStage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="2" Grid.Column="1" />
-                                    <Button Command="{Binding BStage}" Visibility="{Binding VStage}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
+                                    <ComboBox ItemsSource="{Binding ListProjStage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjStage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="2" Grid.Column="1" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Value}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <Button  Visibility="{Binding VStage}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
                                     <Label Content="Creation Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="3" Height="26" Width="86"/>
                                     <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjCreationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="10" Format="Custom"  IsEnabled="False"/>
                                     <Label Content="DueDate:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="4" Height="26" Width="59"/>
                                     <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Margin="10" Format="Custom" />
-                                    <Button Command="{Binding BDueDate}" Visibility="{Binding VDueDate}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
+                                    <Button  Visibility="{Binding VDueDate}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
                                     <Label Content="Duration:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="5"/>
-                                    <ComboBox ItemsSource="{Binding ListProjDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjDuration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" Grid.Row="5" />
-                                    <Button Command="{Binding BDuration}" Visibility="{Binding VDuration}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
+                                    <ComboBox ItemsSource="{Binding ListProjDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjDuration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" Grid.Row="5" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Value}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <Button  Visibility="{Binding VDuration}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
                                     <Label Content="Objective:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="6" Height="26" Width="62"/>
-                                    <ComboBox ItemsSource="{Binding ListProjObjective, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjObjective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="6" Grid.Column="1" />
-                                    <Button Command="{Binding BObjective}" Visibility="{Binding VObjective}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="6" IsTabStop="False" />
+                                    <ComboBox ItemsSource="{Binding ListProjObjective, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjObjective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="6" Grid.Column="1" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Value}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <Button  Visibility="{Binding VObjective}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="6" IsTabStop="False" />
                                     <Label Content="Description:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="9" Height="26" Width="73"/>
-                                    <Button Command="{Binding BDescription}" Visibility="{Binding VDescription}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="9" IsTabStop="False" />
+                                    <Button  Visibility="{Binding VDescription}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="9" IsTabStop="False" />
                                     <TextBox Text="{Binding CurProjDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="10" Grid.ColumnSpan="3"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
                                 </Grid>
                             </Expander>
@@ -212,7 +236,13 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrOS_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
-                                        <ComboBox ItemsSource="{Binding ListProjOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center"></ComboBox>
+                                        <ComboBox ItemsSource="{Binding ListProjOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Value}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                         <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrOS_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
                                     </Grid>
                                     <ListBox ItemsSource="{Binding CurProjOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2
@@ -224,7 +254,7 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ClickMode="Release"></CheckBox>
+                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ListBox>
@@ -249,7 +279,13 @@
                                             <ColumnDefinition  Width="50"/>
                                         </Grid.ColumnDefinitions>
                                         <Button Margin="10" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrSkills_Click}" Grid.Column="0" Grid.Row="5"/>
-                                        <ComboBox ItemsSource="{Binding ListProjSkills , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center"></ComboBox>
+                                        <ComboBox ItemsSource="{Binding ListProjSkills , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Value}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                         <Button Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrSkills_Click}" Grid.Column="2" Grid.Row="5"/>
                                     </Grid>
                                     <ListBox ItemsSource="{Binding CurProjSkills, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrSkill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
@@ -260,7 +296,7 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ClickMode="Release"></CheckBox>
+                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ListBox>
@@ -339,7 +375,13 @@
                                             <ColumnDefinition  Width="50"/>
                                         </Grid.ColumnDefinitions>
                                         <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrTypes_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
-                                        <ComboBox ItemsSource="{Binding ListProjTypes , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill}" Grid.Column="1" VerticalAlignment="Center"></ComboBox>
+                                        <ComboBox ItemsSource="{Binding ListProjTypes , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill}" Grid.Column="1" VerticalAlignment="Center">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Value}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                         <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrTypes_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
                                     </Grid>
                                     <ListBox ItemsSource="{Binding CurProjTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.ColumnSpan="3">
@@ -350,7 +392,7 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ClickMode="Release"></CheckBox>
+                                                <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ListBox>
@@ -452,12 +494,12 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Content="Task name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"></Label>
                                         <TextBox Text="{Binding CurTaskName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="0" Grid.Column="1" />
-                                        <Button Command="{Binding BTaskName}" Visibility="{Binding VTaskName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
+                                        <Button  Visibility="{Binding VTaskName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
                                         <Label Content="Creation Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1" ></Label>
                                         <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurTaskCreationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="10" Format="Custom"  IsEnabled="False"/>
                                         <Label Content="DueDate:" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="10" Grid.Row="2" ></Label>
                                         <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurTaskDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="10" Format="Custom" />
-                                        <Button Command="{Binding BDueDateTask}" Visibility="{Binding VDueDateTask}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
+                                        <Button  Visibility="{Binding VDueDateTask}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
                                         <Label Content="Creator:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="3" ></Label>
                                         <Label Content="{Binding CurTaskCreator, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="3" Grid.Column="1" />
                                        <Label Content="Status:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="4" ></Label>
@@ -468,7 +510,7 @@
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                        <Button Command="{Binding BStatus}" Visibility="{Binding VStatus}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
+                                        <Button  Visibility="{Binding VStatus}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
                                         <Label Content="Priority:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="5" ></Label>
                                         <ComboBox SelectedValue="{Binding CurTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="5" Grid.Column="1">
                                             <ComboBox.ItemTemplate>
@@ -477,7 +519,7 @@
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                        <Button Command="{Binding BTaskPriority}" Visibility="{Binding VTaskPriority}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
+                                        <Button  Visibility="{Binding VTaskPriority}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
                                         <Label Content="Type:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="6" ></Label>
                                         <ComboBox SelectedValue="{Binding CurTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="6" Grid.Column="1">
                                             <ComboBox.ItemTemplate>
@@ -486,7 +528,7 @@
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                        <Button Command="{Binding BTaskType}" Visibility="{Binding VTaskType}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="6" IsTabStop="False" />
+                                        <Button  Visibility="{Binding VTaskType}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="6" IsTabStop="False" />
                                         <Label Content="Project:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="7"></Label>
                                         <Label Content="{Binding CurTaskProject, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Column="1" Grid.Row="7"/>
                                     </Grid>

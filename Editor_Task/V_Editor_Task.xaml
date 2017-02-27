@@ -54,7 +54,13 @@
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Priority name:" VerticalContentAlignment="Center" Margin="10"/>
-                        <ComboBox ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Value}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Button ToolTip="Delete selected priority" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconMaterial Kind=DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPriority_Click}" Grid.Column="2" />
                     </Grid>
                     <Label Content="Edit Priority" VerticalContentAlignment="Center" Grid.Row="4" Margin="10" HorizontalAlignment="Center"/>
@@ -71,7 +77,13 @@
                         <Label Grid.Row="1" Content="New name Priority:" VerticalContentAlignment="Center" Margin="10"/>
                         <TextBox Grid.Row="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding EdNameNewPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Grid.Column="1" ></TextBox>
                         <Label Content="Old name Priority:" VerticalContentAlignment="Center" Margin="10" Grid.Row="0"/>
-                        <ComboBox ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Value}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Button ToolTip="Edit selected priority" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Edit}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BEditPriority_Click}" Grid.Column="2" Grid.RowSpan="2" />
                     </Grid>
 
@@ -107,7 +119,13 @@
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Status name:" VerticalContentAlignment="Center" Margin="10"/>
-                        <ComboBox ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Value}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Button ToolTip="Delete selected status" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconMaterial Kind=DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelStatus_Click}" Grid.Column="2" />
                     </Grid>
                     <Label Content="Edit Status" VerticalContentAlignment="Center" Grid.Row="4" Margin="10" HorizontalAlignment="Center"/>
@@ -124,7 +142,13 @@
                         <Label Grid.Row="1" Content="New name Status:" VerticalContentAlignment="Center" Margin="10"/>
                         <TextBox Grid.Row="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding EdNameNewStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Grid.Column="1" ></TextBox>
                         <Label Content="Old name Status:" VerticalContentAlignment="Center" Margin="10" Grid.Row="0"/>
-                        <ComboBox ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Value}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Button ToolTip="Edit selected status" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Edit}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BEditStatus_Click}" Grid.Column="2" Grid.RowSpan="2" />
                     </Grid>
 
@@ -159,7 +183,13 @@
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Type name:" VerticalContentAlignment="Center" Margin="10"/>
-                        <ComboBox ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelDelType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Column="1" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Value}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Button ToolTip="Delete selected type" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconMaterial Kind=DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelType_Click}" Grid.Column="2" />
                     </Grid>
                     <Label Content="Edit Type" VerticalContentAlignment="Center" Grid.Row="4" Margin="10" HorizontalAlignment="Center"/>
@@ -176,7 +206,13 @@
                         <Label Grid.Row="1" Content="New name Type:" VerticalContentAlignment="Center" Margin="10"/>
                         <TextBox Grid.Row="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding EdNameNewType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Grid.Column="1" ></TextBox>
                         <Label Content="Old name Type:" VerticalContentAlignment="Center" Margin="10" Grid.Row="0"/>
-                        <ComboBox ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding SelEditType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Value}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <Button ToolTip="Edit selected type" Width="40" Height="40"  Margin="0" Content="{iconPacks:PackIconModern Kind=Edit}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BEditType_Click}" Grid.Column="2" Grid.RowSpan="2"  />
                     </Grid>
 

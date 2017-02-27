@@ -25,7 +25,7 @@ namespace Editor_Task
         }
         bool IsEmptyField(string str)
         {
-            return (str != null && str.Length > 0);
+            return (str != null && str.Trim().Length > 0);
         }
         bool IsSelected(int SelEl)
         {
@@ -52,7 +52,7 @@ namespace Editor_Task
         #region Prioritys
         #region fields
         string nameNewPriority;
-        List<string> listPriority;
+        List<KeyValuePair<int, string>> listPriority;
         int selDelPriority;
         string edNameNewPriority;
         int selEditPriority;
@@ -70,7 +70,7 @@ namespace Editor_Task
                 OnPropertyChanged("NameNewPriority");
             }
         }
-        public List<string> ListPriority
+        public List<KeyValuePair<int, string>> ListPriority
         {
             get
             {
@@ -137,7 +137,7 @@ namespace Editor_Task
             
             if (messBoxYesNo("Do you want to add this priority?", "Add new priority"))
             {
-                string mess = F_Task.AddNewPriority(NameNewPriority);
+                string mess = F_Task.AddNewPriority(NameNewPriority.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New priority was added successfully.", "Add new priority");
@@ -167,7 +167,7 @@ namespace Editor_Task
            
             if (messBoxYesNo("Do you want to delete this priority?", "Delete priority"))
             {
-                string mess = F_Task.DeletePriority(ListPriority[SelDelPriority]);
+                string mess = F_Task.DeletePriority(ListPriority[SelDelPriority].Key);
                 if (mess == null)
                 {
                     messBoxOk("Priority was deleted successfully.", "Delete priority");
@@ -196,7 +196,7 @@ namespace Editor_Task
            
             if (messBoxYesNo("Do you want to edit this status?", "Edit status"))
             {
-                string mess = F_Task.EditPriority(ListPriority[SelEditPriority], EdNameNewPriority);
+                string mess = F_Task.EditPriority(ListPriority[SelEditPriority].Key, EdNameNewPriority.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Status was edited successfully.", "Edit status");
@@ -221,7 +221,7 @@ namespace Editor_Task
         #region Status
         #region fields
         string nameNewStatus;
-        List<string> listStatus;
+        List<KeyValuePair<int, string>> listStatus;
         int selDelStatus;
         string edNameNewStatus;
         int selEditStatus;
@@ -239,7 +239,7 @@ namespace Editor_Task
                 OnPropertyChanged("NameNewStatus");
             }
         }
-        public List<string> ListStatus
+        public List<KeyValuePair<int, string>> ListStatus
         {
             get
             {
@@ -305,7 +305,7 @@ namespace Editor_Task
         {
             if (messBoxYesNo("Do you want to add this status?", "Add new status"))
             {
-                string mess = F_Task.AddNewStatus(NameNewStatus);
+                string mess = F_Task.AddNewStatus(NameNewStatus.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New status was added successfully.", "Add new status");
@@ -334,7 +334,7 @@ namespace Editor_Task
         {
             if (messBoxYesNo("Do you want to delete this status?", "Delete status"))
             {
-                string mess = F_Task.DeleteStatus(ListStatus[SelDelStatus]);
+                string mess = F_Task.DeleteStatus(ListStatus[SelDelStatus].Key);
                 if (mess == null)
                 {
                     messBoxOk("Status was deleted successfully.", "Delete status");
@@ -362,7 +362,7 @@ namespace Editor_Task
         {
             if (messBoxYesNo("Do you want to edit this status?", "Edit status"))
             {
-                string mess = F_Task.EditStatus(ListStatus[SelEditStatus], EdNameNewStatus);
+                string mess = F_Task.EditStatus(ListStatus[SelEditStatus].Key, EdNameNewStatus.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Status was edited successfully.", "Edit status");
@@ -387,7 +387,7 @@ namespace Editor_Task
         #region Type
         #region fields
         string nameNewType;
-        List<string> listType;
+        List<KeyValuePair<int, string>> listType;
         int selDelType;
         string edNameNewType;
         int selEditType;
@@ -405,7 +405,7 @@ namespace Editor_Task
                 OnPropertyChanged("NameNewType");
             }
         }
-        public List<string> ListType
+        public List<KeyValuePair<int, string>> ListType
         {
             get
             {
@@ -471,7 +471,7 @@ namespace Editor_Task
         {
             if (messBoxYesNo("Do you want to add this type?", "Add new type"))
             {
-                string mess = F_Task.AddNewType(NameNewType);
+                string mess = F_Task.AddNewType(NameNewType.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New type was added successfully.", "Add new type");
@@ -500,7 +500,7 @@ namespace Editor_Task
         {
             if (messBoxYesNo("Do you want to delete this type?", "Delete type"))
             {
-                string mess = F_Task.DeleteType(ListType[SelDelType]);
+                string mess = F_Task.DeleteType(ListType[SelDelType].Key);
                 if (mess == null)
                 {
                     messBoxOk("Type was deleted successfully.", "Delete type");
@@ -529,7 +529,7 @@ namespace Editor_Task
            
             if (messBoxYesNo("Do you want to edit this type?", "Edit type"))
             {
-                string mess = F_Task.EditType(ListType[SelEditType], EdNameNewType);
+                string mess = F_Task.EditType(ListType[SelEditType].Key, EdNameNewType.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Type was edited successfully.", "Edit type");

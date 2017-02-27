@@ -25,14 +25,13 @@ namespace Editor_Projects
             loadAllDuration();
             loadAllObjective();
             loadAllOperationSystem();
-            loadAllSkill();
             loadAllStage();
             loadAllType();
             IsChanged = false;
         }
         bool IsEmptyField(string str)
         {
-            return (str != null && str.Length > 0);
+            return (str != null && str.Trim().Length > 0);
         }
         bool IsSelected(int SelEl)
         {
@@ -59,7 +58,7 @@ namespace Editor_Projects
         #region Customers
         #region fields
         string nameNewCustomer;
-        List<string> listCustomer;
+        List<KeyValuePair<int, string>> listCustomer;
         int selDelCustomer;
         string edNameNewCustomer;
         int selEditCustomer;
@@ -77,7 +76,7 @@ namespace Editor_Projects
                 OnPropertyChanged("NameNewCustomer");
             }
         }
-        public List<string> ListCustomer
+        public List<KeyValuePair<int, string>> ListCustomer
         {
             get
             {
@@ -144,7 +143,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to add this customer?", "Add new customer"))
             {
-                string mess = F_Projects.AddNewCustomer(NameNewCustomer);
+                string mess = F_Projects.AddNewCustomer(NameNewCustomer.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New customer was added successfully.", "Add new customer");
@@ -173,7 +172,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to delete this customer?", "Delete customer"))
             {
-                string mess = F_Projects.DeleteCustomer(ListCustomer[SelDelCustomer]);
+                string mess = F_Projects.DeleteCustomer(ListCustomer[SelDelCustomer].Key);
                 if (mess == null)
                 {
                     messBoxOk("Customer was deleted successfully.", "Delete customer");
@@ -201,7 +200,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to edit this customer?", "Edit customer"))
             {
-                string mess = F_Projects.EditCustomer(ListCustomer[SelEditCustomer], EdNameNewCustomer);
+                string mess = F_Projects.EditCustomer(ListCustomer[SelEditCustomer].Key, EdNameNewCustomer.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Customer was edited successfully.", "Edit customer");
@@ -226,7 +225,7 @@ namespace Editor_Projects
         #region Durations
         #region fields
         string nameNewDuration;
-        List<string> listDuration;
+        List<KeyValuePair<int, string>> listDuration;
         int selDelDuration;
         string edNameNewDuration;
         int selEditDuration;
@@ -244,7 +243,7 @@ namespace Editor_Projects
                 OnPropertyChanged("NameNewDuration");
             }
         }
-        public List<string> ListDuration
+        public List<KeyValuePair<int, string>> ListDuration
         {
             get
             {
@@ -310,7 +309,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to add this duration?", "Add new duration"))
             {
-                string mess = F_Projects.AddNewDuration(NameNewDuration);
+                string mess = F_Projects.AddNewDuration(NameNewDuration.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New duration was added successfully.", "Add new duration");
@@ -339,7 +338,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to delete this duration?", "Delete duration"))
             {
-                string mess = F_Projects.DeleteDuration(ListDuration[SelDelDuration]);
+                string mess = F_Projects.DeleteDuration(ListDuration[SelDelDuration].Key);
                 if (mess == null)
                 {
                     messBoxOk("Duration was deleted successfully.", "Delete duration");
@@ -367,7 +366,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to edit this duration?", "Edit duration"))
             {
-                string mess = F_Projects.EditDuration(ListDuration[SelEditDuration], EdNameNewDuration);
+                string mess = F_Projects.EditDuration(ListDuration[SelEditDuration].Key, EdNameNewDuration.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Duration was edited successfully.", "Edit duration");
@@ -392,7 +391,7 @@ namespace Editor_Projects
         #region Objectives
         #region fields
         string nameNewObjective;
-        List<string> listObjective;
+        List<KeyValuePair<int, string>> listObjective;
         int selDelObjective;
         string edNameNewObjective;
         int selEditObjective;
@@ -410,7 +409,7 @@ namespace Editor_Projects
                 OnPropertyChanged("NameNewObjective");
             }
         }
-        public List<string> ListObjective
+        public List<KeyValuePair<int, string>> ListObjective
         {
             get
             {
@@ -476,7 +475,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to add this objective?", "Add new objective"))
             {
-                string mess = F_Projects.AddNewObjective(NameNewObjective);
+                string mess = F_Projects.AddNewObjective(NameNewObjective.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New objective was added successfully.", "Add new objective");
@@ -505,7 +504,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to delete this objective?", "Delete objective"))
             {
-                string mess = F_Projects.DeleteObjective(ListObjective[SelDelObjective]);
+                string mess = F_Projects.DeleteObjective(ListObjective[SelDelObjective].Key);
                 if (mess == null)
                 {
                     messBoxOk("Objective was deleted successfully.", "Delete objective");
@@ -533,7 +532,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to edit this objective?", "Edit objective"))
             {
-                string mess = F_Projects.EditObjective(ListObjective[SelEditObjective], EdNameNewObjective);
+                string mess = F_Projects.EditObjective(ListObjective[SelEditObjective].Key, EdNameNewObjective.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Objective was edited successfully.", "Edit objective");
@@ -558,7 +557,7 @@ namespace Editor_Projects
         #region OSs
         #region fields
         string nameNewOperationSystem;
-        List<string> listOperationSystem;
+        List<KeyValuePair<int, string>> listOperationSystem;
         int selDelOperationSystem;
         string edNameNewOperationSystem;
         int selEditOperationSystem;
@@ -576,7 +575,7 @@ namespace Editor_Projects
                 OnPropertyChanged("NameNewOperationSystem");
             }
         }
-        public List<string> ListOperationSystem
+        public List<KeyValuePair<int, string>> ListOperationSystem
         {
             get
             {
@@ -671,7 +670,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to delete this operation system?", "Delete OS"))
             {
-                string mess = F_Projects.DeleteOS(ListOperationSystem[SelDelOperationSystem]);
+                string mess = F_Projects.DeleteOS(ListOperationSystem[SelDelOperationSystem].Key);
                 if (mess == null)
                 {
                     messBoxOk("Operation system was deleted successfully.", "Delete OS");
@@ -699,7 +698,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to edit this operation system?", "Edit OS"))
             {
-                string mess = F_Projects.EditOS(ListOperationSystem[SelEditOperationSystem], EdNameNewOperationSystem);
+                string mess = F_Projects.EditOS(ListOperationSystem[SelEditOperationSystem].Key, EdNameNewOperationSystem.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Operation system was edited successfully.", "Edit OS");
@@ -721,176 +720,12 @@ namespace Editor_Projects
         #endregion
         #endregion
 
-        #region Skills
-        #region fields
-        string nameNewSkill;
-        List<string> listSkill;
-        int selDelSkill;
-        string edNameNewSkill;
-        int selEditSkill;
-        #endregion
-        #region properties
-        public string NameNewSkill
-        {
-            get
-            {
-                return nameNewSkill;
-            }
-            set
-            {
-                nameNewSkill = value;
-                OnPropertyChanged("NameNewSkill");
-            }
-        }
-        public List<string> ListSkill
-        {
-            get
-            {
-                return listSkill;
-            }
-            set
-            {
-                listSkill = value;
-                OnPropertyChanged("ListSkill");
-            }
-        }
-        public int SelDelSkill
-        {
-            get
-            {
-                return selDelSkill;
-            }
-            set
-            {
-                selDelSkill = value;
-                OnPropertyChanged("SelDelSkill");
-            }
-        }
-        public string EdNameNewSkill
-        {
-            get
-            {
-                return edNameNewSkill;
-            }
-            set
-            {
-                edNameNewSkill = value;
-                OnPropertyChanged("EdNameNewSkill");
-            }
-        }
-        public int SelEditSkill
-        {
-            get
-            {
-                return selEditSkill;
-            }
-            set
-            {
-                selEditSkill = value;
-                OnPropertyChanged("SelEditSkill");
-            }
-        }
-        #endregion
-        #region Commands
-        private DelegateCommand ButtonAddSkillClick;
-        public ICommand BAddSkill_Click
-        {
-            get
-            {
-                if (ButtonAddSkillClick == null)
-                {
-                    ButtonAddSkillClick = new DelegateCommand(param => this.AddSkill(), param => IsEmptyField(NameNewSkill));
-                }
-                return ButtonAddSkillClick;
-            }
-        }
-        public void AddSkill()
-        {
-            if(messBoxYesNo("Do you want to add this skill?", "Add new skill"))
-            {
-                string mess = F_Projects.AddNewSkill(NameNewSkill);
-                if (mess == null)
-                {
-                    messBoxOk("New skill was added successfully.", "Add new skill");
-                    loadAllSkill();
-                    IsChanged = true;
-                    NameNewSkill = "";
-                }
-                else
-                    messBoxOk(mess, "Add new skill");
-                
-            }
-        }
-        private DelegateCommand ButtonDelSkillClick;
-        public ICommand BDelSkill_Click
-        {
-            get
-            {
-                if (ButtonDelSkillClick == null)
-                {
-                    ButtonDelSkillClick = new DelegateCommand(param => this.DelSkill(), param => IsSelected(SelDelSkill));
-                }
-                return ButtonDelSkillClick;
-            }
-        }
-        public void DelSkill()
-        {
-            if(messBoxYesNo("Do you want to delete this skill?", "Delete skill"))
-            {
-                string mess = F_Projects.DeleteSkill(ListSkill[SelDelSkill]);
-                if (mess == null)
-                {
-                    messBoxOk("Skill  was deleted successfully.", "Delete skill");
-                    loadAllSkill();
-                    IsChanged = true;
-                }
-                else
-                    messBoxOk(mess, "Delete skill");
-                
-            }
-        }
-        private DelegateCommand ButtonEditSkillClick;
-        public ICommand BEditSkill_Click
-        {
-            get
-            {
-                if (ButtonEditSkillClick == null)
-                {
-                    ButtonEditSkillClick = new DelegateCommand(param => this.EditSkill(), param => IsEmptyField(EdNameNewSkill) && IsSelected(SelEditSkill));
-                }
-                return ButtonEditSkillClick;
-            }
-        }
-        public void EditSkill()
-        {
-            if(messBoxYesNo("Do you want to edit this skill?", "Edit skill"))
-            {
-                string mess = F_Projects.EditSkill(ListSkill[SelEditSkill], EdNameNewSkill);
-                if (mess == null)
-                {
-                    messBoxOk("Skill  was edited successfully.", "Edit skill");
-                    loadAllSkill();
-                    IsChanged = true;
-                    EdNameNewSkill = "";
-                }
-                else
-                    messBoxOk(mess, "Edit skill");
-                
-            }
-        }
-        #endregion
-        #region function
-        public void loadAllSkill()
-        {
-            ListSkill = F_Projects.GetAllSkills();
-        }
-        #endregion
-        #endregion
+
 
         #region Stage
         #region fields
         string nameNewStage;
-        List<string> listStage;
+        List<KeyValuePair<int, string>> listStage;
         int selDelStage;
         string edNameNewStage;
         int selEditStage;
@@ -908,7 +743,7 @@ namespace Editor_Projects
                 OnPropertyChanged("NameNewStage");
             }
         }
-        public List<string> ListStage
+        public List<KeyValuePair<int, string>> ListStage
         {
             get
             {
@@ -974,7 +809,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to add this stage?", "Add new stage"))
             {
-                string mess = F_Projects.AddNewStage(NameNewStage);
+                string mess = F_Projects.AddNewStage(NameNewStage.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New stage was added successfully.", "Add new stage");
@@ -1003,7 +838,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to delete this stage?", "Delete stage"))
             {
-                string mess = F_Projects.DeleteStage(ListStage[SelDelStage]);
+                string mess = F_Projects.DeleteStage(ListStage[SelDelStage].Key);
                 if (mess == null)
                 {
                     messBoxOk("Stage was deleted successfully.", "Delete stage");
@@ -1031,7 +866,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to edit this stage?", "Edit stage"))
             {
-                string mess = F_Projects.EditStage(ListStage[SelEditStage], EdNameNewStage);
+                string mess = F_Projects.EditStage(ListStage[SelEditStage].Key, EdNameNewStage.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Stage was edited successfully.", "Edit stage");
@@ -1056,7 +891,7 @@ namespace Editor_Projects
         #region Type
         #region fields
         string nameNewType;
-        List<string> listType;
+        List<KeyValuePair<int, string>> listType;
         int selDelType;
         string edNameNewType;
         int selEditType;
@@ -1074,7 +909,7 @@ namespace Editor_Projects
                 OnPropertyChanged("NameNewType");
             }
         }
-        public List<string> ListType
+        public List<KeyValuePair<int, string>> ListType
         {
             get
             {
@@ -1140,7 +975,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to add this type?", "Add new type"))
             {
-                string mess = F_Projects.AddNewType(NameNewType);
+                string mess = F_Projects.AddNewType(NameNewType.Trim());
                 if (mess == null)
                 {
                     messBoxOk("New type was added successfully.", "Add new type");
@@ -1169,7 +1004,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to delete this type?", "Delete type"))
             {
-                string mess = F_Projects.DeleteType(ListType[SelDelType]);
+                string mess = F_Projects.DeleteType(ListType[SelDelType].Key);
                 if (mess == null)
                 {
                     messBoxOk("Type was deleted successfully.", "Delete type");
@@ -1197,7 +1032,7 @@ namespace Editor_Projects
         {
             if(messBoxYesNo("Do you want to edit this type?", "Edit type"))
             {
-                string mess = F_Projects.EditType(ListType[SelEditType], EdNameNewType);
+                string mess = F_Projects.EditType(ListType[SelEditType].Key, EdNameNewType.Trim());
                 if (mess == null)
                 {
                     messBoxOk("Type was edited successfully.", "Edit type");

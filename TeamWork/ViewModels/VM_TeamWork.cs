@@ -83,17 +83,17 @@ namespace TeamWork
         private int ISysPMList;
         private bool isEnableEditPr = true;
         private bool isEnableEditTask = true;
-        private List<string> listProjName;
-        private List<string> listProjDueDate;
-        private List<string> listProjCreatDate;
-        private List<string> listProjDuration;
-        private List<string> listProjCustomer;
+        private List<KeyValuePair<int, string>> listProjName;
+        private List<KeyValuePair<int, string>> listProjDueDate;
+        private List<KeyValuePair<int, string>> listProjCreatDate;
+        private List<KeyValuePair<int, string>> listProjDuration;
+        private List<KeyValuePair<int, string>> listProjCustomer;
         private List<KeyValuePair<int, string>> listProjLead;
-        private List<string> listProjStage;
-        private List<string> listProjObjective;
-        private List<string> listProjSkills;
-        private List<string> listProjTypes;
-        private List<string> listProjOS;
+        private List<KeyValuePair<int, string>> listProjStage;
+        private List<KeyValuePair<int, string>> listProjObjective;
+        private List<KeyValuePair<int, string>> listProjSkills;
+        private List<KeyValuePair<int, string>> listProjTypes;
+        private List<KeyValuePair<int, string>> listProjOS;
         private List<KeyValuePair<int, string>> listEmpl;
         
         private List<checkEl<KeyValuePair<int, string>>> developTeam;
@@ -106,9 +106,9 @@ namespace TeamWork
         private KeyValuePair<int, string> currentProjLead;
         private string currentProjStage;
         private string currentProjObjective;
-        private List<checkEl<string>> currentProjSkills;
-        private List<checkEl<string>> currentProjTypes;
-        private List<checkEl<string>> currentProjOS;
+        private List<checkEl<KeyValuePair<int, string>>> currentProjSkills;
+        private List<checkEl<KeyValuePair<int, string>>> currentProjTypes;
+        private List<checkEl<KeyValuePair<int, string>>> currentProjOS;
         private object selTreeElemPr;
 
         private List<checkEl<TeamworkDB.ProjectFile>> curProjFiles;
@@ -480,7 +480,7 @@ namespace TeamWork
         }
         
         
-        public List<string> ListProjName
+        public List<KeyValuePair<int, string>> ListProjName
         {
             get
             {
@@ -492,7 +492,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjName");
             }
         }
-        public List<string> ListProjDueDate
+        public List<KeyValuePair<int, string>> ListProjDueDate
         {
             get
             {
@@ -504,7 +504,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjDueDate");
             }
         }
-        public List<string> ListProjCreatDate
+        public List<KeyValuePair<int, string>> ListProjCreatDate
         {
             get
             {
@@ -516,7 +516,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjCreatDate");
             }
         }
-        public List<string> ListProjDuration
+        public List<KeyValuePair<int, string>> ListProjDuration
         {
             get
             {
@@ -528,7 +528,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjDuration");
             }
         }
-        public List<string> ListProjCustomer
+        public List<KeyValuePair<int, string>> ListProjCustomer
         {
             get
             {
@@ -553,7 +553,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjLead");
             }
         }
-        public List<string> ListProjStage
+        public List<KeyValuePair<int, string>> ListProjStage
         {
             get
             {
@@ -566,7 +566,7 @@ namespace TeamWork
             }
         }
         
-        public List<string> ListProjObjective
+        public List<KeyValuePair<int, string>> ListProjObjective
         {
             get
             {
@@ -578,7 +578,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjObjective");
             }
         }
-        public List<string> ListProjSkills
+        public List<KeyValuePair<int, string>> ListProjSkills
         {
             get
             {
@@ -590,7 +590,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjSkills");
             }
         }
-        public List<string> ListProjTypes
+        public List<KeyValuePair<int, string>> ListProjTypes
         {
             get
             {
@@ -602,7 +602,7 @@ namespace TeamWork
                 OnPropertyChanged("ListProjTypes");
             }
         }
-        public List<string> ListProjOS
+        public List<KeyValuePair<int, string>> ListProjOS
         {
             get
             {
@@ -916,7 +916,7 @@ namespace TeamWork
             }
         }
         
-        public List<checkEl<string>> CurProjSkills
+        public List<checkEl<KeyValuePair<int, string>>> CurProjSkills
         {
             get
             {
@@ -933,7 +933,7 @@ namespace TeamWork
                 OnPropertyChanged("CurProjSkills");
             }
         }
-        public List<checkEl<string>> CurProjTypes
+        public List<checkEl<KeyValuePair<int, string>>> CurProjTypes
         {
             get
             {
@@ -950,7 +950,7 @@ namespace TeamWork
                 OnPropertyChanged("CurProjTypes");
             }
         }
-        public List<checkEl<string>> CurProjOS
+        public List<checkEl<KeyValuePair<int, string>>> CurProjOS
         {
             get
             {
@@ -1310,15 +1310,15 @@ namespace TeamWork
         {
             try
             {
-                ListProjName = new List<string>(F_Projects.GetAllProjectsName());
-                ListProjObjective = new List<string>(F_Projects.GetAllObjectives());
-                ListProjDuration = new List<string>(F_Projects.GetAllDurations());
-                ListProjCustomer = new List<string>(F_Projects.GetAllCustomers());
+                ListProjName = new List<KeyValuePair<int, string>>(F_Projects.GetAllProjectsName());
+                ListProjObjective = new List<KeyValuePair<int, string>>(F_Projects.GetAllObjectives());
+                ListProjDuration = new List<KeyValuePair<int, string>>(F_Projects.GetAllDurations());
+                ListProjCustomer = new List<KeyValuePair<int, string>>(F_Projects.GetAllCustomers());
                 ListProjLead = new List<KeyValuePair<int, string>>(F_Staff.GetTeamLeaders());
-                ListProjStage = new List<string>(F_Projects.GetAllStages());
-                ListProjSkills = new List<string>(F_Projects.GetAllSkills());
-                ListProjTypes = new List<string>(F_Projects.GetAllTypes());
-                ListProjOS = new List<string>(F_Projects.GetAllOSs());
+                ListProjStage = new List<KeyValuePair<int, string>>(F_Projects.GetAllStages());
+                ListProjSkills = new List<KeyValuePair<int, string>>(F_Projects.GetAllSkills());
+                ListProjTypes = new List<KeyValuePair<int, string>>(F_Projects.GetAllTypes());
+                ListProjOS = new List<KeyValuePair<int, string>>(F_Projects.GetAllOSs());
                 ListEmpl = new List<KeyValuePair<int, string>>(F_Staff.GetUsualEmployees());
                 ListProjOS.Sort();
                 ListProjTypes.Sort();
@@ -1338,7 +1338,7 @@ namespace TeamWork
                 if (tempPr == null || tempPr.isCatagory)
                     return;
                 currentProject = F_Projects.GetProject(tempPr.id);
-                List<string> tempClass;
+                List<KeyValuePair<int, string>> tempClass;
                 loadAllListPrInfo();
 
                 CurProjName = tempPr.Name;
@@ -1355,30 +1355,30 @@ namespace TeamWork
                 foreach (var temp in tempFiels)
                     CurProjFiles.Add(new checkEl<TeamworkDB.ProjectFile>(temp));
                 CurProjFiles = new List<checkEl<ProjectFile>>(CurProjFiles);
-                CurProjSkills = new List<checkEl<string>>();
+                CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>();
                 tempClass = F_Projects.GetProjectSkills(tempPr.id);
                 foreach (var temp in tempClass)
                 {
-                    CurProjSkills.Add(new checkEl<string>(temp));
+                    CurProjSkills.Add(new checkEl<KeyValuePair<int, string>>(temp));
                     ListProjSkills.Remove(temp);
                 }
-                CurProjSkills = new List<checkEl<string>>(CurProjSkills);
-                CurProjTypes = new List<checkEl<string>>();
+                CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>(CurProjSkills);
+                CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>();
                 tempClass = F_Projects.GetProjectTypes(tempPr.id);
                 foreach (var temp in tempClass)
                 {
-                    CurProjTypes.Add(new checkEl<string>(temp));
+                    CurProjTypes.Add(new checkEl<KeyValuePair<int, string>>(temp));
                     ListProjTypes.Remove(temp);
                 }
-                CurProjTypes = new List<checkEl<string>>(CurProjTypes);
-                CurProjOS = new List<checkEl<string>>();
+                CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>(CurProjTypes);
+                CurProjOS = new List<checkEl<KeyValuePair<int, string>>>();
                 tempClass = F_Projects.GetProjectOSs(tempPr.id);
                 foreach (var temp in tempClass)
                 {
-                    CurProjOS.Add(new checkEl<string>(temp));
+                    CurProjOS.Add(new checkEl<KeyValuePair<int, string>>(temp));
                     ListProjOS.Remove(temp);
                 }
-                CurProjOS = new List<checkEl<string>>(CurProjOS);
+                CurProjOS = new List<checkEl<KeyValuePair<int, string>>>(CurProjOS);
                 DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>();
                 var tempClasskp = F_Staff.GetProjectEmployees(tempPr.id);
                 foreach (var temp in tempClasskp)
@@ -1475,9 +1475,9 @@ namespace TeamWork
         {
             if (currentEmployee == null || CurrentProject == null)
                 return;
-            ListTaskStatus = F_Task.GetAllStatusesNameWithId();
-            ListTaskPriority = F_Task.GetAllPriorityesNameWithId();
-            ListTaskType = F_Task.GetAllTaskTypesWithId();
+            ListTaskStatus = F_Task.GetAllStatuses();
+            ListTaskPriority = F_Task.GetAllPriorityes();
+            ListTaskType = F_Task.GetAllTaskTypes();
 
             ListTasks.Clear();
             ListTasks.Add(new treeElem("All", new ObservableCollection<treeElem>(), true));
@@ -1495,7 +1495,7 @@ namespace TeamWork
 
                         string Status = F_Task.GetIssueStatus(CurrentProject.Id, temp.Key);
 
-                        if (tempst == Status)
+                        if (tempst.Value == Status)
                         {
                             tempTree.subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                         }
@@ -1514,7 +1514,7 @@ namespace TeamWork
                     foreach (var temp in tempTasks)
                     {
                         string Status = F_Task.GetIssueStatus(CurrentProject.Id, temp.Key);
-                        if (tempst == Status)
+                        if (tempst.Value == Status)
                         {
                             tempTree.subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                         }
@@ -2566,9 +2566,9 @@ namespace TeamWork
             CurProjStage = "";
             CurProjObjective = "";
             CurProjFiles = new List<checkEl<ProjectFile>>();
-            CurProjSkills = new List<checkEl<string>>();
-            CurProjTypes = new List<checkEl<string>>();
-            CurProjOS = new List<checkEl<string>>();
+            CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>();
+            CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>();
+            CurProjOS = new List<checkEl<KeyValuePair<int, string>>>();
             IsNewProj = true;
             IsEnabledSavePr = true;
             loadAllListPrInfo();
@@ -2793,20 +2793,20 @@ namespace TeamWork
             treeElem tempPr = selTreeElemPr as treeElem;
             if (tempPr == null)
                 return;
-            List<string> allPrOss = F_Projects.GetProjectOSs(tempPr.id);
+            List<KeyValuePair<int, string>> allPrOss = F_Projects.GetProjectOSs(tempPr.id);
             for(int i =0;i< CurProjOS.Count; i++)
             {
                 if (allPrOss.IndexOf(CurProjOS[i].chClass)==-1)
-                    F_Projects.AddOSToProject(tempPr.id, CurProjOS[i].chClass);
+                    F_Projects.AddOSToProject(tempPr.id, CurProjOS[i].chClass.Key);
                 
             }
-            List<string> temp = new List<string>();
+            List<KeyValuePair<int, string>> temp = new List<KeyValuePair<int, string>>();
             foreach (var str in CurProjOS)
                 temp.Add(str.chClass);
             for (int i = 0; i < allPrOss.Count; i++)
             {
                 if (temp.IndexOf(allPrOss[i]) == -1)
-                    F_Projects.RemoveProjectOS(tempPr.id, allPrOss[i]);
+                    F_Projects.RemoveProjectOS(tempPr.id, allPrOss[i].Key);
             }
         }
         
@@ -2825,10 +2825,10 @@ namespace TeamWork
 
         public void AddPrSkills()
         {
-           CurProjSkills.Add(new checkEl<string>(ListProjSkills[CBSelPrSkill]));
-           CurProjSkills = new List<checkEl<string>>(CurProjSkills);
+           CurProjSkills.Add(new checkEl<KeyValuePair<int, string>>(ListProjSkills[CBSelPrSkill]));
+           CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>(CurProjSkills);
             ListProjSkills.Remove(ListProjSkills[CBSelPrSkill]);
-            ListProjSkills = new List<string>(ListProjSkills);
+            ListProjSkills = new List<KeyValuePair<int, string>>(ListProjSkills);
         }
         private DelegateCommand ButtonDelPrSkillsClick;
         public ICommand BDelPrSkills_Click
@@ -2851,11 +2851,11 @@ namespace TeamWork
                 {
                     ListProjSkills.Add(CurProjSkills[i].chClass);
                     ListProjSkills.Sort();
-                    ListProjSkills = new List<string>(ListProjSkills);
+                    ListProjSkills = new List<KeyValuePair<int, string>>(ListProjSkills);
                     CurProjSkills.Remove(CurProjSkills[i]);
                 }
             }
-            CurProjSkills = new List<checkEl<string>>(CurProjSkills);
+            CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>(CurProjSkills);
         }
             private DelegateCommand ButtonAddEmplPrjctClick;
         public ICommand BAddEmplPrjct_Click
@@ -2919,10 +2919,10 @@ namespace TeamWork
 
         public void AddPrOS()
         {
-            CurProjOS.Add(new checkEl<string>(ListProjOS[CBSelPrOS]));
-            CurProjOS = new List<checkEl<string>>(CurProjOS);
+            CurProjOS.Add(new checkEl<KeyValuePair<int, string>>(ListProjOS[CBSelPrOS]));
+            CurProjOS = new List<checkEl<KeyValuePair<int, string>>>(CurProjOS);
             ListProjOS.Remove(ListProjOS[CBSelPrOS]);
-            ListProjOS = new List<string>(ListProjOS);
+            ListProjOS = new List<KeyValuePair<int, string>>(ListProjOS);
         }
         private DelegateCommand ButtonDelPrOSClick;
         public ICommand BDelPrOS_Click
@@ -2945,11 +2945,11 @@ namespace TeamWork
                 {
                     ListProjOS.Add(CurProjOS[i].chClass);
                     ListProjOS.Sort();
-                    ListProjOS = new List<string>(ListProjOS);
+                    ListProjOS = new List<KeyValuePair<int, string>>(ListProjOS);
                     CurProjOS.Remove(CurProjOS[i]);
                 }
             }
-            CurProjOS = new List<checkEl<string>>(CurProjOS);
+            CurProjOS = new List<checkEl<KeyValuePair<int, string>>>(CurProjOS);
             
         }
         private DelegateCommand ButtonAddPrTypesClick;
@@ -2968,10 +2968,10 @@ namespace TeamWork
         public void AddPrTypes()
         {
             
-            CurProjTypes.Add(new checkEl<string>(ListProjTypes[CBSelPrTypes]));
-            CurProjTypes = new List<checkEl<string>>(CurProjTypes);
+            CurProjTypes.Add(new checkEl<KeyValuePair<int, string>>(ListProjTypes[CBSelPrTypes]));
+            CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>(CurProjTypes);
             ListProjTypes.Remove(ListProjTypes[CBSelPrTypes]);
-            ListProjTypes = new List<string>(ListProjTypes);
+            ListProjTypes = new List<KeyValuePair<int, string>>(ListProjTypes);
         }
         private DelegateCommand ButtonDelPrTypesClick;
         public ICommand BDelPrTypes_Click
@@ -2994,11 +2994,11 @@ namespace TeamWork
                 {
                     ListProjTypes.Add(CurProjTypes[i].chClass);
                     ListProjTypes.Sort();
-                    ListProjTypes = new List<string>(ListProjTypes);
+                    ListProjTypes = new List<KeyValuePair<int, string>>(ListProjTypes);
                     CurProjTypes.Remove(CurProjTypes[i]);
                 }
             }
-            CurProjTypes = new List<checkEl<string>>(CurProjTypes);
+            CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>(CurProjTypes);
         }
         
         
@@ -3039,19 +3039,19 @@ namespace TeamWork
             treeElem tempPr = selTreeElemPr as treeElem;
             if (tempPr == null)
                 return;
-            List<string> allPrSkills = F_Projects.GetProjectSkills(tempPr.id);
+            List<KeyValuePair<int, string>> allPrSkills = F_Projects.GetProjectSkills(tempPr.id);
             for (int i = 0; i < CurProjSkills.Count; i++)
             {
                 if (allPrSkills.IndexOf(CurProjSkills[i].chClass) == -1)
-                    F_Projects.AddSkillToProject(tempPr.id, CurProjSkills[i].chClass);
+                    F_Projects.AddSkillToProject(tempPr.id, CurProjSkills[i].chClass.Key);
             }
-            List<string> temp = new List<string>();
+            List<KeyValuePair<int, string>> temp = new List<KeyValuePair<int, string>>();
             foreach (var str in CurProjSkills)
                 temp.Add(str.chClass);
             for (int i = 0; i < allPrSkills.Count; i++)
             {
                 if (temp.IndexOf(allPrSkills[i]) == -1)
-                    F_Projects.RemoveProjectSkill(tempPr.id, allPrSkills[i]);
+                    F_Projects.RemoveProjectSkill(tempPr.id, allPrSkills[i].Key);
             }
         }
         
@@ -3112,19 +3112,19 @@ namespace TeamWork
             treeElem tempPr = selTreeElemPr as treeElem;
             if (tempPr == null)
                 return;
-            List<string> allPrTypes = F_Projects.GetProjectTypes(tempPr.id);
+            List<KeyValuePair<int, string>> allPrTypes = F_Projects.GetProjectTypes(tempPr.id);
             for (int i = 0; i < CurProjTypes.Count; i++)
             {
                 if (allPrTypes.IndexOf(CurProjTypes[i].chClass) == -1)
-                    F_Projects.AddTypeToProject(tempPr.id, CurProjTypes[i].chClass);
+                    F_Projects.AddTypeToProject(tempPr.id, CurProjTypes[i].chClass.Key);
             }
-            List<string> temp = new List<string>();
+            List<KeyValuePair<int, string>> temp = new List<KeyValuePair<int, string>>();
             foreach (var str in CurProjTypes)
                 temp.Add(str.chClass);
             for (int i = 0; i < allPrTypes.Count; i++)
             {
                 if (temp.IndexOf(allPrTypes[i]) == -1)
-                    F_Projects.RemoveProjectSkill(tempPr.id, allPrTypes[i]);
+                    F_Projects.RemoveProjectType(tempPr.id, allPrTypes[i].Key);
             }
         }
         private DelegateCommand ButtonEditTaskNameClick;
