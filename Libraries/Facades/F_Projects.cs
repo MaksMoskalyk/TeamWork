@@ -566,9 +566,81 @@ namespace Facade
         #endregion
 
         #region Project
+
         public static string AddNewProject(string name, int customerID, int durationID, int stageID, int objectiveID,
             DateTime? dueDate, string description, int LeadID, List<int> OssID, List<int> SkillsID, List<int> TypesID, List<int> EmployeesID)
-        { return ""; }
+        {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name))
+                return "Selected operation failed";
+
+            using (var context = new TeamworkDBContext())
+            {
+                try
+                {
+                    var qProj = from project in context.Projects where project.Name == name.Trim() select project;
+                    if (qProj.Count() > 0)
+                        return "Selected operation failed";
+
+                    var qCustomer = (from cust in context.Customers where cust.Id == customerID select cust).Single();
+                    var qDuration = (from dur in context.Durations where dur.Id == durationID select dur).Single();
+                    var qStage = (from stg in context.Stages where stg.Id == stageID select stg).Single();
+                    var qObjective = (from obj in context.Objectives where obj.Id == objectiveID select obj).Single();
+
+                    Project proj = new Project();
+                    proj.Name = name.Trim();
+                    proj.Customer = qCustomer;
+                    proj.Duration = qDuration;
+                    proj.Stage = qStage;
+                    proj.Objective = qObjective;
+                    proj.DueDate = dueDate;
+                    proj.CreationDate = DateTime.Now;
+                    if (!string.IsNullOrWhiteSpace(description) && !string.IsNullOrEmpty(description))
+                        proj.Description = description;
+
+                    if (OssID.Count > 0)
+                    {
+                        var qOss = from x in context.OperationSystems where OssID.Contains(x.Id) select x;
+                        foreach (var item in qOss)
+                        {
+                            proj.OperationSystems.Add(item);
+                        }
+                    }
+                    if (SkillsID.Count > 0)
+                    {
+                        var qSkills = from x in context.Skills where SkillsID.Contains(x.Id) select x;
+                        foreach (var item in qSkills)
+                        {
+                            proj.Skills.Add(item);
+                        }
+                    }
+                    if (TypesID.Count > 0)
+                    {
+                        var qTypes = from x in context.ProjectTypes where TypesID.Contains(x.Id) select x;
+                        foreach (var item in qTypes)
+                        {
+                            proj.Types.Add(item);
+                        }
+                    }
+                    if (EmployeesID.Count > 0)
+                    {
+                        foreach (var item in EmployeesID)
+                        {
+                            var qEmp = from employee in context.Employees where employee.Id == item select employee;
+                            EmployeeAndProject ep = new EmployeeAndProject { Employee = qEmp.Single(), Project = qProj.Single() };
+                            context.EmployeesAndProjects.Add(ep);
+                        }
+                    }
+                    context.Projects.Add(proj);
+                    context.SaveChanges();
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    return "Exception: " + ex.Message;
+                }
+            }
+
+        }
         public static string AddNewProject(string name, string customer, string duration, string stage, string objective, DateTime? dueDate = null, string description = "")
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name) ||
