@@ -566,7 +566,9 @@ namespace Facade
         #endregion
 
         #region Project
-
+        public static string AddNewProject(string name, int customerID, int durationID, int stageID, int objectiveID,
+            DateTime? dueDate, string description, int LeadID, List<int> OssID, List<int> SkillsID, List<int> TypesID, List<int> EmployeesID)
+        { return ""; }
         public static string AddNewProject(string name, string customer, string duration, string stage, string objective, DateTime? dueDate = null, string description = "")
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrEmpty(name) ||
