@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:CustomMessageBox_YesNo"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-                      WindowStartupLocation="CenterScreen"
-        Title="{Binding Caption}" Height="200" Width="300"
+                      WindowStartupLocation="CenterScreen" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2"
+        Title="{Binding Caption}" SizeToContent="Height" MinHeight="100" Width="300"
        local:DialogCloser.DialogResult="{Binding DialogResult, Mode=TwoWay}" Icon="Status-mail-task-icon.png" IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False" ResizeMode="NoResize">
-    <Grid>
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -17,7 +17,7 @@
 
         <TextBlock  FontSize="15" Text="{Binding Message}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"></TextBlock>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
