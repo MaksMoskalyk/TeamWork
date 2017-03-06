@@ -12,7 +12,7 @@ namespace Facade
     public static class F_Projects
     {
         //может принять List<int> с count = 0 и должно проверить(если это необходимо)
-        public static List<KeyValuePair<int, string>> GetAllProjectsNameFilter(List<int> customers, List<int> durations,
+        public static List<KeyValuePair<int, string>> GetAllProjectsNameFilter(string name, List<int> customers, List<int> durations,
                                                                 List<int> objectives, List<int> OSs, List<int> skills,
                                                                 List<int> stages, List<int> types)
         {
@@ -60,15 +60,6 @@ namespace Facade
             //    return filtered.Select(x => x.Value).ToList();
             //}
             return new List<KeyValuePair<int, string>> ();
-        }
-        public static List<KeyValuePair<int, string>> GetProjectsByName(string name)
-        {
-            using (var context = new TeamworkDBContext())
-            {
-                var q = from projects in context.Projects where projects.Name.Contains(name) select new { projects.Id, projects.Name };
-                var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
-                return query;
-            }
         }
         #region Customers
         public static string AddNewCustomer(string name)
