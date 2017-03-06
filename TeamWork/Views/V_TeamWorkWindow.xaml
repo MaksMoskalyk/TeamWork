@@ -102,7 +102,7 @@
                                 
                                 <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemPr, Mode=TwoWay}" BorderBrush="White" >
                                     <TreeView.Resources>
-                                        <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
+                                        <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}" TreeViewItem.Expanded="{Binding isExpanded, Mode=TwoWay}">
                                             <StackPanel Orientation="Horizontal" >
                                                 <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
                                             </StackPanel>

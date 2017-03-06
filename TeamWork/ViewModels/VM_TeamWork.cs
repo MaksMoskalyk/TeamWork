@@ -1928,6 +1928,40 @@ namespace TeamWork
                 SysPMList.Add(ex.Message);
             }
         }
+        public void uploadAllProjects()
+        {
+            try
+            {
+                if (currentEmployee == null)
+                    return;
+                ListProj[0].subEl = new ObservableCollection<TeamWork.treeElem>();
+                ListProj[1].subEl = new ObservableCollection<TeamWork.treeElem>();
+                ListProj[2].subEl = new ObservableCollection<TeamWork.treeElem>();
+                List<KeyValuePair<int, string>> tempPrj = F_Projects.GetAllProjectsNameWithId();
+                foreach (var temp in tempPrj)
+                {
+                    string imPath = F_Projects.GetProjectStage(temp.Value);
+                    ListProj[0].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                }
+                tempPrj = F_Projects.GetUserFavouriteProjectsNameWithId(currentEmployee.Id);
+                foreach (var temp in tempPrj)
+                {
+                    string imPath = F_Projects.GetProjectStage(temp.Value);
+                    ListProj[1].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                }
+                tempPrj = F_Projects.GetUserProjectsNameWithId(currentEmployee.Id);
+                foreach (var temp in tempPrj)
+                {
+                    string imPath = F_Projects.GetProjectStage(temp.Value);
+                    ListProj[2].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                }
+                ListProj = new List<treeElem>(ListProj);
+            }
+            catch (Exception ex)
+            {
+                SysPMList.Add(ex.Message);
+            }
+        }
         public void loadAllProjects()
         {
             try
@@ -1936,21 +1970,21 @@ namespace TeamWork
                     return;
 
                 ListProj.Clear();
-                ListProj.Add(new treeElem("All", new ObservableCollection<treeElem>(), true));
+                ListProj.Add(new treeElem("All", new ObservableCollection<treeElem>(), true,true));
                 List<KeyValuePair<int, string>> tempPrj = F_Projects.GetAllProjectsNameWithId();
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
                     ListProj[0].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
-                ListProj.Add(new treeElem("Favorite", new ObservableCollection<treeElem>(), true));
+                ListProj.Add(new treeElem("Favorite", new ObservableCollection<treeElem>(), true, true));
                 tempPrj = F_Projects.GetUserFavouriteProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
                     ListProj[1].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
-                ListProj.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true));
+                ListProj.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true, true));
                 tempPrj = F_Projects.GetUserProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
@@ -1973,8 +2007,60 @@ namespace TeamWork
             ListTaskType = F_Task.GetAllTaskTypes();
 
             ListTasks.Clear();
-            ListTasks.Add(new treeElem("All", new ObservableCollection<treeElem>(), true));
-            ListTasks.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true));
+            ListTasks.Add(new treeElem("All", new ObservableCollection<treeElem>(), true, true));
+            ListTasks.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true, true));
+            List<KeyValuePair<int, string>> tempTasks = F_Task.GetMainIssuesNameWithId(CurrentProject.Id);
+            var AllStatus = F_Task.GetAllStatuses();
+
+            if (tempTasks != null)
+            {
+                foreach (var tempst in AllStatus)
+                {
+                    treeElem tempTree = new treeElem("Status: " + tempst.Value, new ObservableCollection<treeElem>(), true);
+                    foreach (var temp in tempTasks)
+                    {
+
+                        string Status = F_Task.GetIssueStatus(CurrentProject.Id, temp.Key);
+
+                        if (tempst.Value == Status)
+                        {
+                            tempTree.subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                        }
+
+                    }
+                    ListTasks[0].subEl.Add(tempTree);
+                }
+            }
+
+            tempTasks = F_Task.GetUserMainIssuesNameWithId(CurrentProject.Id, CurrentEmployee.Id);
+            if (tempTasks == null)
+            {
+                foreach (var tempst in AllStatus)
+                {
+                    treeElem tempTree = new treeElem("Status: " + tempst.Value, new ObservableCollection<treeElem>(), true);
+                    foreach (var temp in tempTasks)
+                    {
+                        string Status = F_Task.GetIssueStatus(CurrentProject.Id, temp.Key);
+                        if (tempst.Value == Status)
+                        {
+                            tempTree.subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                        }
+                    }
+                    ListTasks[1].subEl.Add(tempTree);
+                }
+            }
+            ListTasks = new List<treeElem>(ListTasks);
+            IsNewTask = false;
+        }
+        public void uploadAllTasks()
+        {
+            if (currentEmployee == null || CurrentProject == null)
+                return;
+            ListTaskStatus = F_Task.GetAllStatuses();
+            ListTaskPriority = F_Task.GetAllPriorityes();
+            ListTaskType = F_Task.GetAllTaskTypes();
+            ListTasks[0].subEl=new ObservableCollection<TeamWork.treeElem> ();
+            ListTasks[1].subEl = new ObservableCollection<TeamWork.treeElem>();
             List<KeyValuePair<int, string>> tempTasks = F_Task.GetMainIssuesNameWithId(CurrentProject.Id);
             var AllStatus = F_Task.GetAllStatuses();
 
