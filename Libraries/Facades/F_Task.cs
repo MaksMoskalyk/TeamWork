@@ -10,6 +10,21 @@ namespace Facade
 {
     public static class F_Task
     {
+        //может принять List<int> с count = 0 и должно проверить(если это необходимо)
+        public static List<KeyValuePair<int, string>> GetAllIssuesFilter(List<int> Assignee, List<int> Priority,
+                                                                List<int> ListStatus, List<int> ListTypeTasks)
+        {
+            return new List<KeyValuePair<int, string>>();
+        }
+        //поиск Issue среди все Issue в в конкретном Project
+        public static List<KeyValuePair<int, string>> GetIssuesByName(int idProject, string name)
+        {
+            using (var context = new TeamworkDBContext())
+            {
+                return new List<KeyValuePair<int, string>>();
+            }
+        }
+
         #region Type
         public static string AddNewType(string name)
         {

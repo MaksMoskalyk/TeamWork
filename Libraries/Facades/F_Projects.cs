@@ -11,6 +11,65 @@ namespace Facade
 {
     public static class F_Projects
     {
+        //может принять List<int> с count = 0 и должно проверить(если это необходимо)
+        public static List<KeyValuePair<int, string>> GetAllProjectsNameFilter(List<int> customers, List<int> durations,
+                                                                List<int> objectives, List<int> OSs, List<int> skills,
+                                                                List<int> stages, List<int> types)
+        {
+
+            //if (customers == null)
+            //    customers = GetAllCustomers();
+
+            //if (durations == null)
+            //    durations = GetAllDurations();
+
+            //if (objectives == null)
+            //    objectives = GetAllObjectives();
+
+            //if (stages == null)
+            //    stages = GetAllStages();
+
+            //using (var context = new TeamworkDBContext())
+            //{
+            //    var q = from projects in context.Projects
+            //            where customers.Contains(projects.Customer.Name)
+            //            where durations.Contains(projects.Duration.Name)
+            //            where objectives.Contains(projects.Objective.Name)
+            //            where stages.Contains(projects.Stage.Name)
+            //            select new { projects.Id, projects.Name };
+
+            //    List<KeyValuePair<int, string>> qProjectsByOs = OSs != null ? GetProjectsNameWithIdByOS(OSs) : null;
+            //    List<KeyValuePair<int, string>> qProjectsBySkills = skills != null ? GetProjectsNameWithIdBySkill(skills) : null;
+            //    List<KeyValuePair<int, string>> qProjectsByTypes = types != null ? GetProjectsNameWithIdByType(types) : null;
+
+            //    List<KeyValuePair<int, string>> prjts = q.AsEnumerable().Select(x => new KeyValuePair<int, string>(x.Id, x.Name)).ToList();
+
+            //    IEnumerable<KeyValuePair<int, string>> filtered = null;
+
+            //    if (qProjectsByOs != null)
+            //        filtered = qProjectsByOs.Intersect(prjts);
+            //    else
+            //        filtered = prjts;
+
+            //    if (qProjectsBySkills != null)
+            //        filtered = qProjectsBySkills.Intersect(filtered);
+
+            //    if (qProjectsByTypes != null)
+            //        filtered = qProjectsByTypes.Intersect(filtered);
+
+            //    return filtered.Select(x => x.Value).ToList();
+            //}
+            return new List<KeyValuePair<int, string>> ();
+        }
+        public static List<KeyValuePair<int, string>> GetProjectsByName(string name)
+        {
+            using (var context = new TeamworkDBContext())
+            {
+                var q = from projects in context.Projects where projects.Name.Contains(name) select new { projects.Id, projects.Name };
+                var query = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
+                return query;
+            }
+        }
         #region Customers
         public static string AddNewCustomer(string name)
         {
