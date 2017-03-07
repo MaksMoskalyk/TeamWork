@@ -32,6 +32,7 @@ namespace Facade
             using (var context = new TeamworkDBContext())
             {
                 var q = from projects in context.Projects
+                        where projects.Name.Contains(name.Trim())
                         where customers.Contains(projects.Customer.Id)
                         where durations.Contains(projects.Duration.Id)
                         where objectives.Contains(projects.Objective.Id)
@@ -39,34 +40,40 @@ namespace Facade
                         select new { projects.Id, projects.Name };
 
                 List<Project> projFilter = new List<Project>();
-                List<OperationSystem> qOs = (from x in context.OperationSystems where OSs.Contains(x.Id) select x).ToList();
-                if(OSs.Count()==0|| OSs==null)
-                    qOs = (from x in context.OperationSystems select x).ToList();
-                foreach (var item in qOs.Select(x => x.Projects).ToList())
+                
+                if (OSs.Count() != 0 && OSs != null)
                 {
-                    foreach (var i in item)
+                    List<OperationSystem> qOs = (from x in context.OperationSystems where OSs.Contains(x.Id) select x).ToList();
+                    foreach (var item in qOs.Select(x => x.Projects).ToList())
                     {
-                        projFilter.Add(i);
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
                     }
                 }
-                List<Skill> qSkills = (from x in context.Skills where skills.Contains(x.Id) select x).ToList();
-                if (skills.Count() == 0 || skills == null)
-                    qSkills = (from x in context.Skills select x).ToList();
-                foreach (var item in qSkills.Select(x => x.Projects).ToList())
+                
+                if (skills.Count() != 0 && skills != null)
                 {
-                    foreach (var i in item)
+                    List<Skill> qSkills = (from x in context.Skills where skills.Contains(x.Id) select x).ToList();
+                    foreach (var item in qSkills.Select(x => x.Projects).ToList())
                     {
-                        projFilter.Add(i);
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
                     }
                 }
-                List<ProjectType> qTypes = (from x in context.ProjectTypes where types.Contains(x.Id) select x).ToList();
-                if (types.Count() == 0 || types == null)
-                    qTypes = (from x in context.ProjectTypes select x).ToList();
-                foreach (var item in qTypes.Select(x => x.Projects).ToList())
+               
+                if (types.Count() != 0 && types != null)
                 {
-                    foreach (var i in item)
+                    List<ProjectType> qTypes = (from x in context.ProjectTypes where types.Contains(x.Id) select x).ToList();
+                    foreach (var item in qTypes.Select(x => x.Projects).ToList())
                     {
-                        projFilter.Add(i);
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
                     }
                 }
                 projFilter.Distinct();
