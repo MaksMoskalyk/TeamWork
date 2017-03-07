@@ -15,7 +15,52 @@ namespace Facade
         public static List<KeyValuePair<int, string>> GetAllIssuesFilter(int idProject, string name, List<int> Assignee, List<int> Priority,
                                                                 List<int> ListStatus, List<int> ListTypeTasks)
         {
-            return new List<KeyValuePair<int, string>>();
+            using (var context = new TeamworkDBContext())
+            {
+                try
+                {
+                    if (Assignee == null || Assignee.Count() == 0)
+                        Assignee = F_Staff.GetProjectEmployees(idProject).Select(x=>x.Key).ToList();
+
+                    if (Priority == null || Priority.Count()==0)
+                        Priority = GetAllPriorityes().Select(x => x.Key).ToList();
+
+                    if (ListStatus == null || ListStatus.Count()==0)
+                        ListStatus = GetAllStatuses().Select(x => x.Key).ToList();
+
+                    if (ListTypeTasks == null || ListTypeTasks.Count()==0)
+                        ListTypeTasks = GetAllTaskTypes().Select(x => x.Key).ToList();
+
+                    var qProj = (from x in context.Projects where x.Id == idProject select x).Single();
+                    var qAssignee = from x in context.Employees where Assignee.Contains(x.Id) select x;
+                    
+                    var allIssues = from x in context.Issues
+                                    where x.Project.Id == qProj.Id
+                                    where x.Name.Contains(name.Trim())
+                                    where Priority.Contains(x.Priority.Id)
+                                    where ListStatus.Contains(x.Status.Id)
+                                    where ListTypeTasks.Contains(x.Type.Id)
+                                    select x;
+                    
+                    var issuesByAssignee = qAssignee.Select(x => x.Issues);
+                    List<Issue> filteredIssues = new List<Issue>();
+                    foreach (var item in issuesByAssignee)
+                    {
+                        foreach (var i in item.ToList())
+                        {
+                            filteredIssues.Add(i);
+                        }
+                    }
+
+                    var filtered = filteredIssues.Intersect(allIssues);
+
+                    return filtered.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
+                }
+                catch
+                {
+                    return null;
+                }
+            }
         }
 
         #region Type
