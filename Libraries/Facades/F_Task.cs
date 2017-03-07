@@ -32,8 +32,18 @@ namespace Facade
                         ListTypeTasks = GetAllTaskTypes().Select(x => x.Key).ToList();
 
                     var qProj = (from x in context.Projects where x.Id == idProject select x).Single();
-                    var qAssignee = from x in context.Employees where Assignee.Contains(x.Id) select x;
+                    List<Employee> qAssignee = null;
                     
+                    if (Assignee.Count() == 0 || Assignee == null)
+                    {
+                        List<int> empId = F_Staff.GetProjectAllEmployees(idProject).Select(x => x.Key).ToList();
+                        qAssignee = (from x in context.Employees where empId.Contains(x.Id) select x).ToList();
+                    }
+                    else
+                        qAssignee = (from x in context.Employees where Assignee.Contains(x.Id) select x).ToList();
+                    
+
+
                     var allIssues = from x in context.Issues
                                     where x.Project.Id == qProj.Id
                                     where x.Name.Contains(name.Trim())
