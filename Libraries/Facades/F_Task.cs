@@ -39,9 +39,7 @@ namespace Facade
                     }
                     else
                         qAssignee = (from x in context.Employees where Assignee.Contains(x.Id) select x).ToList();
-                    
-
-
+                   
                     var allIssues = from x in context.Issues
                                     where x.Project.Id == qProj.Id
                                     where x.Name.Contains(name.Trim())
@@ -59,6 +57,7 @@ namespace Facade
                             filteredIssues.Add(i);
                         }
                     }
+                    filteredIssues.Distinct();
 
                     var filtered = filteredIssues.Intersect(allIssues);
 

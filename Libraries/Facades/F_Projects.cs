@@ -17,49 +17,83 @@ namespace Facade
                                                                 List<int> stages, List<int> types)
         {
 
-            //if (customers == null)
-            //    customers = GetAllCustomers();
+            if (customers.Count()==0||customers == null)
+                customers = GetAllCustomers().Select(x=>x.Key).ToList();
 
-            //if (durations == null)
-            //    durations = GetAllDurations();
+            if (durations.Count() == 0 || durations == null)
+                durations = GetAllDurations().Select(x => x.Key).ToList();
 
-            //if (objectives == null)
-            //    objectives = GetAllObjectives();
+            if (objectives.Count() == 0 || objectives == null)
+                objectives = GetAllObjectives().Select(x => x.Key).ToList();
 
-            //if (stages == null)
-            //    stages = GetAllStages();
+            if (stages.Count() == 0 || stages == null)
+                stages = GetAllStages().Select(x => x.Key).ToList();
 
-            //using (var context = new TeamworkDBContext())
-            //{
-            //    var q = from projects in context.Projects
-            //            where customers.Contains(projects.Customer.Name)
-            //            where durations.Contains(projects.Duration.Name)
-            //            where objectives.Contains(projects.Objective.Name)
-            //            where stages.Contains(projects.Stage.Name)
-            //            select new { projects.Id, projects.Name };
+            using (var context = new TeamworkDBContext())
+            {
+                var q = from projects in context.Projects
+                        where projects.Name.Contains(name.Trim())
+                        where customers.Contains(projects.Customer.Id)
+                        where durations.Contains(projects.Duration.Id)
+                        where objectives.Contains(projects.Objective.Id)
+                        where stages.Contains(projects.Stage.Id)
+                        select new { projects.Id, projects.Name };
 
-            //    List<KeyValuePair<int, string>> qProjectsByOs = OSs != null ? GetProjectsNameWithIdByOS(OSs) : null;
-            //    List<KeyValuePair<int, string>> qProjectsBySkills = skills != null ? GetProjectsNameWithIdBySkill(skills) : null;
-            //    List<KeyValuePair<int, string>> qProjectsByTypes = types != null ? GetProjectsNameWithIdByType(types) : null;
+                List<Project> projFilter = new List<Project>();
+                
+                if (OSs.Count() != 0 && OSs != null)
+                {
+                    List<OperationSystem> qOs = (from x in context.OperationSystems where OSs.Contains(x.Id) select x).ToList();
+                    foreach (var item in qOs.Select(x => x.Projects).ToList())
+                    {
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
+                    }
+                }
+                
+                if (skills.Count() != 0 && skills != null)
+                {
+                    List<Skill> qSkills = (from x in context.Skills where skills.Contains(x.Id) select x).ToList();
+                    foreach (var item in qSkills.Select(x => x.Projects).ToList())
+                    {
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
+                    }
+                }
+               
+                if (types.Count() != 0 && types != null)
+                {
+                    List<ProjectType> qTypes = (from x in context.ProjectTypes where types.Contains(x.Id) select x).ToList();
+                    foreach (var item in qTypes.Select(x => x.Projects).ToList())
+                    {
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
+                    }
+                }
+                projFilter.Distinct();
 
-            //    List<KeyValuePair<int, string>> prjts = q.AsEnumerable().Select(x => new KeyValuePair<int, string>(x.Id, x.Name)).ToList();
+                List<KeyValuePair<int, string>> projFilterKeyValue = new List<KeyValuePair<int, string>>();
+                foreach (var item in projFilter)
+                {
+                    projFilterKeyValue.Add(new KeyValuePair<int, string>(item.Id, item.Name));
+                }
 
-            //    IEnumerable<KeyValuePair<int, string>> filtered = null;
+                List<KeyValuePair<int, string>> prjts = q.AsEnumerable().Select(x => new KeyValuePair<int, string>(x.Id, x.Name)).ToList();
+                IEnumerable<KeyValuePair<int, string>> filtered = null;
 
-            //    if (qProjectsByOs != null)
-            //        filtered = qProjectsByOs.Intersect(prjts);
-            //    else
-            //        filtered = prjts;
+                if (projFilter.Count()==0)
+                    filtered = projFilterKeyValue.Intersect(prjts);
+                else
+                    filtered = prjts;
 
-            //    if (qProjectsBySkills != null)
-            //        filtered = qProjectsBySkills.Intersect(filtered);
-
-            //    if (qProjectsByTypes != null)
-            //        filtered = qProjectsByTypes.Intersect(filtered);
-
-            //    return filtered.Select(x => x.Value).ToList();
-            //}
-            return new List<KeyValuePair<int, string>> ();
+                return filtered.ToList();
+            }
         }
         #region Customers
         public static string AddNewCustomer(string name)
