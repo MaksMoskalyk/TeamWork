@@ -442,7 +442,8 @@ namespace TeamWork
         {
             List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchProjNorm();
             List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
-            ListFindProjects.Clear();
+            
+            ListFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
             if (SearchProjName.Length > 0)
             {
                 tempList = F_Projects.GetAllProjectsNameFilter(SearchProjName,
@@ -501,7 +502,7 @@ namespace TeamWork
         {
             List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchTasksNorm();
             List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
-            ListFindTasks.Clear();
+            ListFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
             if (SearchTaskName.Length > 0)
             {
                 tempList = F_Task.GetAllIssuesFilter(CurrentProject.Id, SearchTaskName,

@@ -94,7 +94,7 @@
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" >
-                                                <Label Content="{Binding value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
+                                                <Label Content="{Binding Value}"></Label>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
@@ -248,8 +248,7 @@
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" >
-                                                <Image Source="{Binding ImageStatusPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"   Width="10" Height="10"></Image>
-                                                <Label Content="{Binding TaskName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
+                                                <Label Content="{Binding Value}"></Label>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
