@@ -30,6 +30,7 @@ namespace TeamWork
     public class VM_TeamWork: ViewModelBase, IServiceProgramMessengerCallback
     {
         // временно разместил в начале, для удобства поиска
+        #region Search
         private string szSearchProjName;
         private string szSearchTaskName;
         private ObservableCollection<KeyValuePair<int, string>> listFindProjects;
@@ -43,7 +44,7 @@ namespace TeamWork
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listStage;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listType;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listObjective;
-        
+
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listAssignee;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listPriority;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listStatus;
@@ -445,7 +446,7 @@ namespace TeamWork
             if (SearchProjName.Length > 0)
             {
                 tempList = F_Projects.GetAllProjectsNameFilter(SearchProjName,
-                    tempNorm[0].Select(n => n.Key).ToList(),tempNorm[1].Select(n => n.Key).ToList(),
+                    tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
                     tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList(),
                     tempNorm[4].Select(n => n.Key).ToList(), tempNorm[5].Select(n => n.Key).ToList(), tempNorm[6].Select(n => n.Key).ToList());
             }
@@ -512,6 +513,55 @@ namespace TeamWork
                 ListFindTasks.Add(temp);
             }
         }
+        #endregion
+        #region roles
+        Visibility isAdmin;
+        Visibility isHR;
+        Visibility isTeamlead;
+        public Visibility IsAdmin
+        {
+            get
+            {
+                return isAdmin;
+            }
+
+            set
+            {
+                isAdmin = value;
+                OnPropertyChanged("IsAdmin");
+            }
+        }
+
+        public Visibility IsHR
+        {
+            get
+            {
+                return isHR;
+            }
+
+            set
+            {
+                isHR = value;
+                OnPropertyChanged("IsHR");
+            }
+        }
+
+        public Visibility IsTeamlead
+        {
+            get
+            {
+                return isTeamlead;
+            }
+
+            set
+            {
+                isTeamlead = value;
+                OnPropertyChanged("IsTeamlead");
+            }
+        }
+
+       
+        #endregion
         #region fields
         private string WsfConName;
         private List<treeElem> listTasks;
@@ -2845,236 +2895,77 @@ namespace TeamWork
                     OnPropertyChanged("VDescription");
                 }
             }
-        //private DelegateCommand ButtonBPrName;
-        //public ICommand BPrName
-        //{
-        //    get
-        //    {
-        //        if (ButtonBPrName == null)
-        //        {
-        //            ButtonBPrName = new DelegateCommand(param => { }, param => IsProjectNameAvailable());
-        //        }
-        //        return ButtonBPrName;
-        //    }
-        //}
+
         private bool IsProjectNameAvailable()
         {
             return (CurProjName == null || CurProjName.Length == 0);
         }
 
-        //private DelegateCommand ButtonCustomer;
-        //public ICommand BCustomerName
-        //{
-        //    get
-        //    {
-        //        if (ButtonCustomer == null)
-        //        {
-        //            ButtonCustomer = new DelegateCommand(param => { }, param => IsCustomerNameAvailable());
-        //        }
-        //        return ButtonCustomer;
-        //    }
-        //}
         private bool IsCustomerNameAvailable()
         {
             return (CurProjCustomer.Value == null || CurProjCustomer.Value.Trim().Length == 0);
         }
 
-        //private DelegateCommand ButtonStage;
-        //public ICommand BStage
-        //{
-        //    get
-        //    {
-        //        if (ButtonStage == null)
-        //        {
-        //            ButtonStage = new DelegateCommand(param => { }, param => IsStageAvailable());
-        //        }
-        //        return ButtonStage;
-        //    }
-        //}
         private bool IsStageAvailable()
         {
             return (CurProjStage.Value == null || CurProjStage.Value.Trim().Length == 0);
         }
 
-        //private DelegateCommand ButtonDueDate;
-        //public ICommand BDueDate
-        //{
-        //    get
-        //    {
-        //        if (ButtonDueDate == null)
-        //        {
-        //            ButtonDueDate = new DelegateCommand(param => { }, param => IsDueDateAvailable());
-        //        }
-        //        return ButtonDueDate;
-        //    }
-        //}
+
         private bool IsDueDateAvailable()
         {
             return (CurProjDueDate == null || CurProjDueDate.ToString() == "");
         }
 
-        //private DelegateCommand ButtonDuration;
-        //public ICommand BDuration
-        //{
-        //    get
-        //    {
-        //        if (ButtonDuration == null)
-        //        {
-        //            ButtonDuration = new DelegateCommand(param => { }, param => IsDurationAvailable());
-        //        }
-        //        return ButtonDuration;
-        //    }
-        //}
         private bool IsDurationAvailable()
         {
             return (CurProjDuration.Value == null || CurProjDuration.Value.Trim().Length==0);
         }
 
-        //private DelegateCommand ButtonObjective;
-        //public ICommand BObjective
-        //{
-        //    get
-        //    {
-        //        if (ButtonObjective == null)
-        //        {
-        //            ButtonObjective = new DelegateCommand(param => { }, param => IsObjectiveAvailable());
-        //        }
-        //        return ButtonObjective;
-        //    }
-        //}
+
         private bool IsObjectiveAvailable()
         {
             return (CurProjObjective.Value == null || CurProjObjective.Value.Trim().Length==0);
         }
 
-        //private DelegateCommand ButtonDescription;
-        //public ICommand BDescription
-        //{
-        //    get
-        //    {
-        //        if (ButtonDescription == null)
-        //        {
-        //            ButtonDescription = new DelegateCommand(param => { }, param => IsDescriptionAvailable());
-        //        }
-        //        return ButtonDescription;
-        //    }
-        //}
         private bool IsDescriptionAvailable()
         {
             return (CurProjDescription == null || CurProjDescription.Length == 0);
         }
 
-        //private DelegateCommand ButtonTaskName;
-        //public ICommand BTaskName
-        //{
-        //    get
-        //    {
-        //        if (ButtonTaskName == null)
-        //        {
-        //            ButtonTaskName = new DelegateCommand(param => { }, param => IsTaskNameAvailable());
-        //        }
-        //        return ButtonTaskName;
-        //    }
-        //}
+
         private bool IsTaskNameAvailable()
         {
             return (CurTaskName == null || CurTaskName.Length == 0);
         }
 
-        //private DelegateCommand ButtonDueDateTask;
-        //public ICommand BDueDateTask
-        //{
-        //    get
-        //    {
-        //        if (ButtonDueDateTask == null)
-        //        {
-        //            ButtonDueDateTask = new DelegateCommand(param => { }, param => IsDueDateTaskAvailable());
-        //        }
-        //        return ButtonDueDateTask;
-        //    }
-        //}
+
         private bool IsDueDateTaskAvailable()
         {
             return (CurTaskDueDate == null || CurTaskDueDate.ToString() == "");
         }
 
-        //private DelegateCommand ButtonStatus;
-        //public ICommand BStatus
-        //{
-        //    get
-        //    {
-        //        if (ButtonStatus == null)
-        //        {
-        //            ButtonStatus = new DelegateCommand(param => { }, param => IsStatusAvailable());
-        //        }
-        //        return ButtonStatus;
-        //    }
-        //}
+
         private bool IsStatusAvailable()
         {
             return (CurTaskStatus.Value == null || CurTaskStatus.Value.Length == 0);
         }
-        //private DelegateCommand ButtonTaskPriority;
-        //public ICommand BTaskPriority
-        //{
-        //    get
-        //    {
-        //        if (ButtonTaskPriority == null)
-        //        {
-        //            ButtonTaskPriority = new DelegateCommand(param => { }, param => IsTaskPriorityAvailable());
-        //        }
-        //        return ButtonTaskPriority;
-        //    }
-        //}
+
         private bool IsTaskPriorityAvailable()
         {
             return (CurTaskPriority.Value == null || CurTaskPriority.Value.Length == 0);
         }
-        //private DelegateCommand ButtonTaskType;
-        //public ICommand BTaskType
-        //{
-        //    get
-        //    {
-        //        if (ButtonTaskType == null)
-        //        {
-        //            ButtonTaskType = new DelegateCommand(param => { }, param => IsTaskTypeAvailable());
-        //        }
-        //        return ButtonTaskType;
-        //    }
-        //}
+
         private bool IsTaskTypeAvailable()
         {
             return (CurTaskType.Value == null || CurTaskType.Value.Length == 0);
         }
-        //private DelegateCommand ButtonTaskAssignees;
-        //        public ICommand BTaskAssignees
-        //{
-        //    get
-        //    {
-        //        if (ButtonTaskAssignees == null)
-        //        {
-        //            ButtonTaskAssignees = new DelegateCommand(param => { }, param => IsTaskAssigneesAvailable());
-        //        }
-        //        return ButtonTaskAssignees;
-        //    }
-        //}
+
         private bool IsTaskAssigneesAvailable()
         {
             return (TaskAssignees == null || TaskAssignees.Count == 0);
         }
-        //private DelegateCommand ButtonTaskDescription;
-        
-        //public ICommand BTaskDescription
-        //{
-        //    get
-        //    {
-        //        if (ButtonTaskDescription == null)
-        //        {
-        //            ButtonTaskDescription = new DelegateCommand(param => { }, param => IsTaskDescriptionAvailable());
-        //        }
-        //        return ButtonTaskDescription;
-        //    }
-        //}
+
         private bool IsTaskDescriptionAvailable()
         {
             return (CurTaskDescription == null || CurTaskDescription.Length == 0);
@@ -3881,6 +3772,8 @@ namespace TeamWork
                 return ButtonDelTaskAssigneesClick;
             }
         }
+
+
 
         public void DelTaskAssignees()
         {
