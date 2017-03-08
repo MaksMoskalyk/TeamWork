@@ -2585,8 +2585,8 @@ namespace TeamWork
                 }
                 
             }
-            
-            loadAllProjects();
+
+            uploadAllProjects();
 
         }
         private async void UpdateProgramSer()
@@ -3112,7 +3112,7 @@ namespace TeamWork
                 {
                     messBoxOk("Project set favorite successful.", "Favorite project");
                     loadAllListPrInfo();
-                    loadAllProjects();
+                    uploadAllProjects();
 
                 }
                 else

@@ -102,12 +102,17 @@
                                 
                                 <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemPr, Mode=TwoWay}" BorderBrush="White" >
                                     <TreeView.Resources>
-                                        <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}" TreeViewItem.Expanded="{Binding isExpanded, Mode=TwoWay}">
+                                        <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
                                             <StackPanel Orientation="Horizontal" >
                                                 <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
                                             </StackPanel>
                                         </HierarchicalDataTemplate>
                                     </TreeView.Resources>
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="TreeViewItem">
+                                            <Setter Property="IsExpanded" Value="{Binding isExpanded, Mode=TwoWay}"/>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
                                 </local:ExtendedTreeView>
                             </StackPanel>
                         </ScrollViewer>
@@ -258,6 +263,11 @@
                                             </StackPanel>
                                         </HierarchicalDataTemplate>
                                     </TreeView.Resources>
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="TreeViewItem">
+                                            <Setter Property="IsExpanded" Value="{Binding isExpanded, Mode=TwoWay}"/>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
                                 </local:ExtendedTreeView>
                             </StackPanel>
                         </ScrollViewer>
