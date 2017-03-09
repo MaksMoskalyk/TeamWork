@@ -444,7 +444,7 @@ namespace TeamWork
             List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
 
             ListFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
-            tempList = F_Projects.GetAllProjectsNameFilter(SearchProjName,
+            tempList = F_Projects.GetAllProjectsNameFilter(SearchProjName ==null?string.Empty: SearchProjName,
                 tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
                 tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList(),
                 tempNorm[4].Select(n => n.Key).ToList(), tempNorm[5].Select(n => n.Key).ToList(), tempNorm[6].Select(n => n.Key).ToList());
@@ -476,24 +476,28 @@ namespace TeamWork
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             foreach (var temp in ListPriority)
             {
                 if (temp.isCheck)
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             foreach (var temp in ListStatus)
             {
                 if (temp.isCheck)
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             foreach (var temp in ListTypeTasks)
             {
                 if (temp.isCheck)
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             return resList;
         }
         void SearchTasks()
@@ -501,12 +505,9 @@ namespace TeamWork
             List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchTasksNorm();
             List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
             ListFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
-            if (SearchTaskName.Length > 0)
-            {
-                tempList = F_Task.GetAllIssuesFilter(CurrentProject.Id, SearchTaskName,
-                    tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
-                    tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList());
-            }
+            tempList = F_Task.GetAllIssuesFilter(CurrentProject.Id, SearchTaskName == null ? string.Empty : SearchTaskName,
+                tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
+                tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList());
             ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
             foreach (var temp in tempList)
             {

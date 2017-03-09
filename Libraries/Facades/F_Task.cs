@@ -11,27 +11,27 @@ namespace Facade
     public static class F_Task
     {
         public static List<KeyValuePair<int, string>> GetAllIssuesFilter(int idProject, string name, List<int> Assignee, List<int> Priority,
-                                                                List<int> ListStatus, List<int> ListTypeTasks)
+                                                                        List<int> ListStatus, List<int> ListTypeTasks)
         {
             using (var context = new TeamworkDBContext())
             {
                 try
                 {
                     if (Assignee == null || Assignee.Count() == 0)
-                        Assignee = F_Staff.GetProjectEmployees(idProject).Select(x=>x.Key).ToList();
+                        Assignee = F_Staff.GetProjectEmployees(idProject).Select(x => x.Key).ToList();
 
-                    if (Priority == null || Priority.Count()==0)
+                    if (Priority == null || Priority.Count() == 0)
                         Priority = GetAllPriorityes().Select(x => x.Key).ToList();
 
-                    if (ListStatus == null || ListStatus.Count()==0)
+                    if (ListStatus == null || ListStatus.Count() == 0)
                         ListStatus = GetAllStatuses().Select(x => x.Key).ToList();
 
-                    if (ListTypeTasks == null || ListTypeTasks.Count()==0)
+                    if (ListTypeTasks == null || ListTypeTasks.Count() == 0)
                         ListTypeTasks = GetAllTaskTypes().Select(x => x.Key).ToList();
 
                     var qProj = (from x in context.Projects where x.Id == idProject select x).Single();
                     List<Employee> qAssignee = null;
-                    
+
                     if (Assignee.Count() == 0 || Assignee == null)
                     {
                         List<int> empId = F_Staff.GetProjectAllEmployees(idProject).Select(x => x.Key).ToList();
@@ -39,15 +39,17 @@ namespace Facade
                     }
                     else
                         qAssignee = (from x in context.Employees where Assignee.Contains(x.Id) select x).ToList();
-                   
+
                     var allIssues = from x in context.Issues
                                     where x.Project.Id == qProj.Id
-                                    where x.Name.Contains(name.Trim())
+                                    where name.Trim().Length > 0 ? x.Name.Contains(name.Trim()) : x.Name.Length > 0
                                     where Priority.Contains(x.Priority.Id)
                                     where ListStatus.Contains(x.Status.Id)
                                     where ListTypeTasks.Contains(x.Type.Id)
                                     select x;
-                    
+                    var c = allIssues.Count();
+
+
                     var issuesByAssignee = qAssignee.Select(x => x.Issues);
                     List<Issue> filteredIssues = new List<Issue>();
                     foreach (var item in issuesByAssignee)
@@ -59,9 +61,16 @@ namespace Facade
                     }
                     filteredIssues.Distinct();
 
-                    var filtered = filteredIssues.Intersect(allIssues);
+                    if (filteredIssues.Count() > 0)
+                    {
+                        var filtered = filteredIssues.Intersect(allIssues);
+                        return filtered.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
+                    }
+                    else
+                    {
+                        return allIssues.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
+                    }
 
-                    return filtered.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Name)).ToList();
                 }
                 catch
                 {
