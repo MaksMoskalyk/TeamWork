@@ -479,24 +479,28 @@ namespace TeamWork
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             foreach (var temp in ListPriority)
             {
                 if (temp.isCheck)
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             foreach (var temp in ListStatus)
             {
                 if (temp.isCheck)
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             foreach (var temp in ListTypeTasks)
             {
                 if (temp.isCheck)
                     tempList.Add(temp.chClass);
             }
             resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
             return resList;
         }
         void SearchTasks()
