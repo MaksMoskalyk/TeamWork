@@ -13,12 +13,12 @@ namespace Facade
     {
         //может принять List<int> с count = 0 и должно проверить(если это необходимо)
         public static List<KeyValuePair<int, string>> GetAllProjectsNameFilter(string name, List<int> customers, List<int> durations,
-                                                                List<int> objectives, List<int> OSs, List<int> skills,
-                                                                List<int> stages, List<int> types)
+                                                                        List<int> objectives, List<int> OSs, List<int> skills,
+                                                                        List<int> stages, List<int> types)
         {
 
-            if (customers.Count()==0||customers == null)
-                customers = GetAllCustomers().Select(x=>x.Key).ToList();
+            if (customers.Count() == 0 || customers == null)
+                customers = GetAllCustomers().Select(x => x.Key).ToList();
 
             if (durations.Count() == 0 || durations == null)
                 durations = GetAllDurations().Select(x => x.Key).ToList();
@@ -32,7 +32,7 @@ namespace Facade
             using (var context = new TeamworkDBContext())
             {
                 var q = from projects in context.Projects
-                        where projects.Name.Contains(name.Trim())
+                        where name.Trim().Length > 0 ? projects.Name.Contains(name.Trim()) : projects.Name.Length > 0
                         where customers.Contains(projects.Customer.Id)
                         where durations.Contains(projects.Duration.Id)
                         where objectives.Contains(projects.Objective.Id)
@@ -40,7 +40,7 @@ namespace Facade
                         select new { projects.Id, projects.Name };
 
                 List<Project> projFilter = new List<Project>();
-                
+
                 if (OSs.Count() != 0 && OSs != null)
                 {
                     List<OperationSystem> qOs = (from x in context.OperationSystems where OSs.Contains(x.Id) select x).ToList();
@@ -52,7 +52,7 @@ namespace Facade
                         }
                     }
                 }
-                
+
                 if (skills.Count() != 0 && skills != null)
                 {
                     List<Skill> qSkills = (from x in context.Skills where skills.Contains(x.Id) select x).ToList();
@@ -64,7 +64,7 @@ namespace Facade
                         }
                     }
                 }
-               
+
                 if (types.Count() != 0 && types != null)
                 {
                     List<ProjectType> qTypes = (from x in context.ProjectTypes where types.Contains(x.Id) select x).ToList();
@@ -87,7 +87,7 @@ namespace Facade
                 List<KeyValuePair<int, string>> prjts = q.AsEnumerable().Select(x => new KeyValuePair<int, string>(x.Id, x.Name)).ToList();
                 IEnumerable<KeyValuePair<int, string>> filtered = null;
 
-                if (projFilter.Count()==0)
+                if (projFilter.Count() > 0)
                     filtered = projFilterKeyValue.Intersect(prjts);
                 else
                     filtered = prjts;
