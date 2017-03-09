@@ -451,6 +451,7 @@ namespace TeamWork
                     tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList(),
                     tempNorm[4].Select(n => n.Key).ToList(), tempNorm[5].Select(n => n.Key).ToList(), tempNorm[6].Select(n => n.Key).ToList());
             }
+            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
             foreach (var temp in tempList)
             {
                 ListFindProjects.Add(temp);
@@ -509,6 +510,7 @@ namespace TeamWork
                     tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
                     tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList());
             }
+            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
             foreach (var temp in tempList)
             {
                 ListFindTasks.Add(temp);
