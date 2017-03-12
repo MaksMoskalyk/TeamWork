@@ -129,8 +129,8 @@
     <Compile Include="Views\MessageBox\CustomMessageBox.cs" />
     <Compile Include="ViewModels\ShowEmployeeDataVM\ShowEmployeeDataGlueCode.cs" />
     <Compile Include="ViewModels\ShowEmployeeDataVM\ShowEmployeeDataViewModel.cs" />
-    <Compile Include="Views\InputEmployeeDataView.xaml.cs">
-      <DependentUpon>InputEmployeeDataView.xaml</DependentUpon>
+    <Compile Include="Views\AddEmployeeView.xaml.cs">
+      <DependentUpon>AddEmployeeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\InputEmployeeDataVM\OpenFileDialog\CustomOpenFileDialog.cs" />
     <Compile Include="ViewModels\InputEmployeeDataVM\OpenFileDialog\IOpenFileDialog.cs" />
@@ -151,7 +151,7 @@
     <Compile Include="Views\ViewFactory\AbstractViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\DatabaseAdministrationViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\EditEmployeeDataViewFactory.cs" />
-    <Compile Include="Views\ViewFactory\SpecificFactories\InputEmployeeDataViewFactory.cs" />
+    <Compile Include="Views\ViewFactory\SpecificFactories\AddEmployeeViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\ShowEmployeeDataViewFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +192,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\InputEmployeeDataView.xaml">
+    <Page Include="Views\AddEmployeeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

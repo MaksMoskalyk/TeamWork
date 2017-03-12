@@ -19,7 +19,7 @@ namespace StaffDatabaseUnit
     /// <summary>
     /// Interaction logic for InputEmployeeDataView.xaml
     /// </summary>
-    public partial class InputEmployeeDataView : MetroWindow, IView
+    public partial class AddEmployeeView : MetroWindow, IView
     {
         private MetroWindow accentThemeWindow;
 
@@ -38,7 +38,7 @@ namespace StaffDatabaseUnit
             accentThemeWindow.Show();
         }
 
-        public InputEmployeeDataView()
+        public AddEmployeeView()
         {
             InitializeComponent();
             ClientSettings Settings = new ClientSettings();
@@ -48,9 +48,6 @@ namespace StaffDatabaseUnit
 
         public void ShowView()
         {
-            //InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();
-            //inputEmployeeDataViewModel.LoadData();
-            //this.DataContext = inputEmployeeDataViewModel;
             this.Show();
         }
 
@@ -63,6 +60,12 @@ namespace StaffDatabaseUnit
         {
             get { return this.DataContext; }
             set { this.DataContext = value; }
+        }
+
+        public string Caption
+        {
+            get { return this.Title; }
+            set { this.Title = value; }
         }
     }
 }

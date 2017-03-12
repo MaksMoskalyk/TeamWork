@@ -16,7 +16,7 @@ namespace StaffDatabaseUnit
         protected SpecificEmployee currentEmployee;
         protected IDatabaseShowEmployeeData database;
         protected AbstractViewFactory viewFactory;
-        protected IView currentView;
+        protected IView currentWindow;
         protected IView addEmployeeView;
         protected IView editEmployeeView;
         protected IMessageBox messageBox;

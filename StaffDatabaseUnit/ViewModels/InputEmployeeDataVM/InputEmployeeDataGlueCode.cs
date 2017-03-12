@@ -28,6 +28,7 @@ namespace StaffDatabaseUnit
         protected bool isExperienceEditionStarted;
         protected bool isEducationEditionStarted;
 
+        protected string caption;
         protected string phoneInputError;
         protected string mailInputError;
 

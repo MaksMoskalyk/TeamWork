@@ -61,5 +61,11 @@ namespace StaffDatabaseUnit
             get { return this.DataContext; }
             set { this.DataContext = value; }
         }
+
+        public string Caption
+        {
+            get { return this.Title; }
+            set { this.Title = value; }
+        }
     }
 }

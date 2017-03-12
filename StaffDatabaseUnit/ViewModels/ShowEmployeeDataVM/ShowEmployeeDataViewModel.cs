@@ -46,7 +46,7 @@ namespace StaffDatabaseUnit
         {
             try
             {
-                viewFactory = new InputEmployeeDataViewFactory();
+                viewFactory = new AddEmployeeViewFactory();
                 addEmployeeView = viewFactory.CreateView();
 
                 InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();
@@ -59,7 +59,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -95,36 +95,15 @@ namespace StaffDatabaseUnit
                 inputEmployeeDataViewModel.employeeAdditionEvent += new NewEmployeeAddition(UpdateView);
 
                 editEmployeeView.Data = inputEmployeeDataViewModel;
+                inputEmployeeDataViewModel.CurrentWindow = editEmployeeView;
                 editEmployeeView.ShowView();
                 database.LoadDataForEmployeeEdition(inputEmployeeDataViewModel.EmployeeData, currentEmployee);
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }
-
-        //private void PackSelectedEmployeeData(EmployeeData employeeData)
-        //{
-        //    employeeData.Employee = currentEmployee.Employee;
-        //    employeeData.SelectedPosition = currentEmployee.Employee.Position;
-
-        //    employeeData.Phones = currentEmployee.Phones;
-        //    employeeData.Mails = currentEmployee.Mails;
-        //    employeeData.WebAccounts = currentEmployee.WebAccounts;
-
-        //    employeeData.ExperienceTableUnits = currentEmployee.ExperienceTableUnits;
-        //    employeeData.EducationTableUnits = currentEmployee.EducationTableUnits;
-
-        //    //employeeData.SkillsTotalInfo
-
-        //    employeeData.SelectedGender = currentEmployee.Gender;
-        //    employeeData.SelectedCitizenship = currentEmployee.Employee.Citizenship;
-
-        //    employeeData.SelectedYearOfBirth = currentEmployee.Employee.DateOfBirth.Year.ToString();
-        //    employeeData.SelectedMonthOfBirth = currentEmployee.Employee.DateOfBirth.Month.ToString();
-        //    employeeData.SelectedDayOfBirth = currentEmployee.Employee.DateOfBirth.Day.ToString();
-        //}
 
         private bool IsEditEmployeeAvailable()
         {
@@ -162,7 +141,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -195,7 +174,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }
         #endregion
@@ -229,7 +208,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -264,7 +243,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 

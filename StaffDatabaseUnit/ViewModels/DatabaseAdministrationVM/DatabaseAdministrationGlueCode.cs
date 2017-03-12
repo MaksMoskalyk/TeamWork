@@ -62,6 +62,14 @@ namespace StaffDatabaseUnit
         protected ElementCreator elementCreator;
         protected IElement chosenElement;
         protected IDatabaseAdministration database;
+        protected IView currentWindow;
+        protected IMessageBox messageBox;
+
+        public IView CurrentWindow
+        {
+            get { return currentWindow; }
+            set { currentWindow = value; }
+        }
         #endregion
 
 

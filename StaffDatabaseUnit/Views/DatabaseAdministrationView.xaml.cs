@@ -47,10 +47,6 @@ namespace StaffDatabaseUnit
 
         public void ShowView()
         {
-            //DatabaseAdministrationViewModel databaseAdministrationViewModel =
-            //        new DatabaseAdministrationViewModel();
-            //databaseAdministrationViewModel.GetInitialData();
-            //this.DataContext = databaseAdministrationViewModel;
             this.Show();
         }
 
@@ -63,6 +59,12 @@ namespace StaffDatabaseUnit
         {            
             get { return this.DataContext; }
             set { this.DataContext = value; }
+        }
+
+        public string Caption
+        {
+            get { return this.Title; }
+            set { this.Title = value; }
         }
     }
 }
