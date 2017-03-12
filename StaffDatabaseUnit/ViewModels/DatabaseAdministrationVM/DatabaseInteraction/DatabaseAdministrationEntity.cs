@@ -156,7 +156,7 @@ namespace StaffDatabaseUnit
                     database.SaveChanges();
                 }
             }
-            catch(Exception error)
+            catch(Exception)
             {
 
             }

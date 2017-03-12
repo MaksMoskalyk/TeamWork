@@ -18,6 +18,7 @@ namespace StaffDatabaseUnit
         protected AbstractViewFactory viewFactory;
         protected IView currentView;
         protected IView addEmployeeView;
+        protected IView editEmployeeView;
         protected IMessageBox messageBox;
         protected IPhotoConverter photoConverter;
 

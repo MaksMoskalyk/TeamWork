@@ -18,7 +18,6 @@ namespace StaffDatabaseUnit
         private DelegateCommand bAddEmployee;
         private DelegateCommand bEditEmployee;
         private DelegateCommand bDeleteEmployee;
-        private DelegateCommand bSearchFilter;
         private DelegateCommand bUpdate;
 
         // Search filter commands
@@ -87,17 +86,16 @@ namespace StaffDatabaseUnit
         {
             try
             {
-                viewFactory = new InputEmployeeDataViewFactory();
-                addEmployeeView = viewFactory.CreateView();
+                viewFactory = new EditEmployeeDataViewFactory();
+                editEmployeeView = viewFactory.CreateView();
 
                 InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();
                 inputEmployeeDataViewModel.LoadData();
-                //database.LoadDataForEmployeeEdition(inputEmployeeDataViewModel.EmployeeData, currentEmployee);
                 inputEmployeeDataViewModel.EmployeeData.Employee = currentEmployee.Employee;
                 inputEmployeeDataViewModel.employeeAdditionEvent += new NewEmployeeAddition(UpdateView);
 
-                addEmployeeView.Data = inputEmployeeDataViewModel;               
-                addEmployeeView.ShowView();
+                editEmployeeView.Data = inputEmployeeDataViewModel;
+                editEmployeeView.ShowView();
                 database.LoadDataForEmployeeEdition(inputEmployeeDataViewModel.EmployeeData, currentEmployee);
             }
             catch (Exception error)

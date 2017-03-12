@@ -122,6 +122,9 @@
     <Compile Include="Model\InputEmployeeDataModel\SkillTableUnit.cs" />
     <Compile Include="ViewModels\ShowEmployeeDataVM\DatabaseInteraction\DatabaseShowEmployeeDataEntity.cs" />
     <Compile Include="ViewModels\ShowEmployeeDataVM\DatabaseInteraction\IDatabaseShowEmployeeData.cs" />
+    <Compile Include="Views\EditEmployeeDataView.xaml.cs">
+      <DependentUpon>EditEmployeeDataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MessageBox\IMessageBox.cs" />
     <Compile Include="Views\MessageBox\CustomMessageBox.cs" />
     <Compile Include="ViewModels\ShowEmployeeDataVM\ShowEmployeeDataGlueCode.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="Model\InputEmployeeDataModel\WebServiceTableUnit.cs" />
     <Compile Include="Views\ViewFactory\AbstractViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\DatabaseAdministrationViewFactory.cs" />
+    <Compile Include="Views\ViewFactory\SpecificFactories\EditEmployeeDataViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\InputEmployeeDataViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\ShowEmployeeDataViewFactory.cs" />
   </ItemGroup>
@@ -184,6 +188,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\EditEmployeeDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InputEmployeeDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -323,7 +323,7 @@ namespace StaffDatabaseUnit
             var skillsQuery = from Skills in database.Skills
                               from Employees in database.Employees
                               from EmployeesAndSkills in database.EmployeesAndSkills
-                              where EmployeesAndSkills.Employee_Id == Employees.Id
+                              where EmployeesAndSkills.Employee_Id == employeeData.Employee.Id
                               where EmployeesAndSkills.Skill_Id == Skills.Id
                               select Skills;
 
@@ -370,13 +370,13 @@ namespace StaffDatabaseUnit
                                     select EmployeesAndLanguages.LanguageProficiency.Name).SingleOrDefault();
             return languageProficiency;
         }
-
+         
         private void LoadInfoAboutLanguages(TeamworkDBContext database, EmployeeData employeeData)
         {
             var languagesQuery = from Languages in database.Languages
                               from Employees in database.Employees
                               from EmployeesAndLanguages in database.EmployeesAndLanguages
-                              where EmployeesAndLanguages.Employee_Id == Employees.Id
+                              where EmployeesAndLanguages.Employee_Id == employeeData.Employee.Id
                               where EmployeesAndLanguages.Language_Id == Languages.Id
                               select Languages;
 
@@ -394,7 +394,7 @@ namespace StaffDatabaseUnit
                         foreach (var proficiency in proficiencyQuery)
                         {
                             currentLanguage.ProficiencyList.Add(proficiency);
-                            if (GetLanguageProficiency(database, employeeData.Employee.Id, language.Id) 
+                               if (GetLanguageProficiency(database, employeeData.Employee.Id, language.Id) 
                                 == proficiency.Name)
                                 currentLanguage.SelectedProficiency = proficiency;
                         }
