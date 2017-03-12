@@ -234,7 +234,7 @@ namespace StaffDatabaseUnit
         }
 
         #region Edit employee
-        public void LoadPositionData(TeamworkDBContext database, EmployeeData employeeData)
+        private void LoadPositionData(TeamworkDBContext database, EmployeeData employeeData)
         {
             Position currentPosition = new Position();
             var query = from Positions in database.Positions
@@ -251,7 +251,7 @@ namespace StaffDatabaseUnit
             }
         }
 
-        public void LoadCountryData(TeamworkDBContext database, EmployeeData employeeData)
+        private void LoadCountryData(TeamworkDBContext database, EmployeeData employeeData)
         {
             Country currentCountry = new Country();
             var query = (from Countries in database.Countries
@@ -270,7 +270,7 @@ namespace StaffDatabaseUnit
             }
         }
 
-        public void LoadCityData(TeamworkDBContext database, EmployeeData employeeData)
+        private void LoadCityData(TeamworkDBContext database, EmployeeData employeeData)
         {
             City currentCity = new City();
             var query = from Cities in database.Cities
@@ -292,7 +292,7 @@ namespace StaffDatabaseUnit
             }
         }
 
-        public void LoadCitizenshipData(TeamworkDBContext database, EmployeeData employeeData)
+        private void LoadCitizenshipData(TeamworkDBContext database, EmployeeData employeeData)
         {
             Citizenship currentCitizenship = new Citizenship();
             var query = from Citizenships in database.Citizenships
@@ -308,22 +308,101 @@ namespace StaffDatabaseUnit
                     employeeData.SelectedCitizenship = citizenship;
             }
         }
-        #endregion
 
-        public void LoadInfoAbourSkills(TeamworkDBContext database, EmployeeData employeeData)
+        private string GetSkillProficiency(TeamworkDBContext database, int employee_id, int skill_id)
         {
-            var query = from Skills in database.Skills
-                        select Skills;
+            var skillProficiency = (from EmployeesAndSkills in database.EmployeesAndSkills
+                                    where EmployeesAndSkills.Employee_Id == employee_id
+                                    where EmployeesAndSkills.Skill_Id == skill_id
+                                    select EmployeesAndSkills.SkillProficiency.Name).SingleOrDefault();
+            return skillProficiency;
+        }
 
-            foreach (var skill in query)
+        private void LoadInfoAboutSkills(TeamworkDBContext database, EmployeeData employeeData)
+        {
+            var skillsQuery = from Skills in database.Skills
+                              from Employees in database.Employees
+                              from EmployeesAndSkills in database.EmployeesAndSkills
+                              where EmployeesAndSkills.Employee_Id == Employees.Id
+                              where EmployeesAndSkills.Skill_Id == Skills.Id
+                              select Skills;
+
+            var proficiencyQuery = from SkillProficiencies in database.SkillProficiencies
+                                   select SkillProficiencies;
+
+            foreach (var skill in skillsQuery)
             {
-                foreach (var employeeSkill in employeeData.SkillTableUnits)
+                SkillTableUnit unit = new SkillTableUnit();
+                unit.Skill = skill;
+                unit.IsChecked = true;
+                foreach (var proficiency in proficiencyQuery)
                 {
-                    if (skill.Name == employeeSkill.Skill.Name)
-                        employeeSkill.IsChecked = true;
+                    unit.ProficiencyList.Add(proficiency);
+                    if (GetSkillProficiency(database, employeeData.Employee.Id, skill.Id) 
+                        == proficiency.Name)
+                        unit.SelectedProficiency = proficiency;
+                }
+                employeeData.SkillsTotalInfo.Add(unit);
+
+                foreach (var currentSkill in employeeData.SkillTableUnits)
+                {
+                    if (currentSkill.Skill.Name == skill.Name)
+                    {
+                        currentSkill.IsChecked = true;
+                        currentSkill.ProficiencyList = new ObservableCollection<SkillProficiency>();
+                        foreach (var proficiency in proficiencyQuery)
+                        {
+                            currentSkill.ProficiencyList.Add(proficiency);
+                            if (GetSkillProficiency(database, employeeData.Employee.Id, skill.Id) 
+                                == proficiency.Name)
+                                currentSkill.SelectedProficiency = proficiency;
+                        }
+                    }
                 }
             }
         }
+
+        private string GetLanguageProficiency(TeamworkDBContext database, int employee_id, int language_id)
+        {
+            var languageProficiency = (from EmployeesAndLanguages in database.EmployeesAndLanguages
+                                    where EmployeesAndLanguages.Employee_Id == employee_id
+                                    where EmployeesAndLanguages.Language_Id == language_id
+                                    select EmployeesAndLanguages.LanguageProficiency.Name).SingleOrDefault();
+            return languageProficiency;
+        }
+
+        private void LoadInfoAboutLanguages(TeamworkDBContext database, EmployeeData employeeData)
+        {
+            var languagesQuery = from Languages in database.Languages
+                              from Employees in database.Employees
+                              from EmployeesAndLanguages in database.EmployeesAndLanguages
+                              where EmployeesAndLanguages.Employee_Id == Employees.Id
+                              where EmployeesAndLanguages.Language_Id == Languages.Id
+                              select Languages;
+
+            var proficiencyQuery = from LanguageProficiencies in database.LanguageProficiencies
+                                   select LanguageProficiencies;
+
+            foreach (var language in languagesQuery)
+            {
+                foreach (var currentLanguage in employeeData.LanguageTableUnits)
+                {
+                    if (currentLanguage.Language.Name == language.Name)
+                    {
+                        currentLanguage.IsChecked = true;
+                        currentLanguage.ProficiencyList = new List<LanguageProficiency>();
+                        foreach (var proficiency in proficiencyQuery)
+                        {
+                            currentLanguage.ProficiencyList.Add(proficiency);
+                            if (GetLanguageProficiency(database, employeeData.Employee.Id, language.Id) 
+                                == proficiency.Name)
+                                currentLanguage.SelectedProficiency = proficiency;
+                        }
+                    }
+                }
+            }
+        }
+
 
         public void LoadDataForEmployeeEdition(EmployeeData employeeData, SpecificEmployee currentEmployee)
         {
@@ -346,9 +425,12 @@ namespace StaffDatabaseUnit
                 LoadCountryData(database, employeeData);
                 LoadCityData(database, employeeData);
                 LoadCitizenshipData(database, employeeData);
-                LoadInfoAbourSkills(database, employeeData);
-            }          
+                LoadInfoAboutSkills(database, employeeData);
+                LoadInfoAboutLanguages(database, employeeData);
+            }
         }
+        #endregion
+ 
         #endregion
 
         #region Search data loading
