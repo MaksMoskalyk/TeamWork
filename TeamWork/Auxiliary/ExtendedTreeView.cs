@@ -13,10 +13,10 @@ namespace TeamWork
         public ExtendedTreeView()
             : base()
         {
-            this.SelectedItemChanged += new RoutedPropertyChangedEventHandler<object>(___ICH);
+            this.SelectedItemChanged += new RoutedPropertyChangedEventHandler<object>(ICH);
         }
 
-        void ___ICH(object sender, RoutedPropertyChangedEventArgs<object> e)
+        void ICH(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (SelectedItem != null)
             {

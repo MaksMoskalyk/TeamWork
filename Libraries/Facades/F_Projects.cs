@@ -11,6 +11,90 @@ namespace Facade
 {
     public static class F_Projects
     {
+        //может принять List<int> с count = 0 и должно проверить(если это необходимо)
+        public static List<KeyValuePair<int, string>> GetAllProjectsNameFilter(string name, List<int> customers, List<int> durations,
+                                                                        List<int> objectives, List<int> OSs, List<int> skills,
+                                                                        List<int> stages, List<int> types)
+        {
+
+            if (customers.Count() == 0 || customers == null)
+                customers = GetAllCustomers().Select(x => x.Key).ToList();
+
+            if (durations.Count() == 0 || durations == null)
+                durations = GetAllDurations().Select(x => x.Key).ToList();
+
+            if (objectives.Count() == 0 || objectives == null)
+                objectives = GetAllObjectives().Select(x => x.Key).ToList();
+
+            if (stages.Count() == 0 || stages == null)
+                stages = GetAllStages().Select(x => x.Key).ToList();
+
+            using (var context = new TeamworkDBContext())
+            {
+                var q = from projects in context.Projects
+                        where name.Trim().Length > 0 ? projects.Name.Contains(name.Trim()) : projects.Name.Length > 0
+                        where customers.Contains(projects.Customer.Id)
+                        where durations.Contains(projects.Duration.Id)
+                        where objectives.Contains(projects.Objective.Id)
+                        where stages.Contains(projects.Stage.Id)
+                        select new { projects.Id, projects.Name };
+
+                List<Project> projFilter = new List<Project>();
+
+                if (OSs.Count() != 0 && OSs != null)
+                {
+                    List<OperationSystem> qOs = (from x in context.OperationSystems where OSs.Contains(x.Id) select x).ToList();
+                    foreach (var item in qOs.Select(x => x.Projects).ToList())
+                    {
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
+                    }
+                }
+
+                if (skills.Count() != 0 && skills != null)
+                {
+                    List<Skill> qSkills = (from x in context.Skills where skills.Contains(x.Id) select x).ToList();
+                    foreach (var item in qSkills.Select(x => x.Projects).ToList())
+                    {
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
+                    }
+                }
+
+                if (types.Count() != 0 && types != null)
+                {
+                    List<ProjectType> qTypes = (from x in context.ProjectTypes where types.Contains(x.Id) select x).ToList();
+                    foreach (var item in qTypes.Select(x => x.Projects).ToList())
+                    {
+                        foreach (var i in item)
+                        {
+                            projFilter.Add(i);
+                        }
+                    }
+                }
+                projFilter.Distinct();
+
+                List<KeyValuePair<int, string>> projFilterKeyValue = new List<KeyValuePair<int, string>>();
+                foreach (var item in projFilter)
+                {
+                    projFilterKeyValue.Add(new KeyValuePair<int, string>(item.Id, item.Name));
+                }
+
+                List<KeyValuePair<int, string>> prjts = q.AsEnumerable().Select(x => new KeyValuePair<int, string>(x.Id, x.Name)).ToList();
+                IEnumerable<KeyValuePair<int, string>> filtered = null;
+
+                if (projFilter.Count() > 0)
+                    filtered = projFilterKeyValue.Intersect(prjts);
+                else
+                    filtered = prjts;
+
+                return filtered.ToList();
+            }
+        }
         #region Customers
         public static string AddNewCustomer(string name)
         {

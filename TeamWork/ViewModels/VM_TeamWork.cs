@@ -29,7 +29,540 @@ namespace TeamWork
 { 
     public class VM_TeamWork: ViewModelBase, IServiceProgramMessengerCallback
     {
+        // временно разместил в начале, для удобства поиска
+        #region Search
+        private string szSearchProjName;
+        private string szSearchTaskName;
+        private ObservableCollection<KeyValuePair<int, string>> listFindProjects;
+        private ObservableCollection<KeyValuePair<int, string>> listFindTasks;
 
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listCustomer;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listDuration;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listLead;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listOperationSystem;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listSkill;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listStage;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listType;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listObjective;
+
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listAssignee;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listPriority;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listStatus;
+        private ObservableCollection<checkEl<KeyValuePair<int, string>>> listTypeTasks;
+
+        public ObservableCollection<KeyValuePair<int, string>> ListFindProjects
+        {
+            get
+            {
+                return listFindProjects;
+            }
+            set
+            {
+                listFindProjects = value;
+                OnPropertyChanged("ListFindProjects");
+            }
+        }
+        public ObservableCollection<KeyValuePair<int, string>> ListFindTasks
+        {
+            get
+            {
+                return listFindTasks;
+            }
+            set
+            {
+                listFindTasks = value;
+                OnPropertyChanged("ListFindTasks");
+            }
+        }
+        public string SearchProjName
+        {
+            get
+            {
+                return szSearchProjName;
+            }
+            set
+            {
+                szSearchProjName = value;
+                OnPropertyChanged("SearchProjName");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListCustomer
+        {
+            get
+            {
+                return listCustomer;
+            }
+            set
+            {
+                listCustomer = value;
+                OnPropertyChanged("ListCustomer");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListDuration
+        {
+            get
+            {
+                return listDuration;
+            }
+            set
+            {
+                listDuration = value;
+                OnPropertyChanged("ListDuration");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListLead
+        {
+            get
+            {
+                return listLead;
+            }
+            set
+            {
+                listLead = value;
+                OnPropertyChanged("ListLead");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListOperationSystem
+        {
+            get
+            {
+                return listOperationSystem;
+            }
+            set
+            {
+                listOperationSystem = value;
+                OnPropertyChanged("ListOperationSystem");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListSkill
+        {
+            get
+            {
+                return listSkill;
+            }
+            set
+            {
+                listSkill = value;
+                OnPropertyChanged("ListSkill");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListStage
+        {
+            get
+            {
+                return listStage;
+            }
+            set
+            {
+                listStage = value;
+                OnPropertyChanged("ListStage");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListType
+        {
+            get
+            {
+                return listType;
+            }
+            set
+            {
+                listType = value;
+                OnPropertyChanged("ListType");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListObjective
+        {
+            get
+            {
+                return listObjective;
+            }
+            set
+            {
+                listObjective = value;
+                OnPropertyChanged("ListObjective");
+            }
+        }
+
+
+        public string SearchTaskName
+        {
+            get
+            {
+                return szSearchTaskName;
+            }
+            set
+            {
+                szSearchTaskName = value;
+                OnPropertyChanged("SearchTaskName");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListAssignee
+        {
+            get
+            {
+                return listAssignee;
+            }
+            set
+            {
+                listAssignee = value;
+                OnPropertyChanged("ListAssignee");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListPriority
+        {
+            get
+            {
+                return listPriority;
+            }
+            set
+            {
+                listPriority = value;
+                OnPropertyChanged("ListPriority");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListStatus
+        {
+            get
+            {
+                return listStatus;
+            }
+            set
+            {
+                listStatus = value;
+                OnPropertyChanged("ListStatus");
+            }
+        }
+        public ObservableCollection<checkEl<KeyValuePair<int, string>>> ListTypeTasks
+        {
+            get
+            {
+                return listTypeTasks;
+            }
+            set
+            {
+                listTypeTasks = value;
+                OnPropertyChanged("ListTypeTasks");
+            }
+        }
+
+        public void loadCustomerNorm()
+        {
+            ListCustomer.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllCustomers();
+            foreach (var temp in tempList)
+            {
+                ListCustomer.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadDurationNorm()
+        {
+            ListDuration.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllDurations();
+            foreach (var temp in tempList)
+            {
+                ListDuration.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadLeadNorm()
+        {
+            ListLead.Clear();
+
+            List<KeyValuePair<int, string>> tempList = F_Staff.GetTeamLeaders();
+            foreach (var temp in tempList)
+            {
+                ListLead.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadOperationSystemNorm()
+        {
+            ListOperationSystem.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllOSs();
+            foreach (var temp in tempList)
+            {
+                ListOperationSystem.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadSkillNorm()
+        {
+            ListSkill.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllSkills();
+            foreach (var temp in tempList)
+            {
+                ListSkill.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadStageNorm()
+        {
+            ListStage.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllStages();
+            foreach (var temp in tempList)
+            {
+                ListStage.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadTypeNorm()
+        {
+            ListType.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllTypes();
+            foreach (var temp in tempList)
+            {
+                ListType.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadObjectiveNorm()
+        {
+            ListObjective.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllObjectives();
+            foreach (var temp in tempList)
+            {
+                ListObjective.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+
+        public void loadAssigneeNorm()
+        {
+            ListAssignee.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Staff.GetEmployeesFullNameWithId();
+            foreach (var temp in tempList)
+            {
+                ListAssignee.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadPriorityNorm()
+        {
+            ListPriority.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Task.GetAllPriorityes();
+            foreach (var temp in tempList)
+            {
+                ListPriority.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadStatusNorm()
+        {
+            ListStatus.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Task.GetAllStatuses();
+            foreach (var temp in tempList)
+            {
+                ListStatus.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadTypeTasksNorm()
+        {
+            ListTypeTasks.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Task.GetAllTaskTypes();
+            foreach (var temp in tempList)
+            {
+                ListTypeTasks.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+
+        private void LoadSearchNorms()
+        {
+            loadCustomerNorm();
+            loadDurationNorm();
+            loadLeadNorm();
+            loadOperationSystemNorm();
+            loadSkillNorm();
+            loadStageNorm();
+            loadTypeNorm();
+            loadObjectiveNorm();
+            loadAssigneeNorm();
+            loadPriorityNorm();
+            loadStatusNorm();
+            loadTypeTasksNorm();
+        }
+        private DelegateCommand ButtonSearchClick;
+        public ICommand BSearchProject_Click
+        {
+            get
+            {
+                if (ButtonSearchClick == null)
+                {
+                    ButtonSearchClick = new DelegateCommand(param => this.SearchProject(), param => true);
+                }
+                return ButtonSearchClick;
+            }
+        }
+        List<List<KeyValuePair<int, string>>> CheckSearchProjNorm()
+        {
+            List<List<KeyValuePair<int, string>>> resList = new List<List<KeyValuePair<int, string>>>();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listCustomer)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listDuration)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListObjective)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listOperationSystem)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listSkill)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listStage)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listType)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+
+            return resList;
+        }
+        void SearchProject()
+        {
+            List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchProjNorm();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+
+            ListFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
+            tempList = F_Projects.GetAllProjectsNameFilter(SearchProjName ==null?string.Empty: SearchProjName,
+                tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
+                tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList(),
+                tempNorm[4].Select(n => n.Key).ToList(), tempNorm[5].Select(n => n.Key).ToList(), tempNorm[6].Select(n => n.Key).ToList());
+            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
+            foreach (var temp in tempList)
+            {
+                ListFindProjects.Add(temp);
+            }
+        }
+        private DelegateCommand ButtonSearchTaskClick;
+        public ICommand BSearchTasks_Click
+        {
+            get
+            {
+                if (ButtonSearchTaskClick == null)
+                {
+                    ButtonSearchTaskClick = new DelegateCommand(param => this.SearchTasks(), param => true);
+                }
+                return ButtonSearchTaskClick;
+            }
+        }
+        List<List<KeyValuePair<int, string>>> CheckSearchTasksNorm()
+        {
+            List<List<KeyValuePair<int, string>>> resList = new List<List<KeyValuePair<int, string>>>();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListAssignee)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListPriority)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListStatus)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListTypeTasks)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            return resList;
+        }
+        void SearchTasks()
+        {
+            List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchTasksNorm();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+            ListFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
+            tempList = F_Task.GetAllIssuesFilter(CurrentProject.Id, SearchTaskName == null ? string.Empty : SearchTaskName,
+                tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
+                tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList());
+            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
+            foreach (var temp in tempList)
+            {
+                ListFindTasks.Add(temp);
+            }
+        }
+        #endregion
+        #region roles
+        Visibility isAdmin;
+        Visibility isHR;
+        Visibility isTeamlead;
+        public Visibility IsAdmin
+        {
+            get
+            {
+                return isAdmin;
+            }
+
+            set
+            {
+                isAdmin = value;
+                OnPropertyChanged("IsAdmin");
+            }
+        }
+
+        public Visibility IsHR
+        {
+            get
+            {
+                return isHR;
+            }
+
+            set
+            {
+                isHR = value;
+                OnPropertyChanged("IsHR");
+            }
+        }
+
+        public Visibility IsTeamlead
+        {
+            get
+            {
+                return isTeamlead;
+            }
+
+            set
+            {
+                isTeamlead = value;
+                OnPropertyChanged("IsTeamlead");
+            }
+        }
+
+       
+        #endregion
         #region fields
         private string WsfConName;
         private List<treeElem> listTasks;
@@ -116,10 +649,6 @@ namespace TeamWork
         private TeamworkDB.Project currentProject;
         private ObservableCollection<treeElem> listAllProj;
         private ObservableCollection<treeElem> listAllTask;
-        private ObservableCollection<treeElem> listFindProjects;
-
-        private ObservableCollection<treeElem> listFindTasks;
-        private ObservableCollection<treeElem> listSubTask;
         private object selTreeElemTask;
         private string currentTask;
         private string сurTaskName;
@@ -143,7 +672,6 @@ namespace TeamWork
 
         public VM_TeamWork()
         {
-            string i = "Unfuck MS";
             WsfConName ="";
             SysPMList = new List<string>();
             uiContext = SynchronizationContext.Current;
@@ -184,11 +712,26 @@ namespace TeamWork
             site = new InstanceContext(this);
             selTreeElemPr = new object();
             listAllProj = new ObservableCollection<treeElem>();
-            listFindProjects = new ObservableCollection<treeElem>();
-            listFindTasks = new ObservableCollection<treeElem>();
-            listSubTask = new ObservableCollection<treeElem>();
+            listFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
+            listFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
+
+            listCustomer = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listDuration = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listLead = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listOperationSystem = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listSkill = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listStage = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listType = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listObjective = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listAssignee = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listPriority = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listStatus = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listTypeTasks = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+
+
             loadAllProjects();
             loadAllTasks();
+            LoadSearchNorms();
         }
         ~VM_TeamWork()
         { CloseProgram(); }
@@ -1436,6 +1979,40 @@ namespace TeamWork
                 SysPMList.Add(ex.Message);
             }
         }
+        public void uploadAllProjects()
+        {
+            try
+            {
+                if (currentEmployee == null)
+                    return;
+                ListProj[0].subEl = new ObservableCollection<TeamWork.treeElem>();
+                ListProj[1].subEl = new ObservableCollection<TeamWork.treeElem>();
+                ListProj[2].subEl = new ObservableCollection<TeamWork.treeElem>();
+                List<KeyValuePair<int, string>> tempPrj = F_Projects.GetAllProjectsNameWithId();
+                foreach (var temp in tempPrj)
+                {
+                    string imPath = F_Projects.GetProjectStage(temp.Value);
+                    ListProj[0].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                }
+                tempPrj = F_Projects.GetUserFavouriteProjectsNameWithId(currentEmployee.Id);
+                foreach (var temp in tempPrj)
+                {
+                    string imPath = F_Projects.GetProjectStage(temp.Value);
+                    ListProj[1].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                }
+                tempPrj = F_Projects.GetUserProjectsNameWithId(currentEmployee.Id);
+                foreach (var temp in tempPrj)
+                {
+                    string imPath = F_Projects.GetProjectStage(temp.Value);
+                    ListProj[2].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                }
+                ListProj = new List<treeElem>(ListProj);
+            }
+            catch (Exception ex)
+            {
+                SysPMList.Add(ex.Message);
+            }
+        }
         public void loadAllProjects()
         {
             try
@@ -1444,21 +2021,21 @@ namespace TeamWork
                     return;
 
                 ListProj.Clear();
-                ListProj.Add(new treeElem("All", new ObservableCollection<treeElem>(), true));
+                ListProj.Add(new treeElem("All", new ObservableCollection<treeElem>(), true,true));
                 List<KeyValuePair<int, string>> tempPrj = F_Projects.GetAllProjectsNameWithId();
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
                     ListProj[0].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
-                ListProj.Add(new treeElem("Favorite", new ObservableCollection<treeElem>(), true));
+                ListProj.Add(new treeElem("Favorite", new ObservableCollection<treeElem>(), true, true));
                 tempPrj = F_Projects.GetUserFavouriteProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
                     ListProj[1].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
-                ListProj.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true));
+                ListProj.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true, true));
                 tempPrj = F_Projects.GetUserProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
@@ -1481,8 +2058,60 @@ namespace TeamWork
             ListTaskType = F_Task.GetAllTaskTypes();
 
             ListTasks.Clear();
-            ListTasks.Add(new treeElem("All", new ObservableCollection<treeElem>(), true));
-            ListTasks.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true));
+            ListTasks.Add(new treeElem("All", new ObservableCollection<treeElem>(), true, true));
+            ListTasks.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true, true));
+            List<KeyValuePair<int, string>> tempTasks = F_Task.GetMainIssuesNameWithId(CurrentProject.Id);
+            var AllStatus = F_Task.GetAllStatuses();
+
+            if (tempTasks != null)
+            {
+                foreach (var tempst in AllStatus)
+                {
+                    treeElem tempTree = new treeElem("Status: " + tempst.Value, new ObservableCollection<treeElem>(), true);
+                    foreach (var temp in tempTasks)
+                    {
+
+                        string Status = F_Task.GetIssueStatus(CurrentProject.Id, temp.Key);
+
+                        if (tempst.Value == Status)
+                        {
+                            tempTree.subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                        }
+
+                    }
+                    ListTasks[0].subEl.Add(tempTree);
+                }
+            }
+
+            tempTasks = F_Task.GetUserMainIssuesNameWithId(CurrentProject.Id, CurrentEmployee.Id);
+            if (tempTasks == null)
+            {
+                foreach (var tempst in AllStatus)
+                {
+                    treeElem tempTree = new treeElem("Status: " + tempst.Value, new ObservableCollection<treeElem>(), true);
+                    foreach (var temp in tempTasks)
+                    {
+                        string Status = F_Task.GetIssueStatus(CurrentProject.Id, temp.Key);
+                        if (tempst.Value == Status)
+                        {
+                            tempTree.subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                        }
+                    }
+                    ListTasks[1].subEl.Add(tempTree);
+                }
+            }
+            ListTasks = new List<treeElem>(ListTasks);
+            IsNewTask = false;
+        }
+        public void uploadAllTasks()
+        {
+            if (currentEmployee == null || CurrentProject == null)
+                return;
+            ListTaskStatus = F_Task.GetAllStatuses();
+            ListTaskPriority = F_Task.GetAllPriorityes();
+            ListTaskType = F_Task.GetAllTaskTypes();
+            ListTasks[0].subEl=new ObservableCollection<TeamWork.treeElem> ();
+            ListTasks[1].subEl = new ObservableCollection<TeamWork.treeElem>();
             List<KeyValuePair<int, string>> tempTasks = F_Task.GetMainIssuesNameWithId(CurrentProject.Id);
             var AllStatus = F_Task.GetAllStatuses();
 
@@ -2007,8 +2636,8 @@ namespace TeamWork
                 }
                 
             }
-            
-            loadAllProjects();
+
+            uploadAllProjects();
 
         }
         private async void UpdateProgramSer()
@@ -2267,236 +2896,77 @@ namespace TeamWork
                     OnPropertyChanged("VDescription");
                 }
             }
-        private DelegateCommand ButtonBPrName;
-        public ICommand BPrName
-        {
-            get
-            {
-                if (ButtonBPrName == null)
-                {
-                    ButtonBPrName = new DelegateCommand(param => { }, param => IsProjectNameAvailable());
-                }
-                return ButtonBPrName;
-            }
-        }
+
         private bool IsProjectNameAvailable()
         {
             return (CurProjName == null || CurProjName.Length == 0);
         }
 
-        private DelegateCommand ButtonCustomer;
-        public ICommand BCustomerName
-        {
-            get
-            {
-                if (ButtonCustomer == null)
-                {
-                    ButtonCustomer = new DelegateCommand(param => { }, param => IsCustomerNameAvailable());
-                }
-                return ButtonCustomer;
-            }
-        }
         private bool IsCustomerNameAvailable()
         {
             return (CurProjCustomer.Value == null || CurProjCustomer.Value.Trim().Length == 0);
         }
 
-        private DelegateCommand ButtonStage;
-        public ICommand BStage
-        {
-            get
-            {
-                if (ButtonStage == null)
-                {
-                    ButtonStage = new DelegateCommand(param => { }, param => IsStageAvailable());
-                }
-                return ButtonStage;
-            }
-        }
         private bool IsStageAvailable()
         {
             return (CurProjStage.Value == null || CurProjStage.Value.Trim().Length == 0);
         }
 
-        private DelegateCommand ButtonDueDate;
-        public ICommand BDueDate
-        {
-            get
-            {
-                if (ButtonDueDate == null)
-                {
-                    ButtonDueDate = new DelegateCommand(param => { }, param => IsDueDateAvailable());
-                }
-                return ButtonDueDate;
-            }
-        }
+
         private bool IsDueDateAvailable()
         {
             return (CurProjDueDate == null || CurProjDueDate.ToString() == "");
         }
 
-        private DelegateCommand ButtonDuration;
-        public ICommand BDuration
-        {
-            get
-            {
-                if (ButtonDuration == null)
-                {
-                    ButtonDuration = new DelegateCommand(param => { }, param => IsDurationAvailable());
-                }
-                return ButtonDuration;
-            }
-        }
         private bool IsDurationAvailable()
         {
             return (CurProjDuration.Value == null || CurProjDuration.Value.Trim().Length==0);
         }
 
-        private DelegateCommand ButtonObjective;
-        public ICommand BObjective
-        {
-            get
-            {
-                if (ButtonObjective == null)
-                {
-                    ButtonObjective = new DelegateCommand(param => { }, param => IsObjectiveAvailable());
-                }
-                return ButtonObjective;
-            }
-        }
+
         private bool IsObjectiveAvailable()
         {
             return (CurProjObjective.Value == null || CurProjObjective.Value.Trim().Length==0);
         }
 
-        private DelegateCommand ButtonDescription;
-        public ICommand BDescription
-        {
-            get
-            {
-                if (ButtonDescription == null)
-                {
-                    ButtonDescription = new DelegateCommand(param => { }, param => IsDescriptionAvailable());
-                }
-                return ButtonDescription;
-            }
-        }
         private bool IsDescriptionAvailable()
         {
             return (CurProjDescription == null || CurProjDescription.Length == 0);
         }
 
-        private DelegateCommand ButtonTaskName;
-        public ICommand BTaskName
-        {
-            get
-            {
-                if (ButtonTaskName == null)
-                {
-                    ButtonTaskName = new DelegateCommand(param => { }, param => IsTaskNameAvailable());
-                }
-                return ButtonTaskName;
-            }
-        }
+
         private bool IsTaskNameAvailable()
         {
             return (CurTaskName == null || CurTaskName.Length == 0);
         }
 
-        private DelegateCommand ButtonDueDateTask;
-        public ICommand BDueDateTask
-        {
-            get
-            {
-                if (ButtonDueDateTask == null)
-                {
-                    ButtonDueDateTask = new DelegateCommand(param => { }, param => IsDueDateTaskAvailable());
-                }
-                return ButtonDueDateTask;
-            }
-        }
+
         private bool IsDueDateTaskAvailable()
         {
             return (CurTaskDueDate == null || CurTaskDueDate.ToString() == "");
         }
 
-        private DelegateCommand ButtonStatus;
-        public ICommand BStatus
-        {
-            get
-            {
-                if (ButtonStatus == null)
-                {
-                    ButtonStatus = new DelegateCommand(param => { }, param => IsStatusAvailable());
-                }
-                return ButtonStatus;
-            }
-        }
+
         private bool IsStatusAvailable()
         {
             return (CurTaskStatus.Value == null || CurTaskStatus.Value.Length == 0);
         }
-        private DelegateCommand ButtonTaskPriority;
-        public ICommand BTaskPriority
-        {
-            get
-            {
-                if (ButtonTaskPriority == null)
-                {
-                    ButtonTaskPriority = new DelegateCommand(param => { }, param => IsTaskPriorityAvailable());
-                }
-                return ButtonTaskPriority;
-            }
-        }
+
         private bool IsTaskPriorityAvailable()
         {
             return (CurTaskPriority.Value == null || CurTaskPriority.Value.Length == 0);
         }
-        private DelegateCommand ButtonTaskType;
-        public ICommand BTaskType
-        {
-            get
-            {
-                if (ButtonTaskType == null)
-                {
-                    ButtonTaskType = new DelegateCommand(param => { }, param => IsTaskTypeAvailable());
-                }
-                return ButtonTaskType;
-            }
-        }
+
         private bool IsTaskTypeAvailable()
         {
             return (CurTaskType.Value == null || CurTaskType.Value.Length == 0);
         }
-        private DelegateCommand ButtonTaskAssignees;
-                public ICommand BTaskAssignees
-        {
-            get
-            {
-                if (ButtonTaskAssignees == null)
-                {
-                    ButtonTaskAssignees = new DelegateCommand(param => { }, param => IsTaskAssigneesAvailable());
-                }
-                return ButtonTaskAssignees;
-            }
-        }
+
         private bool IsTaskAssigneesAvailable()
         {
             return (TaskAssignees == null || TaskAssignees.Count == 0);
         }
-        private DelegateCommand ButtonTaskDescription;
-        
-        public ICommand BTaskDescription
-        {
-            get
-            {
-                if (ButtonTaskDescription == null)
-                {
-                    ButtonTaskDescription = new DelegateCommand(param => { }, param => IsTaskDescriptionAvailable());
-                }
-                return ButtonTaskDescription;
-            }
-        }
+
         private bool IsTaskDescriptionAvailable()
         {
             return (CurTaskDescription == null || CurTaskDescription.Length == 0);
@@ -2534,7 +3004,7 @@ namespace TeamWork
                 {
                     messBoxOk("Project set favorite successful.", "Favorite project");
                     loadAllListPrInfo();
-                    loadAllProjects();
+                    uploadAllProjects();
 
                 }
                 else
@@ -3303,6 +3773,8 @@ namespace TeamWork
                 return ButtonDelTaskAssigneesClick;
             }
         }
+
+
 
         public void DelTaskAssignees()
         {

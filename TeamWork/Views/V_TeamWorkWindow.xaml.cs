@@ -39,16 +39,12 @@ namespace TeamWork
        
         public V_TeamWorkWindow()
         {
-            InitializeComponent();
-            //DispatcherTimer timer = new DispatcherTimer();
-            //timer.Tick += new EventHandler(timer_Tick);
-            //timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
-            //timer.Start();
-
-            
+            InitializeComponent();            
             ClientSettings Settings = new ClientSettings();
             Settings.DeserializeSetting();
             Settings.SetSetting(this);
+            GridR.Visibility = Visibility.Collapsed;
+            GridL.Visibility = Visibility.Collapsed;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -56,26 +52,20 @@ namespace TeamWork
             this.Close();
         }
 
-
-
-
-        //private void timer_Tick(object sender, EventArgs e)
-        //{
-        //    this.EditBox.UpdateDocumentBindings();
-        //}
-
-        //private void BSmile(object sender, RoutedEventArgs e)
-        //{
-        //    Button btn = sender as Button;
-        //    var img = btn.Background as ImageBrush;
-        //    string path = img.ImageSource.ToString().Remove(0,8).Replace("/","\\");
-        //    EditBox.setImage(path);
-        //}
-
-        //private void Send(object sender, RoutedEventArgs e)
-        //{
-        //    EditBox.ClearRTB();
-        //}
+        private void bR_Click(object sender, RoutedEventArgs e)
+        {
+            if (GridR.Visibility == Visibility.Visible)
+                GridR.Visibility = Visibility.Collapsed;
+            else
+                GridR.Visibility = Visibility.Visible;
+        }
+        private void bL_Click(object sender, RoutedEventArgs e)
+        {
+            if (GridL.Visibility == Visibility.Visible)
+                GridL.Visibility = Visibility.Collapsed;
+            else
+                GridL.Visibility = Visibility.Visible;
+        }
     }
    
     

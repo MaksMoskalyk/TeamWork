@@ -71,19 +71,149 @@
                     </TextBlock>
                 </Expander.Header>
                 <Grid>
-                    <ScrollViewer Margin="0" >
-                        <StackPanel>
-                            <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemPr, Mode=TwoWay}" BorderBrush="White" >
-                                <TreeView.Resources>
-                                    <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
-                                </TreeView.Resources>
-                            </local:ExtendedTreeView>
-                        </StackPanel>
-                    </ScrollViewer>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding SearchProjName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" x:Name="tBox" Height="26" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.442,0.538" Controls:TextBoxHelper.ClearTextButton="True" MinWidth="100"/>
+                        <Button x:Name="bS" Content="{iconPacks:PackIconFontAwesome Search}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="30" Height="30" Command="{Binding BSearchProject_Click}" ToolTip="Search project by name" Grid.Column="1" Padding="3" BorderBrush="{x:Null}" Background="{x:Null}"/>
+                        <Button x:Name="bSC" Content="{iconPacks:PackIconFontAwesome SearchPlus}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="30" Height="30" Click="bR_Click" ToolTip="Choice search norm" Grid.Column="2" BorderBrush="{x:Null}" Background="{x:Null}"/>
+                        <ScrollViewer Margin="0" Grid.Row="1" Grid.ColumnSpan="3">
+                            <StackPanel>
+                                <ListBox ItemsSource="{Binding ListFindProjects, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Label Content="{Binding Value}"></Label>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                
+                                <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemPr, Mode=TwoWay}" BorderBrush="White" >
+                                    <TreeView.Resources>
+                                        <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.Resources>
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="TreeViewItem">
+                                            <Setter Property="IsExpanded" Value="{Binding isExpanded, Mode=TwoWay}"/>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                </local:ExtendedTreeView>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="GridR" Grid.Column="1" Margin="1" >
+                        <ScrollViewer>
+                            <StackPanel Margin="0">
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Customer</Label>
+                                <ItemsControl ItemsSource="{Binding ListCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Duration</Label>
+                                <ItemsControl ItemsSource="{Binding ListDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Lead</Label>
+                                <ItemsControl ItemsSource="{Binding ListLead, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Operation system</Label>
+                                <ItemsControl ItemsSource="{Binding ListOperationSystem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Skills</Label>
+                                <ItemsControl ItemsSource="{Binding ListSkill, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Stage</Label>
+                                <ItemsControl ItemsSource="{Binding ListStage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Type</Label>
+                                <ItemsControl ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
             </Expander>
             <Expander DockPanel.Dock="Left" ExpandDirection="Right">
@@ -95,19 +225,110 @@
                     </TextBlock>
                 </Expander.Header>
                 <Grid>
-                    <ScrollViewer Margin="0">
-                        <StackPanel>
-                            <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemTask, Mode=TwoWay}" BorderBrush="White" >
-                                <TreeView.Resources>
-                                    <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
-                                </TreeView.Resources>
-                            </local:ExtendedTreeView>
-                        </StackPanel>
-                    </ScrollViewer>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding SearchTaskName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" x:Name="tBoxT" Height="26" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.442,0.538" Controls:TextBoxHelper.ClearTextButton="True" MinWidth="100"/>
+                        <Button x:Name="bST" Content="{iconPacks:PackIconFontAwesome Search}"  HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="30" Height="30" Command="{Binding BSearchTasks_Click}" ToolTip="Search tasks by name" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}"/>
+                        <Button x:Name="bSCT" Content="{iconPacks:PackIconFontAwesome SearchPlus}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="30" Height="30" Click="bL_Click" ToolTip="Choice search norm" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}"/>
+                        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3">
+                            <StackPanel>
+                                <ListBox ItemsSource="{Binding ListFindTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Label Content="{Binding Value}"></Label>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemTask, Mode=TwoWay}" BorderBrush="White" >
+                                    <TreeView.Resources>
+                                        <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Label>
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.Resources>
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="TreeViewItem">
+                                            <Setter Property="IsExpanded" Value="{Binding isExpanded, Mode=TwoWay}"/>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                </local:ExtendedTreeView>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="GridL" Grid.Column="1" Margin="1" >
+                        <ScrollViewer>
+                            <StackPanel Margin="0">
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Assignee</Label>
+                                <ItemsControl ItemsSource="{Binding ListAssignee, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Priority</Label>
+                                <ItemsControl ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Status</Label>
+                                <ItemsControl ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Type</Label>
+                                <ItemsControl ItemsSource="{Binding ListTypeTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding chClass.Value}" ClickMode="Release"></CheckBox>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
             </Expander>
             <Grid>
