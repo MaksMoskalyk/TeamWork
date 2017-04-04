@@ -26,12 +26,17 @@ using CustomMessageBox_OK;
 using CustomMessageBox_YesNo;
 
 namespace TeamWork
-{ 
-    public class VM_TeamWork: ViewModelBase, IServiceProgramMessengerCallback
+{
+    interface ISaveBeforClose
     {
+        void SaveBeforChange();
+    }
+    public class VM_TeamWork: ViewModelBase, IServiceProgramMessengerCallback, ISaveBeforClose
+    {
+
         #region fields
-        bool IsChangePr;
-        bool IsChangeTask;
+        private bool IsChangePr;
+        private bool IsChangeTask;
         private string szSearchProjName;
         private string szSearchTaskName;
         private ObservableCollection<KeyValuePair<int, string>> listFindProjects;
@@ -245,17 +250,17 @@ namespace TeamWork
             loadAllTasks();
             LoadSearchNorms();
         }
-        ~VM_TeamWork()
+        public void SaveBeforChange()
         {
             MessageBox_OK MB_OK = new MessageBox_OK();
-            MessageBox_YesNo MB_YesNo = new MessageBox_YesNo();         
+            MessageBox_YesNo MB_YesNo = new MessageBox_YesNo();
             if (IsNewProj)
             {
                 VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Save new project", "Do you want to save new project?");
                 MB_YesNo.DataContext = VM_YesNo;
                 if ((bool)MB_YesNo.ShowDialog())
                 {
-                    if(!IsEnabledSavePr)
+                    if (!IsEnabledSavePr)
                     {
                         VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in project");
                         MB_OK.DataContext = VM_OK;
@@ -268,7 +273,7 @@ namespace TeamWork
                     }
                 }
             }
-            if(IsChangePr)
+            if (IsChangePr)
             {
                 VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Change project", "Do you want to change project?");
                 MB_YesNo.DataContext = VM_YesNo;
@@ -287,7 +292,7 @@ namespace TeamWork
                     }
                 }
             }
-            if(IsNewTask)
+            if (IsNewTask)
             {
                 VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Save new task", "Do you want to save new task?");
                 MB_YesNo.DataContext = VM_YesNo;
@@ -306,26 +311,30 @@ namespace TeamWork
                     }
                 }
             }
-            if(IsChangeTask)
+            if (IsChangeTask)
             {
                 VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Change task", "Do you want to change task?");
                 MB_YesNo.DataContext = VM_YesNo;
                 if ((bool)MB_YesNo.ShowDialog())
                     if (messBoxYesNo("Do you want to change task?", "Change task"))
-                {
-                    if (!IsEnabledSaveTask)
                     {
-                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in task");
-                        MB_OK.DataContext = VM_OK;
-                        if ((bool)MB_OK.ShowDialog()) { }
-                        return;
+                        if (!IsEnabledSaveTask)
+                        {
+                            VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in task");
+                            MB_OK.DataContext = VM_OK;
+                            if ((bool)MB_OK.ShowDialog()) { }
+                            return;
+                        }
+                        else
+                        {
+                            SaveAllChTask();
+                        }
                     }
-                    else
-                    {
-                        SaveAllChTask();
-                    }
-                }
             }
+        }
+        ~VM_TeamWork()
+        {
+           
             CloseProgram();
         }
 

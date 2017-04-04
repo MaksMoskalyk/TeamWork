@@ -27,6 +27,7 @@ namespace TeamWork
 
             if ((bool)WinAuth.ShowDialog())
             {
+                WinTW.VMSave = TeamWork;
                 TeamWork.Login = Log.CurrentLogin;                
                 WinTW.ShowDialog();
             }

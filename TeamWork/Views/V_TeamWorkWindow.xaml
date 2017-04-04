@@ -16,7 +16,7 @@
         ShowCloseButton="True"
         GlowBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen"
-        Title="Team Work" Height="600" Width="900" Icon="/TeamWork;component/Status-mail-task-icon.png">
+        Title="Team Work" Height="600" Width="900" Icon="/TeamWork;component/Status-mail-task-icon.png" Closing="CheckClosing">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Click="ChangeAppStyleButtonClick" ToolTip="Change Style">

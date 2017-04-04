@@ -19,7 +19,21 @@ namespace TeamWork
     /// </summary>
     public partial class V_TeamWorkWindow : MetroWindow
     {
+        private ISaveBeforClose vMSave;
         private MetroWindow accentThemeWindow;
+
+        internal ISaveBeforClose VMSave
+        {
+            get
+            {
+                return vMSave;
+            }
+
+            set
+            {
+                vMSave = value;
+            }
+        }
 
         private void ChangeAppStyleButtonClick(object sender, RoutedEventArgs e)
         {
@@ -39,7 +53,7 @@ namespace TeamWork
        
         public V_TeamWorkWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
             ClientSettings Settings = new ClientSettings();
             Settings.DeserializeSetting();
             Settings.SetSetting(this);
@@ -66,7 +80,10 @@ namespace TeamWork
             else
                 GridL.Visibility = Visibility.Visible;
         }
-    }
-   
-    
+
+        private void CheckClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            VMSave.SaveBeforChange();
+        }
+    } 
 }
