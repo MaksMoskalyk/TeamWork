@@ -184,9 +184,11 @@ namespace StaffDatabaseUnit
                     string message = "Do you want to save changes?";
                     if (messageBox.GetActionConfirmation(message, currentWindow.Caption))
                     {
-                        database.ReconnectEmployeeWithProjects(employeeData.Employee, employeeData.Employee);
+                        database.ReconnectEmployeeWithProjects(currentEmployee, employeeData);
                         currentWindow.CloseView();
-                    }                    
+                    }
+                    else
+                        return;             
                 }
                 else
                     result = "You have to fill name, surname and add at least one phone number and e-mail!";

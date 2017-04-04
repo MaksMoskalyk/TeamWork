@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamworkDB;
 using VM_Base;
 
 namespace StaffDatabaseUnit
@@ -13,6 +14,7 @@ namespace StaffDatabaseUnit
     {
         public event NewEmployeeAddition employeeAdditionEvent;
         protected EmployeeData employeeData;
+        protected Employee currentEmployee;
         protected IDatabaseInputEmployeeData database;
         protected AbstractViewFactory viewFactory;
         protected IView currentWindow;
@@ -35,6 +37,7 @@ namespace StaffDatabaseUnit
         public InputEmployeeDataGlueCode()
         {
             employeeData = new EmployeeData();
+            currentEmployee = new Employee();
             database = new DatabaseInputEmployeeDataEntity();
 
             messageBox = new CustomMessageBox();
@@ -59,6 +62,12 @@ namespace StaffDatabaseUnit
                 employeeData = value;
                 OnPropertyChanged("EmployeeData");
             }
+        }
+
+        public Employee CurrentEmployee
+        {
+            get { return currentEmployee; }
+            set { currentEmployee = value; }
         }
 
         public string PhoneInputError

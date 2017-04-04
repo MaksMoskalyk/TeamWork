@@ -109,6 +109,7 @@
     <Compile Include="Model\ShowEmployeeDataModel\SpecificEmployee.cs" />
     <Compile Include="ViewModels\Authentication\DatabaseAuthenticationEntity.cs" />
     <Compile Include="ViewModels\Authentication\IDatabaseAuthentication.cs" />
+    <Compile Include="ViewModels\ChangeAccountInfoVM\PasswordBoxAssistant.cs" />
     <Compile Include="ViewModels\InputEmployeeDataVM\DatabaseInteraction\DatabaseInputEmployeeDataEntity.cs" />
     <Compile Include="ViewModels\InputEmployeeDataVM\DatabaseInteraction\IDatabaseInputEmployeeData.cs" />
     <Compile Include="ViewModels\Base\PhotoConverter\PhotoDatabaseConvertor.cs" />
@@ -122,6 +123,9 @@
     <Compile Include="Model\InputEmployeeDataModel\SkillTableUnit.cs" />
     <Compile Include="ViewModels\ShowEmployeeDataVM\DatabaseInteraction\DatabaseShowEmployeeDataEntity.cs" />
     <Compile Include="ViewModels\ShowEmployeeDataVM\DatabaseInteraction\IDatabaseShowEmployeeData.cs" />
+    <Compile Include="Views\ChangeAccountInfoView.xaml.cs">
+      <DependentUpon>ChangeAccountInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditEmployeeDataView.xaml.cs">
       <DependentUpon>EditEmployeeDataView.xaml</DependentUpon>
     </Compile>
@@ -188,6 +192,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ChangeAccountInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EditEmployeeDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

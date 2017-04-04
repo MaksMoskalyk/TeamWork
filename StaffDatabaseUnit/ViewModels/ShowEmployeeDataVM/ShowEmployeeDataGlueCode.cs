@@ -56,7 +56,7 @@ namespace StaffDatabaseUnit
         {
             Employees = new ObservableCollection<SpecificEmployee>();
             database.LoadEmployeesData(employees);
-            currentEmployee = employees[0];
+            CurrentEmployee = employees[0];
         }
 
         #region Properties

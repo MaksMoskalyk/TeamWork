@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows;
 using System.Collections.ObjectModel;
 using DelegateCommandNS;
+using TeamworkDB;
+
 namespace StaffDatabaseUnit
 {
     public class ShowEmployeeDataViewModel : ShowEmployeeDataGlueCode
@@ -92,6 +94,10 @@ namespace StaffDatabaseUnit
                 InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();
                 inputEmployeeDataViewModel.LoadData();
                 inputEmployeeDataViewModel.EmployeeData.Employee = currentEmployee.Employee;
+                inputEmployeeDataViewModel.CurrentEmployee =
+                    new Employee() { Name = currentEmployee.Employee.Name,
+                    Surname = currentEmployee.Employee.Surname,
+                    DateOfBirth = currentEmployee.Employee.DateOfBirth};
                 inputEmployeeDataViewModel.employeeAdditionEvent += new NewEmployeeAddition(UpdateView);
 
                 editEmployeeView.Data = inputEmployeeDataViewModel;
@@ -170,7 +176,8 @@ namespace StaffDatabaseUnit
             {
                 Employees = new ObservableCollection<SpecificEmployee>();
                 database.LoadEmployeesData(Employees);
-                CurrentEmployee = employees[0];
+                if(employees.Count > 0 && employees != null)
+                    CurrentEmployee = employees[0];
             }
             catch (Exception error)
             {

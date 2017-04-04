@@ -16,7 +16,8 @@ namespace StaffDatabaseUnit
         bool IsUserExist(EmployeeData employeeData);
         string EditEmployee(EmployeeData employee);
         void DeleteEmployee(Employee selectedEmployee);
-        void ReconnectEmployeeWithProjects(Employee selectedEmployee, Employee updatedEmployee);
+        void ReconnectEmployeeWithProjects(Employee selectedEmployee, 
+            EmployeeData updatedEmployee);
 
         // Supplementary methods.
         void PositionsQuery(EmployeeData employee);

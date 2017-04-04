@@ -14,12 +14,13 @@ using System.Windows.Shapes;
 using AccentStyle;
 using MahApps.Metro.Controls;
 
+
 namespace StaffDatabaseUnit
 {
     /// <summary>
-    /// Interaction logic for DatabaseAdministrationView.xaml
+    /// Interaction logic for ChangeAccountInfoView.xaml
     /// </summary>
-    public partial class DatabaseAdministrationView : MetroWindow, IView
+    public partial class ChangeAccountInfoView : MetroWindow, IView
     {
         private MetroWindow accentThemeWindow;
 
@@ -38,7 +39,7 @@ namespace StaffDatabaseUnit
             accentThemeWindow.Show();
         }
 
-        public DatabaseAdministrationView()
+        public ChangeAccountInfoView()
         {
             InitializeComponent();
             ClientSettings Settings = new ClientSettings();
@@ -57,7 +58,7 @@ namespace StaffDatabaseUnit
         }
 
         public object Data
-        {            
+        {
             get { return this.DataContext; }
             set { this.DataContext = value; }
         }

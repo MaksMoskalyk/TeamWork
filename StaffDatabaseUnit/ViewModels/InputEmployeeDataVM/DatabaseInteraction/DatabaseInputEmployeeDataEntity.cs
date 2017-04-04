@@ -7,6 +7,7 @@ using TeamworkDB;
 using TeamworkDBEntity;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Data.Entity;
 
 namespace StaffDatabaseUnit
 {
@@ -743,36 +744,55 @@ namespace StaffDatabaseUnit
             }
         }
 
-        public void ReconnectEmployeeWithProjects(Employee selectedEmployee, Employee updatedEmployee)
+        public void ReconnectEmployeeWithProjects(Employee currentEmployee, EmployeeData updatedEmployee)
         {
             using (var database = new TeamworkDBContext())
             {
-                List<int> projectsId = GetAssociatedProjects(selectedEmployee);
-                List<int> issuesId = GetAssociatedIssues(selectedEmployee);
-
-                database.Employees.Remove(selectedEmployee);
-                database.SaveChanges();
-
-                database.Employees.Add(updatedEmployee);
-                database.SaveChanges();
+                List<int> projectsId = GetAssociatedProjects(currentEmployee);
+                List<int> issuesId = GetAssociatedIssues(currentEmployee);
 
                 var employeeQuery = (from Employees in database.Employees
-                                    where Employees.Name == updatedEmployee.Name
-                                    where Employees.Surname == updatedEmployee.Surname
-                                    where Employees.DateOfBirth == updatedEmployee.DateOfBirth
-                                    select Employees).SingleOrDefault();
+                                     where Employees.Name == currentEmployee.Name
+                                     where Employees.Surname == currentEmployee.Surname
+                                     where Employees.DateOfBirth == currentEmployee.DateOfBirth
+                                     select Employees).SingleOrDefault();
 
-                foreach(var projectId in projectsId)
-                {
-                    EmployeeAndProject entry = new EmployeeAndProject(employeeQuery.Id, projectId);
-                    database.EmployeesAndProjects.Add(entry);
-                }
-
-                foreach (var issueId in issuesId)
-                {
-                    employeeQuery.Issues.Add(database.Issues.Find(issueId));
-                }
+                database.Employees.Attach(employeeQuery);
+                database.Employees.Remove(employeeQuery);
                 database.SaveChanges();
+
+                //AddEmployee(updatedEmployee);
+
+                EmployeeData temp = new EmployeeData();
+                temp.Employee.Name = updatedEmployee.Employee.Name;
+                temp.Employee.Surname = updatedEmployee.Employee.Surname;
+                temp.Employee.DateOfBirth = updatedEmployee.Employee.DateOfBirth;
+                temp.SelectedCity = updatedEmployee.SelectedCity;
+                temp.SelectedCountry = updatedEmployee.SelectedCountry;
+                temp.Employee.Citizenship_Id = updatedEmployee.SelectedCitizenship.Id;
+                if(updatedEmployee.SelectedGender == "Male")
+                    temp.Employee.Gender = "M";
+                else
+                    temp.Employee.Gender = "F";
+                temp.Employee.Position_Id = updatedEmployee.SelectedPosition.Id;
+                temp.Employee.Photo = updatedEmployee.Employee.Photo;
+                temp.Employee.ProfessionalDescription = updatedEmployee.Employee.ProfessionalDescription;
+                temp.Employee.GeneralDescription = updatedEmployee.Employee.GeneralDescription;
+
+                database.Employees.Add(temp.Employee);
+                database.SaveChanges();
+
+                //foreach (var projectId in projectsId)
+                //{
+                //    EmployeeAndProject entry = new EmployeeAndProject(employeeQuery.Id, projectId);
+                //    database.EmployeesAndProjects.Add(entry);
+                //}
+
+                //foreach (var issueId in issuesId)
+                //{
+                //    employeeQuery.Issues.Add(database.Issues.Find(issueId));
+                //}
+                //database.SaveChanges();
             }
         }
         #endregion

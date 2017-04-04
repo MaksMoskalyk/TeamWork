@@ -52,6 +52,11 @@ namespace TeamworkDB
             get { return dateOfBirth; }
             set { dateOfBirth = value; }
         }
+		
+		public string DateOfBirthText
+        {
+            get { return dateOfBirth.ToString("MM:dd:yyyy"); }
+        }
 
         public int? Citizenship_Id
         {
