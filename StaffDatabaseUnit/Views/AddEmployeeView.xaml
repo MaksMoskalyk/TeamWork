@@ -106,7 +106,7 @@
                             <Label Content="{Binding PhoneInputError}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Foreground="Red"
                                    Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
                             
-                            <DataGrid x:Name="lb_PhonesList" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
+                            <DataGrid  x:Name="lb_PhonesList" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
                                  ItemsSource="{Binding EmployeeData.Phones, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
                                  DisplayMemberPath=""
@@ -178,7 +178,7 @@
                                 <Button Content="Cancel" Margin="0,0,0,5" FontSize="14" Width="120"
                                         Command="{Binding ButtonEditMailCancelChanges}"/>
                                 <Button Content="Delete" Margin="0,0,0,0" FontSize="14" Width="120"
-                                        Command="{Binding ButtonDeleteMail}" Background="#FFF7F7F7"/>
+                                        Command="{Binding ButtonDeleteMail}"/>
                             </StackPanel>
                         </Grid>
 

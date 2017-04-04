@@ -254,7 +254,7 @@ namespace TeamWork
         }
         public bool SaveBeforChange()
         {
-            bool result = false;
+            bool result = true;
             MessageBox_OK MB_OK = new MessageBox_OK();
             MessageBox_YesNo MB_YesNo = new MessageBox_YesNo();
             if (IsNewProj)
