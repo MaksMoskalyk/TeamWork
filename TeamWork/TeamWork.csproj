@@ -204,7 +204,7 @@
       <Name>CustomMessageBox_OK</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomMessageBox_YesNo\CustomMessageBox_YesNo.csproj">
-      <Project>{81698661-3199-4F8C-A27D-F40B22FC25E1}</Project>
+      <Project>{81698661-3199-4f8c-a27d-f40b22fc25e1}</Project>
       <Name>CustomMessageBox_YesNo</Name>
     </ProjectReference>
     <ProjectReference Include="..\DelegateCommand\DelegateCommand.csproj">

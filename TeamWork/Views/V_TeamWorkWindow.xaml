@@ -788,7 +788,7 @@
                                             <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelTaskAssignees_Click}" Grid.Column="2" Grid.Row="5"/>
                                         </Grid>
                                         <Button  Visibility="{Binding VTaskAssignees}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
-                                        <ListBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding TaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurTaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="6" Grid.ColumnSpan="3">
+                                        <ListBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding TaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurTaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalContentAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapPanel/>

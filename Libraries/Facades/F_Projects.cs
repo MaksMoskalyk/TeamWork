@@ -11,7 +11,6 @@ namespace Facade
 {
     public static class F_Projects
     {
-        //может принять List<int> с count = 0 и должно проверить(если это необходимо)
         public static List<KeyValuePair<int, string>> GetAllProjectsNameFilter(string name, List<int> customers, List<int> durations,
                                                                         List<int> objectives, List<int> OSs, List<int> skills,
                                                                         List<int> stages, List<int> types)

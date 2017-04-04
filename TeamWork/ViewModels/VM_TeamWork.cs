@@ -30,6 +30,8 @@ namespace TeamWork
     public class VM_TeamWork: ViewModelBase, IServiceProgramMessengerCallback
     {
         #region fields
+        bool IsChangePr;
+        bool IsChangeTask;
         private string szSearchProjName;
         private string szSearchTaskName;
         private ObservableCollection<KeyValuePair<int, string>> listFindProjects;
@@ -214,6 +216,8 @@ namespace TeamWork
             IsTeamlead = false;
             IsUserTask = false;
             IsUserPrjct = false;
+            IsChangePr = false;
+            IsChangeTask = false;
             database = new DatabaseAuthenticationEntity();
             DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>();
             ListProj = new List<treeElem>();
@@ -242,7 +246,88 @@ namespace TeamWork
             LoadSearchNorms();
         }
         ~VM_TeamWork()
-        { CloseProgram(); }
+        {
+            MessageBox_OK MB_OK = new MessageBox_OK();
+            MessageBox_YesNo MB_YesNo = new MessageBox_YesNo();         
+            if (IsNewProj)
+            {
+                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Save new project", "Do you want to save new project?");
+                MB_YesNo.DataContext = VM_YesNo;
+                if ((bool)MB_YesNo.ShowDialog())
+                {
+                    if(!IsEnabledSavePr)
+                    {
+                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in project");
+                        MB_OK.DataContext = VM_OK;
+                        if ((bool)MB_OK.ShowDialog()) { }
+                        return;
+                    }
+                    else
+                    {
+                        SaveAllChProj();
+                    }
+                }
+            }
+            if(IsChangePr)
+            {
+                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Change project", "Do you want to change project?");
+                MB_YesNo.DataContext = VM_YesNo;
+                if ((bool)MB_YesNo.ShowDialog())
+                {
+                    if (!IsEnabledSavePr)
+                    {
+                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in project");
+                        MB_OK.DataContext = VM_OK;
+                        if ((bool)MB_OK.ShowDialog()) { }
+                        return;
+                    }
+                    else
+                    {
+                        SaveAllChProj();
+                    }
+                }
+            }
+            if(IsNewTask)
+            {
+                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Save new task", "Do you want to save new task?");
+                MB_YesNo.DataContext = VM_YesNo;
+                if ((bool)MB_YesNo.ShowDialog())
+                {
+                    if (!IsEnabledSaveTask)
+                    {
+                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in task");
+                        MB_OK.DataContext = VM_OK;
+                        if ((bool)MB_OK.ShowDialog()) { }
+                        return;
+                    }
+                    else
+                    {
+                        SaveAllChTask();
+                    }
+                }
+            }
+            if(IsChangeTask)
+            {
+                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Change task", "Do you want to change task?");
+                MB_YesNo.DataContext = VM_YesNo;
+                if ((bool)MB_YesNo.ShowDialog())
+                    if (messBoxYesNo("Do you want to change task?", "Change task"))
+                {
+                    if (!IsEnabledSaveTask)
+                    {
+                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in task");
+                        MB_OK.DataContext = VM_OK;
+                        if ((bool)MB_OK.ShowDialog()) { }
+                        return;
+                    }
+                    else
+                    {
+                        SaveAllChTask();
+                    }
+                }
+            }
+            CloseProgram();
+        }
 
         #region properties
         public ObservableCollection<KeyValuePair<int, string>> ListFindProjects
@@ -740,10 +825,15 @@ namespace TeamWork
             }
             set
             {
+                if(IsSelectedTask||IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 cbSelTaskAssignees = value;
                 OnPropertyChanged("CBSelTaskAssignees");
             }
         }
+
         public List<checkEl<KeyValuePair<int, string>>> TaskAssignees
         {
             get
@@ -758,6 +848,10 @@ namespace TeamWork
             set
             {
                 taskAssignees = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 if (taskAssignees!= null &&taskAssignees.Count > 0)
                     VTaskAssignees = Visibility.Collapsed;
                 else
@@ -1138,6 +1232,10 @@ namespace TeamWork
             set
             {
                 listEmpl = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 OnPropertyChanged("ListEmpl");
             }
         }
@@ -1246,7 +1344,11 @@ namespace TeamWork
             set
             {
                 currentProjName = value;
-                if(currentProjName.Length > 0)
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
+                if (currentProjName.Length > 0)
                     VPrName = Visibility.Collapsed;
                 else
                     VPrName = Visibility.Visible;
@@ -1264,7 +1366,11 @@ namespace TeamWork
             set
             {
                 currentProjDueDate = value;
-                if(currentProjDueDate> CurProjCreationDate)
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
+                if (currentProjDueDate> CurProjCreationDate)
                     VDueDate = Visibility.Collapsed;
                 else
                     VDueDate = Visibility.Visible;
@@ -1303,6 +1409,10 @@ namespace TeamWork
             set
             {
                 currentProjDesc = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 if (currentProjDesc.Length > 0)
                     VDescription = Visibility.Collapsed;
                 else
@@ -1325,6 +1435,10 @@ namespace TeamWork
             set
             {
                 currentProjDuration = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 if (currentProjDuration.Value!=null)
                     VDuration = Visibility.Collapsed;
                 else
@@ -1348,6 +1462,10 @@ namespace TeamWork
             set
             {
                 currentProjCustomer = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 if (currentProjCustomer.Value !=null)
                     VCustomerName = Visibility.Collapsed;
                 else
@@ -1369,6 +1487,10 @@ namespace TeamWork
             set
             {
                 currentProjLead = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 OnPropertyChanged("CurProjLead");
             }
         }
@@ -1410,6 +1532,10 @@ namespace TeamWork
             set
             {
                 currentProjObjective = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 if (currentProjObjective.Value !=null)
                     VObjective = Visibility.Collapsed;
                 else
@@ -1432,6 +1558,10 @@ namespace TeamWork
             set
             {
                 curProjFiles = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 OnPropertyChanged("CurProjFiles");
             }
         }
@@ -1450,6 +1580,10 @@ namespace TeamWork
             set
             {
                 currentProjSkills = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 OnPropertyChanged("CurProjSkills");
             }
         }
@@ -1467,6 +1601,10 @@ namespace TeamWork
             set
             {
                 currentProjTypes = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 OnPropertyChanged("CurProjTypes");
             }
         }
@@ -1484,6 +1622,10 @@ namespace TeamWork
             set
             {
                 currentProjOS = value;
+                if (IsSelectedPrjct || IsNewProj)
+                {
+                    IsChangePr = true;
+                }
                 OnPropertyChanged("CurProjOS");
             }
         }
@@ -1519,6 +1661,10 @@ namespace TeamWork
             set
             {
                 сurTaskName = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 if (сurTaskName.Length > 0)
                     VTaskName = Visibility.Collapsed;
                 else
@@ -1619,6 +1765,10 @@ namespace TeamWork
             set
             {
                 curTaskDueDate = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 if (curTaskDueDate > CurTaskCreationDate)
                     VDueDateTask = Visibility.Collapsed;
                 else
@@ -1658,6 +1808,10 @@ namespace TeamWork
             set
             {
                 curTaskStatus = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 if (curTaskStatus.Value!=null)
                     VStatus = Visibility.Collapsed;
                 else
@@ -1679,6 +1833,10 @@ namespace TeamWork
             set
             {
                 curTaskPriority = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 if (curTaskPriority.Value != null)
                     VTaskPriority = Visibility.Collapsed;
                 else
@@ -1701,6 +1859,10 @@ namespace TeamWork
             set
             {
                 curTaskType = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 if (curTaskType.Value != null)
                     VTaskType = Visibility.Collapsed;
                 else
@@ -1739,6 +1901,10 @@ namespace TeamWork
             set
             {
                 curTaskDescription = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 if (curTaskDescription.Length>0)
                     VTaskDescription = Visibility.Collapsed;
                 else
@@ -1751,7 +1917,7 @@ namespace TeamWork
         {
             get
             {
-                return !isNewProj;
+                return isNewProj;
             }
             set
             {
@@ -1764,7 +1930,7 @@ namespace TeamWork
         {
             get
             {
-                return !isNewTask;
+                return isNewTask;
             }
             set
             {
@@ -1787,6 +1953,10 @@ namespace TeamWork
             set
             {
                 taskFiles = value;
+                if (IsSelectedTask || IsNewTask)
+                {
+                    IsChangeTask = true;
+                }
                 OnPropertyChanged("TaskFiles");
             }
         }
@@ -1979,6 +2149,67 @@ namespace TeamWork
         {
             try
             {
+                if(IsNewProj)
+            {
+                if (messBoxYesNo("Do you want to save new project?", "Save new project"))
+                {
+                    if(!IsEnabledSavePr)
+                    { 
+                        messBoxOk("You need to fill in all fields in project", "Can't save");
+                        return;
+
+                    }
+                    else
+                    {
+                        SaveAllChProj();
+                    }
+                }
+            }
+            if(IsChangePr)
+            {
+                if (messBoxYesNo("Do you want to change project?", "Change project"))
+                {
+                    if (!IsEnabledSavePr)
+                    {
+                        messBoxOk("You need to fill in all fields in project", "Can't save");
+                        return;
+                    }
+                    else
+                    {
+                        SaveAllChProj();
+                    }
+                }
+            }
+                if (IsNewTask)
+                {
+                    if (messBoxYesNo("Do you want to save new task?", "Save new task"))
+                    {
+                        if (!IsEnabledSaveTask)
+                        {
+                            messBoxOk("You need to fill in all fields in task", "Can't save");
+                            return;
+                        }
+                        else
+                        {
+                            SaveAllChTask();
+                        }
+                    }
+                }
+                if (IsChangeTask)
+                {
+                    if (messBoxYesNo("Do you want to change task?", "Change task"))
+                    {
+                        if (!IsEnabledSaveTask)
+                        {
+                            messBoxOk("You need to fill in all fields in task", "Can't save");
+                            return;
+                        }
+                        else
+                        {
+                            SaveAllChTask();
+                        }
+                    }
+                }
                 treeElem tempPr = selTreeElemPr as treeElem;
                 if (tempPr == null || tempPr.isCatagory)
                     return;
@@ -2034,6 +2265,9 @@ namespace TeamWork
                 }
                 DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>(DevelopTeam);
                 CurProjLead = F_Staff.GetProjectLead(currentProject.Id);
+                IsNewProj = false;
+                IsChangePr = false;
+                IsSelectedPrjct = true;
             }
             catch (Exception ex)
             {
@@ -2044,6 +2278,36 @@ namespace TeamWork
         {
             try
             {
+                if (IsNewTask)
+                {
+                    if (messBoxYesNo("Do you want to save new task?", "Save new task"))
+                    {
+                        if (!IsEnabledSaveTask)
+                        {
+                            messBoxOk("You need to fill in all fields in task", "Can't save");
+                            return;
+                        }
+                        else
+                        {
+                            SaveAllChTask();
+                        }
+                    }
+                }
+                if (IsChangeTask)
+                {
+                    if (messBoxYesNo("Do you want to change task?", "Change task"))
+                    {
+                        if (!IsEnabledSaveTask)
+                        {
+                            messBoxOk("You need to fill in all fields in task", "Can't save");
+                            return;
+                        }
+                        else
+                        {
+                            SaveAllChTask();
+                        }
+                    }
+                }
                 treeElem tempPr = selTreeElemPr as treeElem;
                 if (tempPr == null || tempPr.isCatagory)
                     return;
@@ -2066,7 +2330,6 @@ namespace TeamWork
                 foreach (var temp in tempClass)
                     TaskAssignees.Add(new checkEl<KeyValuePair<int, string>>(temp));
                 TaskAssignees = new List<checkEl<KeyValuePair<int, string>>>(TaskAssignees);
-                
                 TaskFiles = new List<checkEl<TaskFile>>();
                 List<TeamworkDB.TaskFile> tempFiels = F_Task.GetIssueFiles(tempPr.id, tempTs.id);
                 foreach (var temp in tempFiels)
@@ -2074,7 +2337,7 @@ namespace TeamWork
                 TaskFiles = new List<checkEl<TaskFile>>(TaskFiles);
                 ListComments = F_Task.GetAllCommentsObjects(tempPr.id, tempTs.id);
 
-                IsNewTask = false;
+                
                 var checkIsUserTask = TaskAssignees.Where(u => u.chClass.Key == CurrentEmployee.Id).ToList().Count > 0;
                 if (checkIsUserTask)
                 {
@@ -2084,6 +2347,8 @@ namespace TeamWork
                 {
                     IsUserTask = false;
                 }
+                IsNewTask = false;
+                IsChangeTask = false;
             }
             catch (Exception ex)
             {
@@ -2908,9 +3173,11 @@ namespace TeamWork
                 return ButtonSaveProjClick;
             }
         }
+
         bool IsEnblSavePr()
         {
-            return (!IsProjectNameAvailable() &&!IsCustomerNameAvailable() &&!IsStageAvailable()
+
+            return ((IsChangePr || IsNewProj) && !IsProjectNameAvailable() &&!IsCustomerNameAvailable() &&!IsStageAvailable()
                 && !IsDueDateAvailable() && !IsDurationAvailable() && !IsObjectiveAvailable() && !IsDescriptionAvailable());
         }
         void SaveAllChProj()
@@ -2924,12 +3191,12 @@ namespace TeamWork
                     if (mess == null)
                     {
                         messBoxOk("Project saved successful.", "Save project");
-                        IsNewProj = false;
+                        
                     }
                     else
                         messBoxOk(mess, "Save project");
                 }
-              }
+            }
             else
             {
                if (messBoxYesNo("Do you want to edit this project?", "Edit project"))
@@ -2947,13 +3214,12 @@ namespace TeamWork
                     EditPrTypes();
                     EditPrEmployees();
                     messBoxOk("Project edit successful.", "Edit project");
-
                 }
-                
             }
-
+            
             uploadAllProjects();
-
+            IsNewProj = false;
+            IsChangePr = false;
         }
         private async void UpdateProgramSer()
         {
@@ -3007,7 +3273,7 @@ namespace TeamWork
         }
         bool isEnblSaveTask()
         {
-            return (IsSelTask() && !IsTaskNameAvailable() && !IsDueDateTaskAvailable() && 
+            return ((IsChangeTask||IsNewTask)&& IsSelTask() && !IsTaskNameAvailable() && !IsDueDateTaskAvailable() && 
                 !IsStatusAvailable() &&!IsTaskPriorityAvailable() && 
                 !IsTaskTypeAvailable() && !IsTaskAssigneesAvailable() && !IsTaskDescriptionAvailable());
 
@@ -3053,8 +3319,10 @@ namespace TeamWork
                     messBoxOk("Task edit successful.", "Edit task");
                 }
             }
-            loadAllTasks();
 
+            uploadAllTasks();
+            IsNewTask = false;
+            IsChangeTask = false;
         }
         
 
@@ -3359,7 +3627,6 @@ namespace TeamWork
             IsEnabledSavePr = true;
             loadAllListPrInfo();
             IsEnableEditPr = true;
-            isNewPrjct = true;
         }
         
         private DelegateCommand ButtonDelProjClick;
@@ -3381,6 +3648,22 @@ namespace TeamWork
             {
                 messBoxOk("Not selected project", "Project");
                 return;
+            }
+            if (IsNewProj)
+            {
+                if (messBoxYesNo("Do you want to save new project?", "Save new project"))
+                {
+                    if (!IsEnabledSavePr)
+                    {
+                        messBoxOk("You need to fill in all fields in project", "Can't save");
+                        return;
+
+                    }
+                    else
+                    {
+                        SaveAllChProj();
+                    }
+                }
             }
             if (messBoxYesNo("Do you want to delete this project?", "Delete project"))
             {
@@ -3469,6 +3752,21 @@ namespace TeamWork
                     messBoxOk("Not selected task", "Delete task");
                         return;
                     }
+            if (IsNewTask)
+            {
+                if (messBoxYesNo("Do you want to save new task?", "Save new task"))
+                {
+                    if (!IsEnabledSaveTask)
+                    {
+                        messBoxOk("You need to fill in all fields in task", "Can't save");
+                        return;
+                    }
+                    else
+                    {
+                        SaveAllChTask();
+                    }
+                }
+            }
             if (messBoxYesNo("Do you want to delete this task?", "Delete task"))
             {
                 

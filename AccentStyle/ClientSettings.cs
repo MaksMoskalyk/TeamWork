@@ -25,8 +25,6 @@ namespace AccentStyle
         public Color color { set; get; }
         public ClientSettings()
         {
-            //appTheme = "BaseLight";
-            //accent = "Green";
         }
         public ClientSettings(ClientSettings Settings)
         {
@@ -59,9 +57,6 @@ namespace AccentStyle
             ClientSettings Settings = new ClientSettings(appTheme, accent, color);
             serializer.Serialize(stream, Settings);
             stream.Close();
-
-            
-
         }
         public void DeserializeSetting()
         {

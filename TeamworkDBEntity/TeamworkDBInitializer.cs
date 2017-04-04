@@ -50,7 +50,6 @@ namespace TeamworkDBEntity
             context.Positions.Add(new Position("Team leader"));
             context.Positions.Add(new Position("HR"));
             context.Positions.Add(new Position("Admin TW"));
-
             context.SaveChanges();
         }
 
