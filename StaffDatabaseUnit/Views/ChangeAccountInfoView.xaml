@@ -1,0 +1,49 @@
+﻿<Controls:MetroWindow x:Class="StaffDatabaseUnit.ChangeAccountInfoView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:StaffDatabaseUnit"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="Change account info" SizeToContent="WidthAndHeight" MinHeight="280" MinWidth="400" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+                      BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
+
+    <Grid x:Name="g_MainGrid" Margin="0" FocusManager.FocusedElement="{Binding ElementName=tb_Login}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Content="Account" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="16"/>
+        <Label Content="Login" Grid.Row="1" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+        <TextBox x:Name="tb_Login" HorizontalAlignment="Stretch" Margin="10,5,10,5" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Stretch" FontSize="16"
+                 Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" TabIndex="0" />
+        <Label Content="Password" Grid.Row="3" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+        <PasswordBox x:Name="tb_Password" HorizontalAlignment="Stretch" Margin="10,5,10,5" Grid.Row="4" VerticalAlignment="Stretch" FontSize="16"
+                   local:PasswordBoxAssistant.BindPassword="true" TabIndex="1"
+                   local:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
+
+        <Label Content="New login" Grid.Row="5" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+        <TextBox x:Name="tb_NewLogin" HorizontalAlignment="Stretch" Margin="10,5,10,5" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Stretch" FontSize="16"
+                 Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" TabIndex="0" />
+        <Label Content="New password" Grid.Row="7" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Stretch" FontSize="14"/>
+        <PasswordBox x:Name="tb_NewPassword" HorizontalAlignment="Stretch" Margin="10,5,10,5" Grid.Row="8" VerticalAlignment="Stretch" FontSize="16"
+                   local:PasswordBoxAssistant.BindPassword="true" TabIndex="1"
+                   local:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Grid.Row="9" VerticalAlignment="Stretch">
+            <Button x:Name="b_Ok" Command="{Binding ButtonOkClick}" Content="Ok" Margin="0,0,20,0" FontSize="16" MinWidth="110" TabIndex="2"/>
+            <Button x:Name="b_Cancel" Command="{Binding ButtonCancelClick}" Content="Cancel" FontSize="16" MinWidth="110" IsCancel="True" TabIndex="3" />
+        </StackPanel>
+        <Label x:Name="tb_Error" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="14" Margin="0"
+                 Content="{Binding Error, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Foreground="Red" />
+    </Grid>
+</Controls:MetroWindow>

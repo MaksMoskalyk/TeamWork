@@ -2370,7 +2370,7 @@ namespace TeamWork
 
         void AddEmployee()
         {
-            viewFactory = new InputEmployeeDataViewFactory();
+            viewFactory = new AddEmployeeViewFactory();
             addEmployeeView = viewFactory.CreateView();
 
             InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();

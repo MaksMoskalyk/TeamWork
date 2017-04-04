@@ -12,5 +12,6 @@ namespace StaffDatabaseUnit
         void ShowView();
         void CloseView();
         object Data { get; set; }
+        string Caption { get; set; }
     }
 }

@@ -110,7 +110,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -173,7 +173,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -252,7 +252,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -334,7 +334,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -361,22 +361,29 @@ namespace StaffDatabaseUnit
 
         private void EditSelectedElement()
         {
-            database.EditElement(selectedElement.CategoryElement, editElementName);
+            try
+            {
+                database.EditElement(selectedElement.CategoryElement, editElementName);
 
-            if (isSupplementaryFilter)
-                ChooseSupplementaryFilter();
-            else
-                ChooseMainFilter();
+                if (isSupplementaryFilter)
+                    ChooseSupplementaryFilter();
+                else
+                    ChooseMainFilter();
 
-            RenewElementEditField();
+                RenewElementEditField();
 
-            // Renew skills tab.
-            if (isSupplementaryFilter)
-                RenewGroupsList();
-            else
-                RenewPositionsList();
+                // Renew skills tab.
+                if (isSupplementaryFilter)
+                    RenewGroupsList();
+                else
+                    RenewPositionsList();
 
-            InitiateAdministrationFulfilledEvent();
+                InitiateAdministrationFulfilledEvent();
+            }
+            catch (Exception error)
+            {
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
+            }           
         }
 
         private void RenewElementEditField()
@@ -399,11 +406,18 @@ namespace StaffDatabaseUnit
 
         private void ElementSelectionNotification()
         {
-            if (generalElementsList.Count > 0 && selectedElement != null)
+            try
             {
-                EditElementName = SelectedElement.CategoryElement.Name;
-                IsNotEditableElement = false;
+                if (generalElementsList.Count > 0 && selectedElement != null)
+                {
+                    EditElementName = SelectedElement.CategoryElement.Name;
+                    IsNotEditableElement = false;
+                }
             }
+            catch (Exception error)
+            {
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
+            }           
         }
         #endregion
 
@@ -452,7 +466,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -513,7 +527,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -539,7 +553,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -586,7 +600,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -636,11 +650,18 @@ namespace StaffDatabaseUnit
 
         private void EditSelectedSkill()
         {
-            database.EditSkill(selectedSkill.Skill.Name, editSkill.Name);
-            RenewSkillsList();
-            RenewSkillEditField();
+            try
+            {
+                database.EditSkill(selectedSkill.Skill.Name, editSkill.Name);
+                RenewSkillsList();
+                RenewSkillEditField();
 
-            InitiateAdministrationFulfilledEvent();
+                InitiateAdministrationFulfilledEvent();
+            }
+            catch (Exception error)
+            {
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
+            }            
         }
 
         private void RenewSkillEditField()
@@ -663,11 +684,18 @@ namespace StaffDatabaseUnit
 
         private void SkillSelectionNotification()
         {
-            if (chosenSkills.Count > 0 && selectedSkill != null)
+            try
             {
-                EditSkill = new Skill(selectedSkill.Skill.Name, selectedSkill.Skill.SkillsGroup_Id);
-                IsNotEditableSkill = false;
-            }           
+                if (chosenSkills.Count > 0 && selectedSkill != null)
+                {
+                    EditSkill = new Skill(selectedSkill.Skill.Name, selectedSkill.Skill.SkillsGroup_Id);
+                    IsNotEditableSkill = false;
+                }
+            }
+            catch (Exception error)
+            {
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
+            }                     
         }
         #endregion
        
@@ -694,10 +722,17 @@ namespace StaffDatabaseUnit
 
         private void RefreshData()
         {
-            RenewPositionsList();
-            ChooseMainFilter();
+            try
+            {
+                RenewPositionsList();
+                ChooseMainFilter();
 
-            InitiateAdministrationFulfilledEvent();
+                InitiateAdministrationFulfilledEvent();
+            }
+            catch (Exception error)
+            {
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
+            }            
         }
         #endregion
 
@@ -723,7 +758,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion

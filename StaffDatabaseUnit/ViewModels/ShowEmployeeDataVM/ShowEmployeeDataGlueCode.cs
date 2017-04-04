@@ -16,8 +16,9 @@ namespace StaffDatabaseUnit
         protected SpecificEmployee currentEmployee;
         protected IDatabaseShowEmployeeData database;
         protected AbstractViewFactory viewFactory;
-        protected IView currentView;
+        protected IView currentWindow;
         protected IView addEmployeeView;
+        protected IView editEmployeeView;
         protected IMessageBox messageBox;
         protected IPhotoConverter photoConverter;
 
@@ -55,7 +56,7 @@ namespace StaffDatabaseUnit
         {
             Employees = new ObservableCollection<SpecificEmployee>();
             database.LoadEmployeesData(employees);
-            currentEmployee = employees[0];
+            CurrentEmployee = employees[0];
         }
 
         #region Properties

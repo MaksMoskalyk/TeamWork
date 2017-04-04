@@ -16,10 +16,7 @@ using MahApps.Metro.Controls;
 
 namespace StaffDatabaseUnit
 {
-    /// <summary>
-    /// Interaction logic for InputEmployeeDataView.xaml
-    /// </summary>
-    public partial class InputEmployeeDataView : MetroWindow, IView
+    public partial class EditEmployeeDataView : MetroWindow, IView
     {
         private MetroWindow accentThemeWindow;
 
@@ -37,7 +34,8 @@ namespace StaffDatabaseUnit
             accentThemeWindow.Top = this.Top + this.ActualHeight / 2.0;
             accentThemeWindow.Show();
         }
-        public InputEmployeeDataView()
+
+        public EditEmployeeDataView()
         {
             InitializeComponent();
             ClientSettings Settings = new ClientSettings();
@@ -47,9 +45,6 @@ namespace StaffDatabaseUnit
 
         public void ShowView()
         {
-            //InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();
-            //inputEmployeeDataViewModel.LoadData();
-            //this.DataContext = inputEmployeeDataViewModel;
             this.Show();
         }
 
@@ -62,6 +57,12 @@ namespace StaffDatabaseUnit
         {
             get { return this.DataContext; }
             set { this.DataContext = value; }
+        }
+
+        public string Caption
+        {
+            get { return this.Title; }
+            set { this.Title = value; }
         }
     }
 }

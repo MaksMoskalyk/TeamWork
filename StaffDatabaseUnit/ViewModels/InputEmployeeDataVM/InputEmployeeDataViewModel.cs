@@ -21,6 +21,7 @@ namespace StaffDatabaseUnit
         #region Commands declaration
         // Main data commands.
         private DelegateCommand bAddPhoto;
+        private DelegateCommand bAddEmployee;
         private DelegateCommand bSaveChanges;
         private DelegateCommand bClear;
         private DelegateCommand bAdministration;
@@ -100,11 +101,60 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
         private bool IsAddPhotoAvailable()
+        {
+            return true;
+        }
+        #endregion
+
+        #region Add Employee command
+        public ICommand ButtonAddEmployee
+        {
+            get
+            {
+                if (bAddEmployee == null)
+                {
+                    bAddEmployee = new DelegateCommand(d => AddEmployee(), d => IsAddEmployeeAvailable());
+                }
+                return bAddEmployee;
+            }
+        }
+
+        private void AddEmployee()
+        {
+            try
+            {
+                string result = "Done!";
+
+                if (InputDataVerification(employeeData))
+                {
+                    if (!database.IsUserExist(employeeData))
+                    {
+                        result = database.AddEmployee(employeeData);
+                        InitiateEmployeeAdditionEvent();
+                        currentWindow.CloseView();
+                    }
+                    else
+                    {
+                        result = "Such user is already exist!";
+                    }
+                }
+                else
+                    result = "You have to fill name, surname and add at least one phone number and e-mail!";
+
+                messageBox.ShowNotification(result, currentWindow.Caption);
+            }
+            catch (Exception error)
+            {
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);                
+            }
+        }
+
+        private bool IsAddEmployeeAvailable()
         {
             return true;
         }
@@ -131,26 +181,23 @@ namespace StaffDatabaseUnit
 
                 if (InputDataVerification(employeeData))
                 {
-                    if (!database.IsUserExist(employeeData))
+                    string message = "Do you want to save changes?";
+                    if (messageBox.GetActionConfirmation(message, currentWindow.Caption))
                     {
-                        result = database.AddEmployee(employeeData);
-                        InitiateEmployeeAdditionEvent();
+                        database.ReconnectEmployeeWithProjects(currentEmployee, employeeData);
                         currentWindow.CloseView();
                     }
                     else
-                    {
-                        database.ReconnectEmployeeWithProjects(employeeData.Employee, employeeData.Employee);                       
-                    }                        
+                        return;             
                 }
                 else
                     result = "You have to fill name, surname and add at least one phone number and e-mail!";
 
-                messageBox.ShowNotification(result);
+                messageBox.ShowNotification(result, currentWindow.Caption);                
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
-                //result = "Such user is already exist!";
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -207,7 +254,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -244,11 +291,12 @@ namespace StaffDatabaseUnit
                     += new AdministrationFulfilled(UpdateView);
 
                 administrationWindow.Data = databaseAdministrationViewModel;
+                databaseAdministrationViewModel.CurrentWindow = administrationWindow;
                 administrationWindow.ShowView();
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -280,7 +328,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -311,7 +359,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -353,7 +401,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -399,7 +447,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }
 
@@ -438,7 +486,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -471,7 +519,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -502,7 +550,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -543,7 +591,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -589,7 +637,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }
 
@@ -628,7 +676,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -661,7 +709,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -691,7 +739,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -728,7 +776,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -765,7 +813,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -806,7 +854,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -839,7 +887,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -870,7 +918,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }
 
@@ -910,7 +958,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }      
         #endregion
@@ -940,7 +988,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }       
         #endregion
@@ -979,7 +1027,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -1018,7 +1066,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -1055,7 +1103,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1097,7 +1145,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1134,7 +1182,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1166,7 +1214,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1197,7 +1245,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1242,7 +1290,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1281,7 +1329,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1318,7 +1366,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1350,7 +1398,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1382,7 +1430,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -1422,7 +1470,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -1448,7 +1496,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion
@@ -1474,7 +1522,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
         #endregion

@@ -17,9 +17,9 @@ using MahApps.Metro.Controls;
 namespace StaffDatabaseUnit
 {
     /// <summary>
-    /// Interaction logic for ShowEmployeeDataView.xaml
+    /// Interaction logic for InputEmployeeDataView.xaml
     /// </summary>
-    public partial class ShowEmployeeDataView : MetroWindow, IView
+    public partial class AddEmployeeView : MetroWindow, IView
     {
         private MetroWindow accentThemeWindow;
 
@@ -38,7 +38,7 @@ namespace StaffDatabaseUnit
             accentThemeWindow.Show();
         }
 
-        public ShowEmployeeDataView()
+        public AddEmployeeView()
         {
             InitializeComponent();
             ClientSettings Settings = new ClientSettings();

@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows;
 using System.Collections.ObjectModel;
 using DelegateCommandNS;
+using TeamworkDB;
+
 namespace StaffDatabaseUnit
 {
     public class ShowEmployeeDataViewModel : ShowEmployeeDataGlueCode
@@ -18,7 +20,6 @@ namespace StaffDatabaseUnit
         private DelegateCommand bAddEmployee;
         private DelegateCommand bEditEmployee;
         private DelegateCommand bDeleteEmployee;
-        private DelegateCommand bSearchFilter;
         private DelegateCommand bUpdate;
 
         // Search filter commands
@@ -47,7 +48,7 @@ namespace StaffDatabaseUnit
         {
             try
             {
-                viewFactory = new InputEmployeeDataViewFactory();
+                viewFactory = new AddEmployeeViewFactory();
                 addEmployeeView = viewFactory.CreateView();
 
                 InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();
@@ -60,7 +61,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -87,46 +88,28 @@ namespace StaffDatabaseUnit
         {
             try
             {
-                viewFactory = new InputEmployeeDataViewFactory();
-                addEmployeeView = viewFactory.CreateView();
+                viewFactory = new EditEmployeeDataViewFactory();
+                editEmployeeView = viewFactory.CreateView();
 
                 InputEmployeeDataViewModel inputEmployeeDataViewModel = new InputEmployeeDataViewModel();
                 inputEmployeeDataViewModel.LoadData();
-                //database.LoadDataForEmployeeEdition(inputEmployeeDataViewModel.EmployeeData, currentEmployee);
                 inputEmployeeDataViewModel.EmployeeData.Employee = currentEmployee.Employee;
+                inputEmployeeDataViewModel.CurrentEmployee =
+                    new Employee() { Name = currentEmployee.Employee.Name,
+                    Surname = currentEmployee.Employee.Surname,
+                    DateOfBirth = currentEmployee.Employee.DateOfBirth};
                 inputEmployeeDataViewModel.employeeAdditionEvent += new NewEmployeeAddition(UpdateView);
 
-                addEmployeeView.Data = inputEmployeeDataViewModel;               
-                addEmployeeView.ShowView();
+                editEmployeeView.Data = inputEmployeeDataViewModel;
+                inputEmployeeDataViewModel.CurrentWindow = editEmployeeView;
+                editEmployeeView.ShowView();
                 database.LoadDataForEmployeeEdition(inputEmployeeDataViewModel.EmployeeData, currentEmployee);
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }
-
-        //private void PackSelectedEmployeeData(EmployeeData employeeData)
-        //{
-        //    employeeData.Employee = currentEmployee.Employee;
-        //    employeeData.SelectedPosition = currentEmployee.Employee.Position;
-
-        //    employeeData.Phones = currentEmployee.Phones;
-        //    employeeData.Mails = currentEmployee.Mails;
-        //    employeeData.WebAccounts = currentEmployee.WebAccounts;
-
-        //    employeeData.ExperienceTableUnits = currentEmployee.ExperienceTableUnits;
-        //    employeeData.EducationTableUnits = currentEmployee.EducationTableUnits;
-
-        //    //employeeData.SkillsTotalInfo
-
-        //    employeeData.SelectedGender = currentEmployee.Gender;
-        //    employeeData.SelectedCitizenship = currentEmployee.Employee.Citizenship;
-
-        //    employeeData.SelectedYearOfBirth = currentEmployee.Employee.DateOfBirth.Year.ToString();
-        //    employeeData.SelectedMonthOfBirth = currentEmployee.Employee.DateOfBirth.Month.ToString();
-        //    employeeData.SelectedDayOfBirth = currentEmployee.Employee.DateOfBirth.Day.ToString();
-        //}
 
         private bool IsEditEmployeeAvailable()
         {
@@ -164,7 +147,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }            
         }
 
@@ -193,11 +176,12 @@ namespace StaffDatabaseUnit
             {
                 Employees = new ObservableCollection<SpecificEmployee>();
                 database.LoadEmployeesData(Employees);
-                CurrentEmployee = employees[0];
+                if(employees.Count > 0 && employees != null)
+                    CurrentEmployee = employees[0];
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }           
         }
         #endregion
@@ -231,7 +215,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 
@@ -266,7 +250,7 @@ namespace StaffDatabaseUnit
             }
             catch (Exception error)
             {
-                messageBox.ShowNotification(error.Message);
+                messageBox.ShowNotification(error.Message, currentWindow.Caption);
             }
         }
 

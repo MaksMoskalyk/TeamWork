@@ -37,6 +37,7 @@ namespace StaffDatabaseUnit
             accentThemeWindow.Top = this.Top + this.ActualHeight / 2.0;
             accentThemeWindow.Show();
         }
+
         public DatabaseAdministrationView()
         {
             InitializeComponent();
@@ -47,10 +48,6 @@ namespace StaffDatabaseUnit
 
         public void ShowView()
         {
-            //DatabaseAdministrationViewModel databaseAdministrationViewModel =
-            //        new DatabaseAdministrationViewModel();
-            //databaseAdministrationViewModel.GetInitialData();
-            //this.DataContext = databaseAdministrationViewModel;
             this.Show();
         }
 
@@ -63,6 +60,12 @@ namespace StaffDatabaseUnit
         {            
             get { return this.DataContext; }
             set { this.DataContext = value; }
+        }
+
+        public string Caption
+        {
+            get { return this.Title; }
+            set { this.Title = value; }
         }
     }
 }
