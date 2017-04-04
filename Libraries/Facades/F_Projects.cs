@@ -783,7 +783,7 @@ namespace Facade
         {
             using (var context = new TeamworkDBContext())
             {
-                var q = from projects in context.Projects where projects.Id == ID select projects;
+                var q = (from projects in context.Projects where projects.Id == ID select projects).Include(t=> t.EmployeesAndProjects);
                 return q.SingleOrDefault();
             }
         }

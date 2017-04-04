@@ -17,6 +17,7 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen"
         Title="Team Work" Height="600" Width="900" Icon="/TeamWork;component/Status-mail-task-icon.png" Closing="CheckClosing">
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Click="ChangeAppStyleButtonClick" ToolTip="Change Style">
@@ -442,7 +443,7 @@
                                 </Grid>
                             </Expander>
                             <Expander Header="Operation system" >
-                                <Grid Margin="0" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Grid Margin="0" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
                                         <RowDefinition/>
@@ -486,7 +487,7 @@
 
                             </Expander>
                             <Expander Header="Skills" >
-                                <Grid Margin="0" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Grid Margin="0" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
                                         <RowDefinition/>
@@ -529,7 +530,7 @@
                             </Expander>
 
                             <Expander Header="Development team" >
-                                <Grid Margin="0" VerticalAlignment="Top" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Grid Margin="0" VerticalAlignment="Top" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
@@ -580,7 +581,7 @@
                                 </Grid>
                             </Expander>
                             <Expander Header="Types" >
-                                <Grid Margin="0" IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Grid Margin="0" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
@@ -623,7 +624,7 @@
                                 </Grid>
                             </Expander>
                             <Expander Header="Files" >
-                                <ScrollViewer IsEnabled="{Binding IsNewProj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ScrollViewer IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid Margin="0" VerticalAlignment="Top" >
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="30"/>
@@ -822,7 +823,7 @@
 
 
                                 <Expander Header="Comments" >
-                                    <Grid IsEnabled="{Binding IsNewTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <Grid IsEnabled="{Binding CanChangeTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>
@@ -851,7 +852,7 @@
 
                                 </Expander>
                                 <Expander Header="Files" >
-                                    <ScrollViewer IsEnabled="{Binding IsNewTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ScrollViewer IsEnabled="{Binding CanChangeTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                         <Grid Margin="0" VerticalAlignment="Top" >
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="30"/>

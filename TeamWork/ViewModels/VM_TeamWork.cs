@@ -29,12 +29,14 @@ namespace TeamWork
 {
     interface ISaveBeforClose
     {
-        void SaveBeforChange();
+        bool SaveBeforChange();
     }
     public class VM_TeamWork: ViewModelBase, IServiceProgramMessengerCallback, ISaveBeforClose
     {
 
         #region fields
+        bool canChangePr;
+        bool canChangeTask;
         private bool IsChangePr;
         private bool IsChangeTask;
         private string szSearchProjName;
@@ -250,87 +252,81 @@ namespace TeamWork
             loadAllTasks();
             LoadSearchNorms();
         }
-        public void SaveBeforChange()
+        public bool SaveBeforChange()
         {
+            bool result = false;
             MessageBox_OK MB_OK = new MessageBox_OK();
             MessageBox_YesNo MB_YesNo = new MessageBox_YesNo();
             if (IsNewProj)
             {
-                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Save new project", "Do you want to save new project?");
-                MB_YesNo.DataContext = VM_YesNo;
-                if ((bool)MB_YesNo.ShowDialog())
+
+                if (messBoxYesNo("Do you want to save changes befor closure?", "Save changes"))
                 {
-                    if (!IsEnabledSavePr)
+                    if (IsEnabledSavePr)
                     {
-                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in project");
-                        MB_OK.DataContext = VM_OK;
-                        if ((bool)MB_OK.ShowDialog()) { }
-                        return;
+                        messBoxOk("You need to fill in all fields in project","Can't save");
+                        result = false;
                     }
                     else
                     {
                         SaveAllChProj();
+                        IsChangePr = false;
+                        result = true;
                     }
                 }
             }
             if (IsChangePr)
             {
-                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Change project", "Do you want to change project?");
-                MB_YesNo.DataContext = VM_YesNo;
-                if ((bool)MB_YesNo.ShowDialog())
+                if (messBoxYesNo("Do you want to save changes befor closure?", "Save changes"))
                 {
-                    if (!IsEnabledSavePr)
+                    if (IsEnabledSavePr)
                     {
-                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in project");
-                        MB_OK.DataContext = VM_OK;
-                        if ((bool)MB_OK.ShowDialog()) { }
-                        return;
+                        messBoxOk("You need to fill in all fields in project", "Can't save");
+                        result = false;
                     }
                     else
                     {
                         SaveAllChProj();
+                        IsChangePr = false;
+                        result = true;
                     }
                 }
             }
             if (IsNewTask)
             {
-                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Save new task", "Do you want to save new task?");
-                MB_YesNo.DataContext = VM_YesNo;
-                if ((bool)MB_YesNo.ShowDialog())
+                if (messBoxYesNo("Do you want to save changes befor closure?", "Save changes"))
                 {
-                    if (!IsEnabledSaveTask)
+                    if (IsEnabledSaveTask)
                     {
-                        VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in task");
-                        MB_OK.DataContext = VM_OK;
-                        if ((bool)MB_OK.ShowDialog()) { }
-                        return;
+                        messBoxOk("You need to fill in all fields in project", "Can't save");
+                        result = false;
                     }
                     else
                     {
                         SaveAllChTask();
+                        IsChangeTask = false;
+                        result = true;
                     }
                 }
             }
             if (IsChangeTask)
             {
-                VM_CustomMessageBox_YesNo VM_YesNo = new VM_CustomMessageBox_YesNo("Change task", "Do you want to change task?");
-                MB_YesNo.DataContext = VM_YesNo;
-                if ((bool)MB_YesNo.ShowDialog())
-                    if (messBoxYesNo("Do you want to change task?", "Change task"))
+                 if (messBoxYesNo("Do you want to save changes befor closure?", "Save changes"))
                     {
                         if (!IsEnabledSaveTask)
                         {
-                            VM_CustomMessageBox_OK VM_OK = new VM_CustomMessageBox_OK("Can't save", "You need to fill in all fields in task");
-                            MB_OK.DataContext = VM_OK;
-                            if ((bool)MB_OK.ShowDialog()) { }
-                            return;
+                        messBoxOk("You need to fill in all fields in project", "Can't save");
+                        result = false;
                         }
                         else
                         {
                             SaveAllChTask();
+                            IsChangeTask = false;
+                            result = true;
                         }
                     }
             }
+            return result;
         }
         ~VM_TeamWork()
         {
@@ -339,6 +335,32 @@ namespace TeamWork
         }
 
         #region properties
+       
+        public bool CanChangePr
+        {
+            get
+            {
+                return canChangePr;
+            }
+            set
+            {
+                canChangePr = value;
+                OnPropertyChanged("CanChangePr");
+            }
+        }
+        
+        public bool CanChangeTask
+        {
+            get
+            {
+                return canChangeTask;
+            }
+            set
+            {
+                canChangeTask = value;
+                OnPropertyChanged("CanChangeTask");
+            }
+        }
         public ObservableCollection<KeyValuePair<int, string>> ListFindProjects
         {
             get
@@ -1309,6 +1331,7 @@ namespace TeamWork
             set
             {
                 isSelectedPrjct = value;
+                CanChangePr = value;
                 OnPropertyChanged("IsSelectedPrjct");
             }
         }
@@ -1323,6 +1346,7 @@ namespace TeamWork
             {
                 isSelectedTask = value;
                 IsEnableEditTask = value;
+                CanChangeTask = value;
                 OnPropertyChanged("IsSelectedTask");
             }
         }
@@ -1931,6 +1955,7 @@ namespace TeamWork
             set
             {
                 isNewProj = value;
+                CanChangePr = value;
                 OnPropertyChanged("IsNewProj");
 
             }
@@ -1944,6 +1969,7 @@ namespace TeamWork
             set
             {
                 isNewTask = value;
+                CanChangeTask = value;
                 OnPropertyChanged("IsNewTask");
 
             }
@@ -3577,7 +3603,13 @@ namespace TeamWork
         }
         bool IsSelProject()
         {
-            return CurrentProject!=null;
+            if (CurrentProject != null)
+            {
+                var temp = F_Projects.GetProject(CurrentProject.Id);
+                return temp.EmployeesAndProjects.Where(t => t.Employee_Id == CurrentEmployee.Id).ToList().Count > 0;
+            }
+            else
+                return CurrentProject != null;
         }
         public void SetFavProj()
         {
@@ -3632,9 +3664,11 @@ namespace TeamWork
             CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>();
             CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>();
             CurProjOS = new List<checkEl<KeyValuePair<int, string>>>();
-            IsNewProj = true;
+            
             IsEnabledSavePr = true;
             loadAllListPrInfo();
+            IsChangePr = false;
+            IsNewProj = true;
             IsEnableEditPr = true;
         }
         

@@ -83,7 +83,17 @@ namespace TeamWork
 
         private void CheckClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            VMSave.SaveBeforChange();
+            if (!VMSave.SaveBeforChange())
+            {
+                e.Cancel = true;
+                return;
+            }
+            var procs = System.Diagnostics.Process.GetProcessesByName("TeamWork");
+            foreach (var proc in procs)
+            {
+                proc.Kill();
+            }
         }
+
     } 
 }
