@@ -32,14 +32,14 @@
         </Grid.RowDefinitions>
         <Menu Margin="0" VerticalAlignment="Top" >
             <MenuItem Header="Main">
-                <MenuItem Header="Users">
+                <MenuItem Header="Users" Visibility="{Binding VHR, Mode=TwoWay}">
                     <MenuItem Header="Add" Command="{Binding MAddEmployee_Click}"></MenuItem>
                     <MenuItem Header="Show all info" Command="{Binding MShwAllEmployee_Click}"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Projects">
+                <MenuItem Header="Projects" Visibility="{Binding VAdmin, Mode=TwoWay}">
                     <MenuItem Header="Edit supporting information" Command="{Binding MEditPrjSupp_Click}"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Task">
+                <MenuItem Header="Task" Visibility="{Binding VAdmin, Mode=TwoWay}">
                     <MenuItem Header="Edit supporting information" Command="{Binding MEditTskSupp_Click}"></MenuItem>
                 </MenuItem>
                 <Separator></Separator>
@@ -58,7 +58,7 @@
             </Grid.ColumnDefinitions>
             <iconPacks:PackIconMaterial Kind="Account" VerticalAlignment="Center" Margin="5,0,0,0" />
             <Label Content="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="0" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" Grid.Column="1" />
-            <ComboBox ItemsSource="{Binding SysPMList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding iSysPMList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Margin="10,1,0,1" BorderThickness="1"/>
+            <ComboBox ItemsSource="{Binding SysPMList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelSysPMList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ISysPMList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Margin="10,1,0,1" BorderThickness="1"/>
 
         </Grid>
         <DockPanel Margin="0" Grid.Row="2">
@@ -90,7 +90,8 @@
                         <Button x:Name="bSC" Content="{iconPacks:PackIconFontAwesome SearchPlus}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="30" Height="30" Click="bR_Click" ToolTip="Choice search norm" Grid.Column="2" BorderBrush="{x:Null}" Background="{x:Null}"/>
                         <ScrollViewer Margin="0" Grid.Row="1" Grid.ColumnSpan="3">
                             <StackPanel>
-                                <ListBox ItemsSource="{Binding ListFindProjects, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                <Button Visibility="{Binding VSearchPrjct, Mode=TwoWay}" Command="{Binding BAllPrjcts_Click}">Back to all projects</Button>
+                                <ListBox Visibility="{Binding VSearchPrjct, Mode=TwoWay}" ItemsSource="{Binding ListFindProjects, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" >
@@ -99,8 +100,8 @@
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-                                
-                                <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemPr, Mode=TwoWay}" BorderBrush="White" >
+
+                                <local:ExtendedTreeView Margin="0" Visibility="{Binding VListPrjct, Mode=TwoWay}" ItemsSource="{Binding ListProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemPr, Mode=TwoWay}" BorderBrush="White" >
                                     <TreeView.Resources>
                                         <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
                                             <StackPanel Orientation="Horizontal" >
@@ -244,7 +245,8 @@
                         <Button x:Name="bSCT" Content="{iconPacks:PackIconFontAwesome SearchPlus}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="30" Height="30" Click="bL_Click" ToolTip="Choice search norm" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}"/>
                         <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3">
                             <StackPanel>
-                                <ListBox ItemsSource="{Binding ListFindTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                <Button Visibility="{Binding VSearchTask, Mode=TwoWay}" Command="{Binding BAllTasks_Click}">Back to all tasks</Button>
+                                <ListBox Visibility="{Binding VSearchTask, Mode=TwoWay}"  ItemsSource="{Binding ListFindTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" >
@@ -254,7 +256,7 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
 
-                                <local:ExtendedTreeView Margin="0" ItemsSource="{Binding ListTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemTask, Mode=TwoWay}" BorderBrush="White" >
+                                <local:ExtendedTreeView Visibility="{Binding VListTask, Mode=TwoWay}"  Margin="0" ItemsSource="{Binding ListTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem_="{Binding SelTreeElemTask, Mode=TwoWay}" BorderBrush="White" >
                                     <TreeView.Resources>
                                         <HierarchicalDataTemplate DataType="{x:Type local:treeElem}" ItemsSource="{Binding subEl}">
                                             <StackPanel Orientation="Horizontal" >
@@ -331,6 +333,7 @@
                     </Grid>
                 </Grid>
             </Expander>
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -361,12 +364,12 @@
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
                         <Button Command="{Binding BSetFavProj_Click}"  Content="{iconPacks:PackIconMaterial Star}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" IsEnabled="{Binding IsEnabledFavPr}"/>
-                        <Button Command="{Binding BAddProj_Click}" Content="{iconPacks:PackIconModern Add}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="1" IsEnabled="{Binding IsEnabledAddPr}"/>
-                        <Button Command="{Binding BSaveProj_Click}"  Content="{iconPacks:PackIconEntypo Save}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="2" IsEnabled="{Binding IsEnabledSavePr}"/>
-                        <Button Command="{Binding BDelProj_Click}" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="3" IsEnabled="{Binding IsEnabledDelPr}"/>
+                        <Button Visibility="{Binding VTeamlead, Mode=TwoWay}" Command="{Binding BAddProj_Click}" Content="{iconPacks:PackIconModern Add}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="1" IsEnabled="{Binding IsEnabledAddPr}"/>
+                        <Button Visibility="{Binding VTeamlead, Mode=TwoWay}" Command="{Binding BSaveProj_Click}"  Content="{iconPacks:PackIconEntypo Save}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="2" IsEnabled="{Binding IsEnabledSavePr}"/>
+                        <Button Visibility="{Binding VTeamlead, Mode=TwoWay}" Command="{Binding BDelProj_Click}" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Height="30" Width="30" Grid.Column="3" IsEnabled="{Binding IsEnabledDelPr}"/>
                     </Grid>
                     <ScrollViewer Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
-                        <StackPanel IsEnabled="{Binding IsSelectedPrjct}" >
+                        <StackPanel IsEnabled="{Binding IsEnableEditPr}" >
                             <Expander Header="Base info" Margin="0"  VerticalAlignment="Top">
                                 <Grid Margin="0"  VerticalAlignment="Top">
                                     <Grid.RowDefinitions>
@@ -389,10 +392,10 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Label Content="Project name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Height="26" Width="82"></Label>
-                                    <TextBox Text="{Binding CurProjName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" ></TextBox>
+                                    <TextBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Text="{Binding CurProjName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" ></TextBox>
                                     <Button Visibility="{Binding VPrName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}"  Width="30" Height="30"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2"   Style="{DynamicResource MetroCircleButtonStyle}" Background="Red" IsTabStop="False"/>
                                     <Label Content="Customer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1"/>
-                                    <ComboBox ItemsSource="{Binding ListProjCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjCustomer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="1" Grid.Column="1" >
+                                    <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjCustomer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="1" Grid.Column="1" >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Path=Value}"/>
@@ -402,7 +405,7 @@
                                     <Button  Visibility="{Binding VCustomerName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="1" IsTabStop="False" />
 
                                     <Label Content="Stage:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="2" Height="26" Width="62"/>
-                                    <ComboBox ItemsSource="{Binding ListProjStage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjStage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="2" Grid.Column="1" >
+                                    <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjStage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjStage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="2" Grid.Column="1" >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Path=Value}"/>
@@ -411,12 +414,12 @@
                                     </ComboBox>
                                     <Button  Visibility="{Binding VStage}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
                                     <Label Content="Creation Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="3" Height="26" Width="86"/>
-                                    <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjCreationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="10" Format="Custom"  IsEnabled="False"/>
+                                    <xctk:DateTimePicker  FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjCreationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="10" Format="Custom"  IsEnabled="False"/>
                                     <Label Content="DueDate:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="4" Height="26" Width="59"/>
-                                    <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Margin="10" Format="Custom" />
+                                    <xctk:DateTimePicker IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurProjDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Margin="10" Format="Custom" />
                                     <Button  Visibility="{Binding VDueDate}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
                                     <Label Content="Duration:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="5"/>
-                                    <ComboBox ItemsSource="{Binding ListProjDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjDuration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" Grid.Row="5" >
+                                    <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjDuration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Column="1" Grid.Row="5" >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Path=Value}"/>
@@ -425,7 +428,7 @@
                                     </ComboBox>
                                     <Button  Visibility="{Binding VDuration}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
                                     <Label Content="Objective:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="6" Height="26" Width="62"/>
-                                    <ComboBox ItemsSource="{Binding ListProjObjective, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjObjective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="6" Grid.Column="1" >
+                                    <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjObjective, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjObjective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" Height="26" Grid.Row="6" Grid.Column="1" >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Path=Value}"/>
@@ -435,7 +438,7 @@
                                     <Button  Visibility="{Binding VObjective}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="6" IsTabStop="False" />
                                     <Label Content="Description:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="9" Height="26" Width="73"/>
                                     <Button  Visibility="{Binding VDescription}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="9" IsTabStop="False" />
-                                    <TextBox Text="{Binding CurProjDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="10" Grid.ColumnSpan="3"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
+                                    <TextBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Text="{Binding CurProjDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="10" Grid.ColumnSpan="3"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
                                 </Grid>
                             </Expander>
                             <Expander Header="Operation system" >
@@ -456,17 +459,17 @@
                                             <ColumnDefinition  Width="50"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrOS_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
-                                        <ComboBox ItemsSource="{Binding ListProjOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center">
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrOS_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
+                                        <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrOS , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Value}"/>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                        <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrOS_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrOS_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
                                     </Grid>
-                                    <ListBox ItemsSource="{Binding CurProjOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2
+                                    <ListBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding CurProjOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrOS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2
                                              ">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -499,17 +502,17 @@
                                             <ColumnDefinition  />
                                             <ColumnDefinition  Width="50"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Margin="10" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrSkills_Click}" Grid.Column="0" Grid.Row="5"/>
-                                        <ComboBox ItemsSource="{Binding ListProjSkills , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center">
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="10" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrSkills_Click}" Grid.Column="0" Grid.Row="5"/>
+                                        <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjSkills , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Value}"/>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                        <Button Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrSkills_Click}" Grid.Column="2" Grid.Row="5"/>
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrSkills_Click}" Grid.Column="2" Grid.Row="5"/>
                                     </Grid>
-                                    <ListBox ItemsSource="{Binding CurProjSkills, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrSkill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
+                                    <ListBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding CurProjSkills, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrSkill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel/>
@@ -537,7 +540,7 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Label Content="Lead:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Height="26" Width="38"/>
-                                    <ComboBox ItemsSource="{Binding ListProjLead, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjLead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Height="20" Grid.Column="1" >
+                                    <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjLead, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValue="{Binding CurProjLead, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Height="20" Grid.Column="1" >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Path=Value}"/>
@@ -551,17 +554,17 @@
                                             <ColumnDefinition  />
                                             <ColumnDefinition  Width="50"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddEmplPrjct_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
-                                        <ComboBox ItemsSource="{Binding ListEmpl , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBEmplPrjct}" Grid.Column="1" VerticalAlignment="Center">
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddEmplPrjct_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
+                                        <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListEmpl , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBEmplPrjct}" Grid.Column="1" VerticalAlignment="Center">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Value}"/>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                        <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelEmplPrjct_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelEmplPrjct_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
                                     </Grid>
-                                    <ListBox ItemsSource="{Binding DevelopTeam, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurEmplPrjct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.ColumnSpan="3">
+                                    <ListBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding DevelopTeam, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurEmplPrjct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.ColumnSpan="3">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel/>
@@ -595,17 +598,17 @@
                                             <ColumnDefinition  />
                                             <ColumnDefinition  Width="50"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrTypes_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
-                                        <ComboBox ItemsSource="{Binding ListProjTypes , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill}" Grid.Column="1" VerticalAlignment="Center">
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurPrTypes_Click}" Grid.Column="0" Grid.Row="5" Width="30" Height="30"/>
+                                        <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListProjTypes , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelPrSkill}" Grid.Column="1" VerticalAlignment="Center">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Value}"/>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
-                                        <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrTypes_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
+                                        <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrTypes_Click}" Grid.Column="2" Grid.Row="5" Width="30" Height="30"/>
                                     </Grid>
-                                    <ListBox ItemsSource="{Binding CurProjTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.ColumnSpan="3">
+                                    <ListBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding CurProjTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurPrTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.ColumnSpan="3">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel/>
@@ -641,7 +644,7 @@
                                                 <ColumnDefinition Width="30"/>
                                             </Grid.ColumnDefinitions>
                                             <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddPrFiles_Click}" Grid.Row="0" Width="30" Height="30"/>
-                                            <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrFiles_Click}" Grid.Column="1" Grid.Row="0" Width="30" Height="30"/>
+                                            <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelPrFiles_Click}" Grid.Column="1" Grid.Row="0" Width="30" Height="30"/>
                                             <Button Margin="0" Content="{iconPacks:PackIconMaterial Download}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDownPrFiles_Click}" Grid.Column="2" Grid.Row="0" Width="30" Height="30"/>
 
                                         </Grid>
@@ -668,12 +671,13 @@
                     </ScrollViewer>
 
                 </Grid>
-                <Grid Margin="10" Grid.Column="2">
+                <Grid Margin="10" Grid.Column="2" IsEnabled="{Binding IsSelectedPrjct}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="40"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
+
                     <Grid Margin="0" Height="30" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
@@ -689,13 +693,13 @@
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <Button Command="{Binding BAddTask_Click}" Content="{iconPacks:PackIconModern Add}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30"/>
+                        <Button Visibility="{Binding VTeamlead, Mode=TwoWay}" Command="{Binding BAddTask_Click}" Content="{iconPacks:PackIconModern Add}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30"/>
                         <Button Command="{Binding BSaveTask_Click}"  Content="{iconPacks:PackIconEntypo Save}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30" Grid.Column="1"></Button>
-                        <Button Command="{Binding BDelTask_Click}" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30" Grid.Column="2"></Button>
+                        <Button Visibility="{Binding VTeamlead, Mode=TwoWay}" Command="{Binding BDelTask_Click}" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="30" Grid.Column="2"></Button>
                     </Grid>
                     <Grid Grid.Row="2" >
                         <ScrollViewer Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <StackPanel IsEnabled="{Binding IsSelectedPrjct}">
+                            <StackPanel IsEnabled="{Binding IsEnableEditTask}">
                                 <Expander Header="Base info" Margin="0" VerticalAlignment="Top">
                                     <Grid Margin="0" VerticalAlignment="Top">
                                         <Grid.RowDefinitions>
@@ -714,17 +718,17 @@
                                             <ColumnDefinition Width="40"/>
                                         </Grid.ColumnDefinitions>
                                         <Label Content="Task name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"></Label>
-                                        <TextBox Text="{Binding CurTaskName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="0" Grid.Column="1" />
+                                        <TextBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Text="{Binding CurTaskName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="0" Grid.Column="1" />
                                         <Button  Visibility="{Binding VTaskName}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
                                         <Label Content="Creation Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1" ></Label>
                                         <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurTaskCreationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="10" Format="Custom"  IsEnabled="False"/>
                                         <Label Content="DueDate:" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="10" Grid.Row="2" ></Label>
-                                        <xctk:DateTimePicker FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurTaskDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="10" Format="Custom" />
+                                        <xctk:DateTimePicker IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" FormatString="HH:mm dd/MM/yyyy" Value="{Binding CurTaskDueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="10" Format="Custom" />
                                         <Button  Visibility="{Binding VDueDateTask}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="2" IsTabStop="False" />
                                         <Label Content="Creator:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="3" ></Label>
                                         <Label Content="{Binding CurTaskCreator, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="3" Grid.Column="1" />
-                                       <Label Content="Status:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="4" ></Label>
-                                        <ComboBox SelectedValue="{Binding CurTaskStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Margin="10" Grid.Row="4" Grid.Column="1" >
+                                        <Label Content="Status:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="4" ></Label>
+                                        <ComboBox Visibility="{Binding IsUserTask}" SelectedValue="{Binding CurTaskStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Margin="10" Grid.Row="4" Grid.Column="1" >
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Value}"/>
@@ -733,7 +737,7 @@
                                         </ComboBox>
                                         <Button  Visibility="{Binding VStatus}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="4" IsTabStop="False" />
                                         <Label Content="Priority:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="5" ></Label>
-                                        <ComboBox SelectedValue="{Binding CurTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="5" Grid.Column="1">
+                                        <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" SelectedValue="{Binding CurTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="5" Grid.Column="1">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Value}"/>
@@ -742,7 +746,7 @@
                                         </ComboBox>
                                         <Button  Visibility="{Binding VTaskPriority}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" Grid.Row="5" IsTabStop="False" />
                                         <Label Content="Type:"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="6" ></Label>
-                                        <ComboBox SelectedValue="{Binding CurTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="6" Grid.Column="1">
+                                        <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" SelectedValue="{Binding CurTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ListTaskType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="6" Grid.Column="1">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=Value}"/>
@@ -773,18 +777,18 @@
                                                 <ColumnDefinition  />
                                                 <ColumnDefinition  Width="50"/>
                                             </Grid.ColumnDefinitions>
-                                            <Button Margin="10" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurTaskAssignees_Click}" Grid.Column="0" Grid.Row="5"/>
-                                            <ComboBox ItemsSource="{Binding ListTaskAssignees , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelTaskAssignees}" Grid.Column="1" VerticalAlignment="Center">
+                                            <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="10" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddCurTaskAssignees_Click}" Grid.Column="0" Grid.Row="5"/>
+                                            <ComboBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding ListTaskAssignees , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CBSelTaskAssignees}" Grid.Column="1" VerticalAlignment="Center">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Path=Value}"/>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-                                            <Button Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelTaskAssignees_Click}" Grid.Column="2" Grid.Row="5"/>
+                                            <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="10" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelTaskAssignees_Click}" Grid.Column="2" Grid.Row="5"/>
                                         </Grid>
                                         <Button  Visibility="{Binding VTaskAssignees}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
-                                        <ListBox ItemsSource="{Binding TaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurTaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="6" Grid.ColumnSpan="3">
+                                        <ListBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" ItemsSource="{Binding TaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelCurTaskAssignees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Row="6" Grid.ColumnSpan="3">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapPanel/>
@@ -810,12 +814,12 @@
                                             <ColumnDefinition Width="40"/>
                                         </Grid.ColumnDefinitions>
                                         <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,14,0,10"></Label>
-                                        <Button  Visibility="{Binding VTaskDescription}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
-                                        <TextBox Text="{Binding CurTaskDescription, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
+                                        <Button Visibility="{Binding VTaskDescription}" Margin="0" Content="{iconPacks:PackIconModern WarningCircle}" Background="Red" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="2" IsTabStop="False" />
+                                        <TextBox  IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Text="{Binding CurTaskDescription, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
                                     </Grid>
 
                                 </Expander>
-                               
+
 
                                 <Expander Header="Comments" >
                                     <Grid IsEnabled="{Binding IsNewTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -868,7 +872,7 @@
                                                     <ColumnDefinition Width="30"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Button Margin="0" Content="{iconPacks:PackIconOcticons PlusSmall}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BAddTaskFiles_Click}" Grid.Row="0" Width="30" Height="30"/>
-                                                <Button Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelTaskFiles_Click}" Grid.Column="1" Grid.Row="0" Width="30" Height="30"/>
+                                                <Button IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Margin="0" Content="{iconPacks:PackIconMaterial DeleteForever}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDelTaskFiles_Click}" Grid.Column="1" Grid.Row="0" Width="30" Height="30"/>
                                                 <Button Margin="0" Content="{iconPacks:PackIconMaterial Download}" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding BDownTaskFiles_Click}" Grid.Column="2" Grid.Row="0" Width="30" Height="30"/>
 
                                             </Grid>
@@ -893,9 +897,10 @@
                                 </Expander>
                             </StackPanel>
                         </ScrollViewer>
-                       
+
                     </Grid>
                 </Grid>
+
             </Grid>
         </DockPanel>
     </Grid>

@@ -48,8 +48,8 @@ namespace TeamworkDBEntity
             context.Positions.Add(new Position("System administrator"));
             context.Positions.Add(new Position("QA engineer"));
             context.Positions.Add(new Position("Team leader"));
-            //context.Positions.Add(new Position("Team leader"));
-            //context.Positions.Add(new Position("Project manager"));
+            context.Positions.Add(new Position("HR"));
+            context.Positions.Add(new Position("Admin TW"));
 
             context.SaveChanges();
         }

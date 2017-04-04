@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace TeamWork
 {
-
-
-       
-
-    
     public class treeElem
     {
         public treeElem()

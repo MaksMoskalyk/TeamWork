@@ -29,13 +29,11 @@ namespace TeamWork
 { 
     public class VM_TeamWork: ViewModelBase, IServiceProgramMessengerCallback
     {
-        // временно разместил в начале, для удобства поиска
-        #region Search
+        #region fields
         private string szSearchProjName;
         private string szSearchTaskName;
         private ObservableCollection<KeyValuePair<int, string>> listFindProjects;
         private ObservableCollection<KeyValuePair<int, string>> listFindTasks;
-
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listCustomer;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listDuration;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listLead;
@@ -49,7 +47,204 @@ namespace TeamWork
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listPriority;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listStatus;
         private ObservableCollection<checkEl<KeyValuePair<int, string>>> listTypeTasks;
+        private bool isSearchPrjct;
+        private bool isSearchTask;
+        private Visibility vSearchPrjct;
+        private Visibility vSearchTask;
+        private Visibility vListPrjct;
+        private Visibility vListTask;
+        bool isAdmin;
+        bool isHR;
+        bool isTeamlead;
+        bool isUserTask;
+        bool isUserPrjct;
+        Visibility vAdmin;
+        Visibility vHR;
+        Visibility vTeamlead;
+        private string WsfConName;
+        private List<treeElem> listTasks;
+        private List<treeElem> listProj;
+        private ServiceProgramMessengerClient proxyProgramMessenger;
+        public SynchronizationContext uiContext;
+        private InstanceContext site;
+        private Visibility vPrName;
+        private Visibility vCustomerName;
+        private Visibility vStage;
+        private Visibility vDueDate;
+        private Visibility vDuration;
+        private Visibility vObjective;
+        private Visibility vDescription;
+        private Visibility vTaskName;
+        private Visibility vDueDateTask;
+        private Visibility vStatus;
+        private Visibility vTaskType;
+        private Visibility vTaskAssignees;
+        private Visibility vTaskDescription;
+        private Visibility vTaskPriority;
+        private int cbSelTaskAssignees;
+        private List<checkEl<KeyValuePair<int, string>>> taskAssignees;
+        private List<KeyValuePair<int, string>> listTaskAssignees;
+        private int CurrentIssueID;
+        private bool isEnabledSavePr;
+        private bool isEnabledFavPr;
+        private bool isEnabledAddPr;
+        private bool isEnabledDelPr;
+        private bool isEnabledSaveTask;
+        private bool isEnabledFavTask;
+        private bool isEnabledAddTask;
+        private bool isEnabledDelTask;
+        private bool isSelectedPrjct = false;
+        private bool isSelectedTask = false;
+        public string curUserName;
+        public List<string> sysPMList;
+        public string selSysPMList;
+        protected IDatabaseShowEmployeeData employeeDatabase;
+        public AbstractViewFactory viewFactory;
+        protected IView showEmployeeView;
+        protected IView addEmployeeView;
+        private bool isNewPrjct;
+        private bool isNewTask;
+        private string login;
+        private IDatabaseAuthentication database;
+        private Employee currentEmployee;
+        private int cbSelPrSkill;
+        private int cbSelPrOS;
+        private int cbSelPrTypes;
+        private int cbEmplPrjct;
+        private int iSysPMList;
+        private bool isEnableEditPr = false;
+        private bool isEnableEditTask = false;
+        private List<KeyValuePair<int, string>> listProjName;
+        private List<KeyValuePair<int, string>> listProjDueDate;
+        private List<KeyValuePair<int, string>> listProjCreatDate;
+        private List<KeyValuePair<int, string>> listProjDuration;
+        private List<KeyValuePair<int, string>> listProjCustomer;
+        private List<KeyValuePair<int, string>> listProjLead;
+        private List<KeyValuePair<int, string>> listProjStage;
+        private List<KeyValuePair<int, string>> listProjObjective;
+        private List<KeyValuePair<int, string>> listProjSkills;
+        private List<KeyValuePair<int, string>> listProjTypes;
+        private List<KeyValuePair<int, string>> listProjOS;
+        private List<KeyValuePair<int, string>> listEmpl;
+        
+        private List<checkEl<KeyValuePair<int, string>>> developTeam;
+        private string currentProjName;
+        private DateTime currentProjDueDate; 
+        private DateTime currentProjCreatDate;
+        private string currentProjDesc;
+        private KeyValuePair<int, string> currentProjDuration;
+        private KeyValuePair<int, string> currentProjCustomer;
+        private KeyValuePair<int, string> currentProjLead;
+        private KeyValuePair<int, string> currentProjStage;
+        private KeyValuePair<int, string> currentProjObjective;
+        private List<checkEl<KeyValuePair<int, string>>> currentProjSkills;
+        private List<checkEl<KeyValuePair<int, string>>> currentProjTypes;
+        private List<checkEl<KeyValuePair<int, string>>> currentProjOS;
+        private object selTreeElemPr;
 
+        private List<checkEl<TeamworkDB.ProjectFile>> curProjFiles;
+
+        private TeamworkDB.Project currentProject;
+        private object selTreeElemTask;
+        private string currentTask;
+        private string сurTaskName;
+        private DateTime curTaskCreationDate;
+        private DateTime curTaskDueDate;
+        private string curTaskCreator;
+        private KeyValuePair<int, string> curTaskStatus;
+        private KeyValuePair<int, string> curTaskPriority;
+        private KeyValuePair<int, string> curTaskType;
+        private string curTaskProject;
+        private string curTaskDescription;
+        private List<checkEl<TeamworkDB.TaskFile>> taskFiles;
+        private List<TeamworkDB.TaskComment> listComments;
+        private string commentText;
+
+        private List<KeyValuePair<int, string>> listTaskStatus;
+        private List<KeyValuePair<int, string>> listTaskPriority;
+        private List<KeyValuePair<int, string>> listTaskType;
+        
+        #endregion
+
+        public VM_TeamWork()
+        {
+            WsfConName ="";
+            SysPMList = new List<string>();
+            uiContext = SynchronizationContext.Current;
+            site = new InstanceContext(this);
+            proxyProgramMessenger = new ServiceProgramMessengerClient(site, "wsEndpointPM");
+             vPrName = Visibility.Visible;
+             vCustomerName = Visibility.Visible;
+             vStage = Visibility.Visible;
+             vDueDate = Visibility.Visible;
+             vDuration = Visibility.Visible;
+             vObjective = Visibility.Visible;
+             vDescription = Visibility.Visible;
+            vTaskName = Visibility.Visible;
+            vDueDateTask = Visibility.Visible;
+            vStatus = Visibility.Visible;
+            vTaskType = Visibility.Visible;
+            vTaskAssignees = Visibility.Visible;
+            vTaskDescription = Visibility.Visible;
+            vTaskPriority = Visibility.Visible;
+            VSearchPrjct = Visibility.Collapsed;
+            VListPrjct = Visibility.Visible;
+            VSearchTask = Visibility.Collapsed;
+            VListTask = Visibility.Visible;
+            VAdmin = Visibility.Visible;
+            VHR = Visibility.Visible;
+            vTeamlead = Visibility.Visible;
+            SearchTaskName = "";
+            SearchProjName = "";
+            isEnabledSavePr = true;
+            isEnabledFavPr = true;
+            isEnabledAddPr = true;
+            isEnabledDelPr = true;
+            isEnabledSaveTask = true;
+            isEnabledFavTask = true;
+            isEnabledAddTask = true;
+            isEnabledDelTask = true;
+            isNewPrjct = false;
+            isNewTask = false;
+            IsNewProj = false;
+            isSelectedPrjct = false;
+            isSelectedTask = false;
+            IsAdmin = false;
+            IsHR = false;
+            IsTeamlead = false;
+            IsUserTask = false;
+            IsUserPrjct = false;
+            database = new DatabaseAuthenticationEntity();
+            DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>();
+            ListProj = new List<treeElem>();
+            ListTasks = new List<treeElem>();
+            uiContext = SynchronizationContext.Current;
+            site = new InstanceContext(this);
+            selTreeElemPr = new object();
+            listFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
+            listFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
+
+            listCustomer = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listDuration = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listLead = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listOperationSystem = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listSkill = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listStage = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listType = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listObjective = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listAssignee = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listPriority = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listStatus = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+            listTypeTasks = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
+
+            loadAllProjects();
+            loadAllTasks();
+            LoadSearchNorms();
+        }
+        ~VM_TeamWork()
+        { CloseProgram(); }
+
+        #region properties
         public ObservableCollection<KeyValuePair<int, string>> ListFindProjects
         {
             get
@@ -182,8 +377,6 @@ namespace TeamWork
                 OnPropertyChanged("ListObjective");
             }
         }
-
-
         public string SearchTaskName
         {
             get
@@ -244,282 +437,33 @@ namespace TeamWork
                 OnPropertyChanged("ListTypeTasks");
             }
         }
-
-        public void loadCustomerNorm()
-        {
-            ListCustomer.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllCustomers();
-            foreach (var temp in tempList)
-            {
-                ListCustomer.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadDurationNorm()
-        {
-            ListDuration.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllDurations();
-            foreach (var temp in tempList)
-            {
-                ListDuration.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadLeadNorm()
-        {
-            ListLead.Clear();
-
-            List<KeyValuePair<int, string>> tempList = F_Staff.GetTeamLeaders();
-            foreach (var temp in tempList)
-            {
-                ListLead.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadOperationSystemNorm()
-        {
-            ListOperationSystem.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllOSs();
-            foreach (var temp in tempList)
-            {
-                ListOperationSystem.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadSkillNorm()
-        {
-            ListSkill.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllSkills();
-            foreach (var temp in tempList)
-            {
-                ListSkill.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadStageNorm()
-        {
-            ListStage.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllStages();
-            foreach (var temp in tempList)
-            {
-                ListStage.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadTypeNorm()
-        {
-            ListType.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllTypes();
-            foreach (var temp in tempList)
-            {
-                ListType.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadObjectiveNorm()
-        {
-            ListObjective.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllObjectives();
-            foreach (var temp in tempList)
-            {
-                ListObjective.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-
-        public void loadAssigneeNorm()
-        {
-            ListAssignee.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Staff.GetEmployeesFullNameWithId();
-            foreach (var temp in tempList)
-            {
-                ListAssignee.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadPriorityNorm()
-        {
-            ListPriority.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Task.GetAllPriorityes();
-            foreach (var temp in tempList)
-            {
-                ListPriority.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadStatusNorm()
-        {
-            ListStatus.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Task.GetAllStatuses();
-            foreach (var temp in tempList)
-            {
-                ListStatus.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-        public void loadTypeTasksNorm()
-        {
-            ListTypeTasks.Clear();
-            List<KeyValuePair<int, string>> tempList = F_Task.GetAllTaskTypes();
-            foreach (var temp in tempList)
-            {
-                ListTypeTasks.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
-            }
-        }
-
-        private void LoadSearchNorms()
-        {
-            loadCustomerNorm();
-            loadDurationNorm();
-            loadLeadNorm();
-            loadOperationSystemNorm();
-            loadSkillNorm();
-            loadStageNorm();
-            loadTypeNorm();
-            loadObjectiveNorm();
-            loadAssigneeNorm();
-            loadPriorityNorm();
-            loadStatusNorm();
-            loadTypeTasksNorm();
-        }
-        private DelegateCommand ButtonSearchClick;
-        public ICommand BSearchProject_Click
+        public bool IsUserTask
         {
             get
             {
-                if (ButtonSearchClick == null)
-                {
-                    ButtonSearchClick = new DelegateCommand(param => this.SearchProject(), param => true);
-                }
-                return ButtonSearchClick;
+                return isUserTask;
             }
-        }
-        List<List<KeyValuePair<int, string>>> CheckSearchProjNorm()
-        {
-            List<List<KeyValuePair<int, string>>> resList = new List<List<KeyValuePair<int, string>>>();
-            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in listCustomer)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in listDuration)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in ListObjective)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in listOperationSystem)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in listSkill)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in listStage)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in listType)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
 
-            return resList;
-        }
-        void SearchProject()
-        {
-            List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchProjNorm();
-            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
-
-            ListFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
-            tempList = F_Projects.GetAllProjectsNameFilter(SearchProjName ==null?string.Empty: SearchProjName,
-                tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
-                tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList(),
-                tempNorm[4].Select(n => n.Key).ToList(), tempNorm[5].Select(n => n.Key).ToList(), tempNorm[6].Select(n => n.Key).ToList());
-            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
-            foreach (var temp in tempList)
+            set
             {
-                ListFindProjects.Add(temp);
+                isUserTask = value;
+                OnPropertyChanged("IsUserTask");
             }
         }
-        private DelegateCommand ButtonSearchTaskClick;
-        public ICommand BSearchTasks_Click
+        public bool IsUserPrjct
         {
             get
             {
-                if (ButtonSearchTaskClick == null)
-                {
-                    ButtonSearchTaskClick = new DelegateCommand(param => this.SearchTasks(), param => true);
-                }
-                return ButtonSearchTaskClick;
+                return isUserPrjct;
+            }
+
+            set
+            {
+                isUserPrjct = value;
+                OnPropertyChanged("IsUserPrjct");
             }
         }
-        List<List<KeyValuePair<int, string>>> CheckSearchTasksNorm()
-        {
-            List<List<KeyValuePair<int, string>>> resList = new List<List<KeyValuePair<int, string>>>();
-            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in ListAssignee)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in ListPriority)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in ListStatus)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            foreach (var temp in ListTypeTasks)
-            {
-                if (temp.isCheck)
-                    tempList.Add(temp.chClass);
-            }
-            resList.Add(tempList);
-            tempList = new List<KeyValuePair<int, string>>();
-            return resList;
-        }
-        void SearchTasks()
-        {
-            List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchTasksNorm();
-            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
-            ListFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
-            tempList = F_Task.GetAllIssuesFilter(CurrentProject.Id, SearchTaskName == null ? string.Empty : SearchTaskName,
-                tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
-                tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList());
-            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
-            foreach (var temp in tempList)
-            {
-                ListFindTasks.Add(temp);
-            }
-        }
-        #endregion
-        #region roles
-        Visibility isAdmin;
-        Visibility isHR;
-        Visibility isTeamlead;
-        public Visibility IsAdmin
+        public bool IsAdmin
         {
             get
             {
@@ -529,11 +473,29 @@ namespace TeamWork
             set
             {
                 isAdmin = value;
+                if (IsAdmin)
+                {
+                    VAdmin = Visibility.Visible;
+                    VHR = Visibility.Visible;
+                    VTeamlead = Visibility.Visible;
+                }
                 OnPropertyChanged("IsAdmin");
             }
         }
+        public Visibility VAdmin
+        {
+            get
+            {
+                return vAdmin;
+            }
 
-        public Visibility IsHR
+            set
+            {
+                vAdmin = value;
+                OnPropertyChanged("VAdmin");
+            }
+        }
+        public bool IsHR
         {
             get
             {
@@ -543,11 +505,29 @@ namespace TeamWork
             set
             {
                 isHR = value;
+                if (IsAdmin)
+                {
+                    VAdmin = Visibility.Collapsed;
+                    VHR = Visibility.Visible;
+                    VTeamlead = Visibility.Collapsed;
+                }
                 OnPropertyChanged("IsHR");
             }
         }
+        public Visibility VHR
+        {
+            get
+            {
+                return vHR;
+            }
 
-        public Visibility IsTeamlead
+            set
+            {
+                vHR = value;
+                OnPropertyChanged("VHR");
+            }
+        }
+        public bool IsTeamlead
         {
             get
             {
@@ -557,185 +537,158 @@ namespace TeamWork
             set
             {
                 isTeamlead = value;
+                if (IsAdmin)
+                {
+                    VAdmin = Visibility.Collapsed;
+                    VHR = Visibility.Collapsed;
+                    VTeamlead = Visibility.Visible;
+                }
                 OnPropertyChanged("IsTeamlead");
             }
         }
-
-       
-        #endregion
-        #region fields
-        private string WsfConName;
-        private List<treeElem> listTasks;
-        private List<treeElem> listProj;
-        private ServiceProgramMessengerClient proxyProgramMessenger;
-        public SynchronizationContext uiContext;
-        private InstanceContext site;
-        private Visibility vPrName;
-        private Visibility vCustomerName;
-        private Visibility vStage;
-        private Visibility vDueDate;
-        private Visibility vDuration;
-        private Visibility vObjective;
-        private Visibility vDescription;
-        private Visibility vTaskName;
-        private Visibility vDueDateTask;
-        private Visibility vStatus;
-        private Visibility vTaskType;
-        private Visibility vTaskAssignees;
-        private Visibility vTaskDescription;
-        private Visibility vTaskPriority;
-        private int cbSelTaskAssignees;
-        private List<checkEl<KeyValuePair<int, string>>> taskAssignees;
-        private List<KeyValuePair<int, string>> listTaskAssignees;
-        private int CurrentIssueID;
-        private bool isEnabledSavePr;
-        private bool isEnabledFavPr;
-        private bool isEnabledAddPr;
-        private bool isEnabledDelPr;
-        private bool isEnabledSaveTask;
-        private bool isEnabledFavTask;
-        private bool isEnabledAddTask;
-        private bool isEnabledDelTask;
-        private bool isSelectedPrjct = false;
-        private bool isSelectedTask = false;
-        public string curUserName;
-        public List<string> sysPMList;
-        protected IDatabaseShowEmployeeData employeeDatabase;
-        public AbstractViewFactory viewFactory;
-        protected IView showEmployeeView;
-        protected IView addEmployeeView;
-        private bool isNewPrjct;
-        private bool isNewTask;
-        private string login;
-        private IDatabaseAuthentication database;
-        private Employee currentEmployee;
-        private int cbSelPrSkill;
-        private int cbSelPrOS;
-        private int cbSelPrTypes;
-        private int cbEmplPrjct;
-        private int ISysPMList;
-        private bool isEnableEditPr = true;
-        private bool isEnableEditTask = true;
-        private List<KeyValuePair<int, string>> listProjName;
-        private List<KeyValuePair<int, string>> listProjDueDate;
-        private List<KeyValuePair<int, string>> listProjCreatDate;
-        private List<KeyValuePair<int, string>> listProjDuration;
-        private List<KeyValuePair<int, string>> listProjCustomer;
-        private List<KeyValuePair<int, string>> listProjLead;
-        private List<KeyValuePair<int, string>> listProjStage;
-        private List<KeyValuePair<int, string>> listProjObjective;
-        private List<KeyValuePair<int, string>> listProjSkills;
-        private List<KeyValuePair<int, string>> listProjTypes;
-        private List<KeyValuePair<int, string>> listProjOS;
-        private List<KeyValuePair<int, string>> listEmpl;
-        
-        private List<checkEl<KeyValuePair<int, string>>> developTeam;
-        private string currentProjName;
-        private DateTime currentProjDueDate; 
-        private DateTime currentProjCreatDate;
-        private string currentProjDesc;
-        private KeyValuePair<int, string> currentProjDuration;
-        private KeyValuePair<int, string> currentProjCustomer;
-        private KeyValuePair<int, string> currentProjLead;
-        private KeyValuePair<int, string> currentProjStage;
-        private KeyValuePair<int, string> currentProjObjective;
-        private List<checkEl<KeyValuePair<int, string>>> currentProjSkills;
-        private List<checkEl<KeyValuePair<int, string>>> currentProjTypes;
-        private List<checkEl<KeyValuePair<int, string>>> currentProjOS;
-        private object selTreeElemPr;
-
-        private List<checkEl<TeamworkDB.ProjectFile>> curProjFiles;
-
-        private TeamworkDB.Project currentProject;
-        private ObservableCollection<treeElem> listAllProj;
-        private ObservableCollection<treeElem> listAllTask;
-        private object selTreeElemTask;
-        private string currentTask;
-        private string сurTaskName;
-        private DateTime curTaskCreationDate;
-        private DateTime curTaskDueDate;
-        private string curTaskCreator;
-        private KeyValuePair<int, string> curTaskStatus;
-        private KeyValuePair<int, string> curTaskPriority;
-        private KeyValuePair<int, string> curTaskType;
-        private string curTaskProject;
-        private string curTaskDescription;
-        private List<checkEl<TeamworkDB.TaskFile>> taskFiles;
-        private List<TeamworkDB.TaskComment> listComments;
-        private string commentText;
-
-        private List<KeyValuePair<int, string>> listTaskStatus;
-        private List<KeyValuePair<int, string>> listTaskPriority;
-        private List<KeyValuePair<int, string>> listTaskType;
-        
-        #endregion
-
-        public VM_TeamWork()
+        public Visibility VTeamlead
         {
-            WsfConName ="";
-            SysPMList = new List<string>();
-            uiContext = SynchronizationContext.Current;
-            site = new InstanceContext(this);
-            proxyProgramMessenger = new ServiceProgramMessengerClient(site, "wsEndpointPM");
-             vPrName = Visibility.Visible;
-             vCustomerName = Visibility.Visible;
-             vStage = Visibility.Visible;
-             vDueDate = Visibility.Visible;
-             vDuration = Visibility.Visible;
-             vObjective = Visibility.Visible;
-             vDescription = Visibility.Visible;
-            vTaskName = Visibility.Visible;
-            vDueDateTask = Visibility.Visible;
-            vStatus = Visibility.Visible;
-            vTaskType = Visibility.Visible;
-            vTaskAssignees = Visibility.Visible;
-            vTaskDescription = Visibility.Visible;
-            vTaskPriority = Visibility.Visible;
-            isEnabledSavePr = true;
-            isEnabledFavPr = true;
-            isEnabledAddPr = true;
-            isEnabledDelPr = true;
-            isEnabledSaveTask = true;
-            isEnabledFavTask = true;
-            isEnabledAddTask = true;
-            isEnabledDelTask = true;
-            isNewPrjct = false;
-            isNewTask = false;
-            IsNewProj = false;
-            isSelectedPrjct = false;
-            isSelectedTask = false;
-            database = new DatabaseAuthenticationEntity();
-            DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>();
-            ListProj = new List<treeElem>();
-            ListTasks = new List<treeElem>();
-            uiContext = SynchronizationContext.Current;
-            site = new InstanceContext(this);
-            selTreeElemPr = new object();
-            listAllProj = new ObservableCollection<treeElem>();
-            listFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
-            listFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
+            get
+            {
+                return vTeamlead;
+            }
 
-            listCustomer = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listDuration = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listLead = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listOperationSystem = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listSkill = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listStage = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listType = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listObjective = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listAssignee = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listPriority = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listStatus = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-            listTypeTasks = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
-
-
-            loadAllProjects();
-            loadAllTasks();
-            LoadSearchNorms();
+            set
+            {
+                vTeamlead = value;
+                OnPropertyChanged("VTeamlead");
+            }
         }
-        ~VM_TeamWork()
-        { CloseProgram(); }
-        #region properties
+        public bool IsSearchPrjct
+        {
+            get
+            {
+                return isSearchPrjct;
+            }
+
+            set
+            {
+                isSearchPrjct = value;
+                if (isSearchPrjct)
+                {
+                    VSearchPrjct = Visibility.Visible;
+                    VListPrjct = Visibility.Collapsed;
+                }
+                else
+                {
+                    VSearchPrjct = Visibility.Collapsed;
+                    VListPrjct = Visibility.Visible;
+                }
+                OnPropertyChanged("IsSearchPrjct");
+            }
+        }
+
+        public Visibility VSearchPrjct
+        {
+            get
+            {
+                return vSearchPrjct;
+            }
+
+            set
+            {
+                vSearchPrjct = value;
+
+                OnPropertyChanged("VSearchPrjct");
+            }
+        }
+        public Visibility VListPrjct
+        {
+            get
+            {
+                return vListPrjct;
+            }
+
+            set
+            {
+                vListPrjct = value;
+
+                OnPropertyChanged("VListPrjct");
+            }
+        }
+        public bool IsSearchTask
+        {
+            get
+            {
+                return isSearchTask;
+            }
+
+            set
+            {
+                isSearchTask = value;
+                if (isSearchTask)
+                {
+                    VSearchTask = Visibility.Visible;
+                    VListTask = Visibility.Collapsed;
+                }
+                else
+                {
+                    VSearchTask = Visibility.Collapsed;
+                    VListTask = Visibility.Visible;
+                }
+                OnPropertyChanged("IsSearchTask");
+            }
+        }
+        public Visibility VSearchTask
+        {
+            get
+            {
+                return vSearchTask;
+            }
+
+            set
+            {
+                vSearchTask = value;
+
+                OnPropertyChanged("VSearchTask");
+            }
+        }
+        public Visibility VListTask
+        {
+            get
+            {
+                return vListTask;
+            }
+
+            set
+            {
+                vListTask = value;
+
+                OnPropertyChanged("VListTask");
+            }
+        }
+        public bool IsEnableEditPr
+        {
+            get
+            {
+                return isEnableEditPr;
+            }
+
+            set
+            {
+                isEnableEditPr = value;
+                OnPropertyChanged("IsEnableEditPr");
+            }
+        }
+
+        public bool IsEnableEditTask
+        {
+            get
+            {
+                return isEnableEditTask;
+            }
+
+            set
+            {
+                isEnableEditTask = value;
+                OnPropertyChanged("IsEnableEditTask");
+            }
+        }
         public string Login
         {
             get { return login; }
@@ -748,6 +701,9 @@ namespace TeamWork
                     loadAllProjects();
                     loadAllTasks();
                     EnterProgram();
+                    IsTeamlead = currentEmployee.Position_Id == 5;
+                    IsHR = currentEmployee.Position_Id == 6;
+                    IsAdmin = currentEmployee.Position_Id == 7;
                 }
                 OnPropertyChanged("Login");
             }
@@ -947,17 +903,28 @@ namespace TeamWork
                     return null;
             }
         }
-
-        public int iSysPMList
+        public string SelSysPMList
         {
             get
             {
-                return ISysPMList;
+                return selSysPMList;
             }
             set
             {
-                ISysPMList = value;
-                OnPropertyChanged("iSysPMList");
+                selSysPMList = value;
+                OnPropertyChanged("SelSysPMList");
+            }
+        }
+        public int ISysPMList
+        {
+            get
+            {
+                return iSysPMList;
+            }
+            set
+            {
+                iSysPMList = value;
+                OnPropertyChanged("ISysPMList");
             }
         }
         public List<string> SysPMList
@@ -1185,10 +1152,12 @@ namespace TeamWork
                     loadCurPrInfo();
                     loadAllTasks();
                     IsSelectedPrjct = true;
-                    isEnabledSavePr = true;
-                    isEnabledFavPr = true;
-                    isEnabledAddPr = true;
-                    isEnabledDelPr = true;
+                    IsEnabledSavePr = true;
+                    IsEnabledFavPr = true;
+                    IsEnabledAddPr = true;
+                    IsEnabledDelPr = true;
+                    IsEnableEditPr = true;
+
                 }
                 OnPropertyChanged("SelTreeElemPr");
             }
@@ -1207,10 +1176,12 @@ namespace TeamWork
                 if (temp != null && !temp.isCatagory)
                 {
                     loadCurTsInfo();
-                    isEnabledSaveTask = true;
-                    isEnabledFavTask = true;
-                    isEnabledAddTask = true;
-                    isEnabledDelTask = true;
+                    IsEnabledSaveTask = true;
+                    IsEnabledFavTask = true;
+                    IsEnabledAddTask = true;
+                    IsEnabledDelTask = true;
+                    IsSelectedTask = true;
+                    IsEnableEditTask = true;
                 }
                 OnPropertyChanged("SelTreeElemTask");
             }
@@ -1239,6 +1210,7 @@ namespace TeamWork
             set
             {
                 isSelectedTask = value;
+                IsEnableEditTask = value;
                 OnPropertyChanged("IsSelectedTask");
             }
         }
@@ -1846,9 +1818,134 @@ namespace TeamWork
 
         #endregion
 
-
         #region functions
         #region load func
+        public void loadCustomerNorm()
+        {
+            ListCustomer.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllCustomers();
+            foreach (var temp in tempList)
+            {
+                ListCustomer.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadDurationNorm()
+        {
+            ListDuration.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllDurations();
+            foreach (var temp in tempList)
+            {
+                ListDuration.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadLeadNorm()
+        {
+            ListLead.Clear();
+
+            List<KeyValuePair<int, string>> tempList = F_Staff.GetTeamLeaders();
+            foreach (var temp in tempList)
+            {
+                ListLead.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadOperationSystemNorm()
+        {
+            ListOperationSystem.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllOSs();
+            foreach (var temp in tempList)
+            {
+                ListOperationSystem.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadSkillNorm()
+        {
+            ListSkill.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllSkills();
+            foreach (var temp in tempList)
+            {
+                ListSkill.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadStageNorm()
+        {
+            ListStage.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllStages();
+            foreach (var temp in tempList)
+            {
+                ListStage.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadTypeNorm()
+        {
+            ListType.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllTypes();
+            foreach (var temp in tempList)
+            {
+                ListType.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadObjectiveNorm()
+        {
+            ListObjective.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Projects.GetAllObjectives();
+            foreach (var temp in tempList)
+            {
+                ListObjective.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+
+        public void loadAssigneeNorm()
+        {
+            ListAssignee.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Staff.GetEmployeesFullNameWithId();
+            foreach (var temp in tempList)
+            {
+                ListAssignee.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadPriorityNorm()
+        {
+            ListPriority.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Task.GetAllPriorityes();
+            foreach (var temp in tempList)
+            {
+                ListPriority.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadStatusNorm()
+        {
+            ListStatus.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Task.GetAllStatuses();
+            foreach (var temp in tempList)
+            {
+                ListStatus.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+        public void loadTypeTasksNorm()
+        {
+            ListTypeTasks.Clear();
+            List<KeyValuePair<int, string>> tempList = F_Task.GetAllTaskTypes();
+            foreach (var temp in tempList)
+            {
+                ListTypeTasks.Add(new checkEl<KeyValuePair<int, string>>(false, temp));
+            }
+        }
+
+        private void LoadSearchNorms()
+        {
+            loadCustomerNorm();
+            loadDurationNorm();
+            loadLeadNorm();
+            loadOperationSystemNorm();
+            loadSkillNorm();
+            loadStageNorm();
+            loadTypeNorm();
+            loadObjectiveNorm();
+            loadAssigneeNorm();
+            loadPriorityNorm();
+            loadStatusNorm();
+            loadTypeTasksNorm();
+        }
         void loadAllListPrInfo()
         {
             try
@@ -1964,7 +2061,7 @@ namespace TeamWork
                 foreach (var temp in tempClass)
                     TaskAssignees.Add(new checkEl<KeyValuePair<int, string>>(temp));
                 TaskAssignees = new List<checkEl<KeyValuePair<int, string>>>(TaskAssignees);
-
+                
                 TaskFiles = new List<checkEl<TaskFile>>();
                 List<TeamworkDB.TaskFile> tempFiels = F_Task.GetIssueFiles(tempPr.id, tempTs.id);
                 foreach (var temp in tempFiels)
@@ -1973,6 +2070,15 @@ namespace TeamWork
                 ListComments = F_Task.GetAllCommentsObjects(tempPr.id, tempTs.id);
 
                 IsNewTask = false;
+                var checkIsUserTask = TaskAssignees.Where(u => u.chClass.Key == CurrentEmployee.Id).ToList().Count > 0;
+                if (checkIsUserTask)
+                {
+                    IsUserTask = true;
+                }
+                else
+                {
+                    IsUserTask = false;
+                }
             }
             catch (Exception ex)
             {
@@ -1985,26 +2091,36 @@ namespace TeamWork
             {
                 if (currentEmployee == null)
                     return;
+
                 ListProj[0].subEl = new ObservableCollection<TeamWork.treeElem>();
                 ListProj[1].subEl = new ObservableCollection<TeamWork.treeElem>();
-                ListProj[2].subEl = new ObservableCollection<TeamWork.treeElem>();
-                List<KeyValuePair<int, string>> tempPrj = F_Projects.GetAllProjectsNameWithId();
-                foreach (var temp in tempPrj)
+                if (IsTeamlead)
+                    ListProj[2].subEl = new ObservableCollection<TeamWork.treeElem>();
+                List<KeyValuePair<int, string>> tempPrj = new List<KeyValuePair<int, string>> ();
+                int i = 0;
+                if (IsTeamlead)
                 {
-                    string imPath = F_Projects.GetProjectStage(temp.Value);
-                    ListProj[0].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    tempPrj = F_Projects.GetAllProjectsNameWithId();
+                    foreach (var temp in tempPrj)
+                    {
+                        string imPath = F_Projects.GetProjectStage(temp.Value);
+                        ListProj[i].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    }
+                    i++;
                 }
+               
                 tempPrj = F_Projects.GetUserFavouriteProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
-                    ListProj[1].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    ListProj[i].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
+                i++;
                 tempPrj = F_Projects.GetUserProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
-                    ListProj[2].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    ListProj[i].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
                 ListProj = new List<treeElem>(ListProj);
             }
@@ -2021,27 +2137,35 @@ namespace TeamWork
                     return;
 
                 ListProj.Clear();
-                ListProj.Add(new treeElem("All", new ObservableCollection<treeElem>(), true,true));
-                List<KeyValuePair<int, string>> tempPrj = F_Projects.GetAllProjectsNameWithId();
-                foreach (var temp in tempPrj)
+                List<KeyValuePair<int, string>> tempPrj = new List<KeyValuePair<int, string>>();
+                int i = 0;
+                if (IsTeamlead)
                 {
-                    string imPath = F_Projects.GetProjectStage(temp.Value);
-                    ListProj[0].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    ListProj.Add(new treeElem("All", new ObservableCollection<treeElem>(), true, true));
+                    tempPrj = F_Projects.GetAllProjectsNameWithId();
+                    foreach (var temp in tempPrj)
+                    {
+                        string imPath = F_Projects.GetProjectStage(temp.Value);
+                        ListProj[i].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    }
+                    i++;
                 }
                 ListProj.Add(new treeElem("Favorite", new ObservableCollection<treeElem>(), true, true));
                 tempPrj = F_Projects.GetUserFavouriteProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
-                    ListProj[1].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    ListProj[i].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
+                i++;
                 ListProj.Add(new treeElem("Your", new ObservableCollection<treeElem>(), true, true));
                 tempPrj = F_Projects.GetUserProjectsNameWithId(currentEmployee.Id);
                 foreach (var temp in tempPrj)
                 {
                     string imPath = F_Projects.GetProjectStage(temp.Value);
-                    ListProj[2].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
+                    ListProj[i].subEl.Add(new treeElem(temp.Key, temp.Value, new ObservableCollection<treeElem>()));
                 }
+                
                 ListProj = new List<treeElem>(ListProj);
             }
             catch (Exception ex)
@@ -2336,7 +2460,193 @@ namespace TeamWork
         }
         #endregion
 
-        
+
+        private DelegateCommand ButtonAllPrjctsClick;
+        public ICommand BAllPrjcts_Click
+        {
+            get
+            {
+                if (ButtonAllPrjctsClick == null)
+                {
+                    ButtonAllPrjctsClick = new DelegateCommand(param => this.AllPrjcts(), param => true);
+                }
+                return ButtonAllPrjctsClick;
+            }
+        }
+        void AllPrjcts()
+        {
+            IsSearchPrjct = false;
+        }
+        private DelegateCommand ButtonAllTasksClick;
+        public ICommand BAllTasks_Click
+        {
+            get
+            {
+                if (ButtonAllTasksClick == null)
+                {
+                    ButtonAllTasksClick = new DelegateCommand(param => this.AllTasks(), param => true);
+                }
+                return ButtonAllTasksClick;
+            }
+        }
+        void AllTasks()
+        {
+            IsSearchTask = false;
+        }
+        private DelegateCommand ButtonSearchClick;
+        public ICommand BSearchProject_Click
+        {
+            get
+            {
+                if (ButtonSearchClick == null)
+                {
+                    ButtonSearchClick = new DelegateCommand(param => this.SearchProject(), param => isEnableSearchProject());
+                }
+                return ButtonSearchClick;
+            }
+        }
+        public bool isEnableSearchProject()
+        {
+            return szSearchProjName.Length > 0;
+        }
+        List<List<KeyValuePair<int, string>>> CheckSearchProjNorm()
+        {
+            List<List<KeyValuePair<int, string>>> resList = new List<List<KeyValuePair<int, string>>>();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listCustomer)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listDuration)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListObjective)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listOperationSystem)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listSkill)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listStage)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in listType)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+
+            return resList;
+        }
+        void SearchProject()
+        {
+            List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchProjNorm();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+
+            ListFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
+            tempList = F_Projects.GetAllProjectsNameFilter(SearchProjName == null ? string.Empty : SearchProjName,
+                tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
+                tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList(),
+                tempNorm[4].Select(n => n.Key).ToList(), tempNorm[5].Select(n => n.Key).ToList(), tempNorm[6].Select(n => n.Key).ToList());
+            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
+            foreach (var temp in tempList)
+            {
+                ListFindProjects.Add(temp);
+            }
+            IsSearchPrjct = true;
+        }
+        private DelegateCommand ButtonSearchTaskClick;
+        public ICommand BSearchTasks_Click
+        {
+            get
+            {
+                if (ButtonSearchTaskClick == null)
+                {
+                    ButtonSearchTaskClick = new DelegateCommand(param => this.SearchTasks(), param => isEnableSearchTasks());
+                }
+                return ButtonSearchTaskClick;
+            }
+        }
+        public bool isEnableSearchTasks()
+        {
+            return szSearchTaskName.Length > 0;
+        }
+        List<List<KeyValuePair<int, string>>> CheckSearchTasksNorm()
+        {
+            List<List<KeyValuePair<int, string>>> resList = new List<List<KeyValuePair<int, string>>>();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListAssignee)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListPriority)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListStatus)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            foreach (var temp in ListTypeTasks)
+            {
+                if (temp.isCheck)
+                    tempList.Add(temp.chClass);
+            }
+            resList.Add(tempList);
+            tempList = new List<KeyValuePair<int, string>>();
+            return resList;
+        }
+        void SearchTasks()
+        {
+            List<List<KeyValuePair<int, string>>> tempNorm = CheckSearchTasksNorm();
+            List<KeyValuePair<int, string>> tempList = new List<KeyValuePair<int, string>>();
+            ListFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
+            tempList = F_Task.GetAllIssuesFilter(CurrentProject.Id, SearchTaskName == null ? string.Empty : SearchTaskName,
+                tempNorm[0].Select(n => n.Key).ToList(), tempNorm[1].Select(n => n.Key).ToList(),
+                tempNorm[2].Select(n => n.Key).ToList(), tempNorm[3].Select(n => n.Key).ToList());
+            ListFindProjects.Add(new KeyValuePair<int, string>(-1, "Search result, count: " + tempList.Count));
+            foreach (var temp in tempList)
+            {
+                ListFindTasks.Add(temp);
+            }
+            IsSearchTask = true;
+
+        }
         private DelegateCommand ButtonAddPrFilesClick;
         public ICommand BAddPrFiles_Click
         {
@@ -3043,7 +3353,8 @@ namespace TeamWork
             IsNewProj = true;
             IsEnabledSavePr = true;
             loadAllListPrInfo();
-            IsSelectedPrjct = true;
+            IsEnableEditPr = true;
+            isNewPrjct = true;
         }
         
         private DelegateCommand ButtonDelProjClick;
@@ -3117,7 +3428,8 @@ namespace TeamWork
             TaskFiles = new List<checkEl<TaskFile>>();
             ListComments = new List<TaskComment> ();
             IsNewTask = true;
-            IsSelectedTask = true;
+            IsEnableEditTask = true;
+
         }
         private DelegateCommand ButtonDelTaskClick;
         public ICommand BDelTask_Click
@@ -3618,7 +3930,7 @@ namespace TeamWork
             treeElem tempTs = SelTreeElemTask as treeElem;
             if (tempTs == null)
                 return;
-            isEnableEditTask = !isEnableEditTask;
+            IsEnableEditTask = !IsEnableEditTask;
             F_Task.EditIssueName(tempPr.id, tempTs.id, CurTaskName);
         }
         private DelegateCommand ButtonEditTaskDueDateClick;
@@ -3641,7 +3953,7 @@ namespace TeamWork
             treeElem tempTs = SelTreeElemTask as treeElem;
             if (tempTs == null)
                 return;
-            isEnableEditTask = !isEnableEditTask;
+            IsEnableEditTask = !IsEnableEditTask;
             F_Task.EditIssueDueDate(tempPr.id, tempTs.id, CurTaskDueDate);
         }
 
@@ -3665,7 +3977,7 @@ namespace TeamWork
             treeElem tempTs = SelTreeElemTask as treeElem;
             if (tempTs == null)
                 return;
-            isEnableEditTask = !isEnableEditTask;
+            IsEnableEditTask = !IsEnableEditTask;
             F_Task.EditIssueStatus(tempPr.id, tempTs.id, CurTaskStatus.Key);
         }
         private DelegateCommand ButtonEditTaskPriorityClick;
@@ -3688,7 +4000,7 @@ namespace TeamWork
             treeElem tempTs = SelTreeElemTask as treeElem;
             if (tempTs == null)
                 return;
-            isEnableEditTask = !isEnableEditTask;
+            IsEnableEditTask = !IsEnableEditTask;
             F_Task.EditIssuePriority(tempPr.id, tempTs.id, CurTaskPriority.Key);
         }
         private DelegateCommand ButtonEditTaskTypeClick;
@@ -3711,7 +4023,7 @@ namespace TeamWork
             treeElem tempTs = SelTreeElemTask as treeElem;
             if (tempTs == null)
                 return;
-            isEnableEditTask = !isEnableEditTask;
+            IsEnableEditTask = !IsEnableEditTask;
 
             F_Task.EditIssueType(tempPr.id, tempTs.id, CurTaskType.Key);
         }
@@ -3736,7 +4048,7 @@ namespace TeamWork
             treeElem tempTs = SelTreeElemTask as treeElem;
             if (tempTs == null)
                 return;
-            isEnableEditTask = !isEnableEditTask;
+            IsEnableEditTask = !IsEnableEditTask;
             F_Task.EditIssueDescription(tempPr.id, tempTs.id, CurTaskDescription);
         }
         private DelegateCommand ButtonAddTaskAssigneesClick;
@@ -3797,7 +4109,7 @@ namespace TeamWork
             treeElem tempTs = SelTreeElemTask as treeElem;
             if (tempTs == null)
                 return;
-            isEnableEditTask = !isEnableEditTask;
+            IsEnableEditTask = !IsEnableEditTask;
             List<KeyValuePair<int, string>> allIssueAssignees = F_Task.GetIssueAssigneesNameWithId(tempPr.id, tempTs.id);
             for (int i = 0; i < TaskAssignees.Count; i++)
             {
