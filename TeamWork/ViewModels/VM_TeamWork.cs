@@ -475,6 +475,8 @@ namespace TeamWork
                 isAdmin = value;
                 if (IsAdmin)
                 {
+                    IsHR = true;
+                    IsTeamlead = true;
                     VAdmin = Visibility.Visible;
                     VHR = Visibility.Visible;
                     VTeamlead = Visibility.Visible;
@@ -505,7 +507,7 @@ namespace TeamWork
             set
             {
                 isHR = value;
-                if (IsAdmin)
+                if (isHR)
                 {
                     VAdmin = Visibility.Collapsed;
                     VHR = Visibility.Visible;
@@ -698,12 +700,15 @@ namespace TeamWork
                 currentEmployee = database.GetEmployeeByLogin(login);
                 if (currentEmployee != null)
                 {
+                   
+                    IsTeamlead = currentEmployee.Position_Id == 5;
+                    if(!IsTeamlead)
+                        IsHR = currentEmployee.Position_Id == 6;
+                    if (!IsHR && !IsTeamlead)
+                        IsAdmin = currentEmployee.Position_Id == 7;
                     loadAllProjects();
                     loadAllTasks();
                     EnterProgram();
-                    IsTeamlead = currentEmployee.Position_Id == 5;
-                    IsHR = currentEmployee.Position_Id == 6;
-                    IsAdmin = currentEmployee.Position_Id == 7;
                 }
                 OnPropertyChanged("Login");
             }

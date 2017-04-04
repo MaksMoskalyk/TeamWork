@@ -217,7 +217,7 @@
                     </Grid>
                 </Grid>
             </Expander>
-            <Expander DockPanel.Dock="Left" ExpandDirection="Right">
+            <Expander DockPanel.Dock="Left" ExpandDirection="Right" IsEnabled="{Binding IsSelectedPrjct}">
                 <Expander.Header>
                     <TextBlock Text="TASKS" VerticalAlignment="Top" Foreground="White">
                         <TextBlock.LayoutTransform>
