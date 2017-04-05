@@ -37,7 +37,7 @@
             </Grid.RowDefinitions>
             <Label FontSize="14" Content="Team Work Entrance" Margin="5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Label FontSize="14" Content="Login:" Margin="5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1"/>
-            <TextBox x:Name="TBLogin" FontSize="16" Margin="5" TextWrapping="Wrap" Text="{Binding CurrentLogin}" Controls:TextBoxHelper.Watermark="Enter logine" Controls:TextBoxHelper.ClearTextButton="True" Grid.Row="2" VerticalContentAlignment="Center" />
+            <TextBox x:Name="TBLogin" FontSize="16" Margin="5" TextWrapping="Wrap" Text="{Binding CurrentLogin}" Controls:TextBoxHelper.Watermark="Enter login" Controls:TextBoxHelper.ClearTextButton="True" Grid.Row="2" VerticalContentAlignment="Center" />
             <Label FontSize="14" Content="Password:" Margin="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" />
             <PasswordBox x:Name="PBPassword" FontSize="16" Margin="5" Controls:TextBoxHelper.Watermark="Enter password" Controls:TextBoxHelper.ClearTextButton="True" Grid.Row="4" VerticalContentAlignment="Center">
                 <i:Interaction.Behaviors>
