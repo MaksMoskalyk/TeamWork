@@ -58,6 +58,14 @@ namespace AccentStyle
             serializer.Serialize(stream, Settings);
             stream.Close();
         }
+        public void SerializeSettingTemp()
+        {
+            FileStream stream = new FileStream("../../../Settings/ClientSettingsTemp.xml", FileMode.Create);
+            XmlSerializer serializer = new XmlSerializer(typeof(ClientSettings));
+            ClientSettings Settings = new ClientSettings(appTheme, accent, color);
+            serializer.Serialize(stream, Settings);
+            stream.Close();
+        }
         public void DeserializeSetting()
         {
             XmlSerializer formatter = new XmlSerializer(typeof(ClientSettings));
@@ -71,6 +79,24 @@ namespace AccentStyle
                     color = Settings.color;
                 }
                 catch(System.Runtime.Serialization.SerializationException ex)
+                {
+
+                }
+            }
+        }
+        public void DeserializeSettingTemp()
+        {
+            XmlSerializer formatter = new XmlSerializer(typeof(ClientSettings));
+            using (FileStream fs = new FileStream("../../../Settings/ClientSettingsTemp.xml", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    var Settings = (ClientSettings)formatter.Deserialize(fs);
+                    appTheme = Settings.appTheme;
+                    accent = Settings.accent;
+                    color = Settings.color;
+                }
+                catch (System.Runtime.Serialization.SerializationException ex)
                 {
 
                 }

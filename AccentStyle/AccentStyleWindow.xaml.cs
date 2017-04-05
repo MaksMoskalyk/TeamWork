@@ -53,7 +53,7 @@ namespace AccentStyle
             theme = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, theme.Item2, ThemeManager.GetAppTheme("Base" + ((Button)sender).Content));
             Settings = new ClientSettings(ThemeManager.GetAppTheme("Base" + ((Button)sender).Content).Name, theme.Item2.Name);
-            
+            Settings.SerializeSetting();
         }
 
         private void ChangeAppAccentButtonClick(object sender, RoutedEventArgs e)
@@ -64,7 +64,7 @@ namespace AccentStyle
             theme = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(((Button)sender).Content.ToString()), theme.Item1);
             Settings = new ClientSettings(theme.Item1.Name, ThemeManager.GetAccent(((Button)sender).Content.ToString()).Name);
-            
+            Settings.SerializeSetting();
         }
 
         private void AccentSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,7 +79,8 @@ namespace AccentStyle
                 ThemeManager.ChangeAppStyle(Application.Current, selectedAccent, theme.Item1);
     
                 Settings = new ClientSettings(theme.Item1.Name, selectedAccent.Name);
-                
+                Settings.SerializeSetting();
+
             }
         }
 
@@ -93,7 +94,8 @@ namespace AccentStyle
                 ThemeManagerHelper.CreateAppStyleBy(selectedColor.Value.Value, true);
            
                 Settings = new ClientSettings(theme.Item1.Name, selectedColor.Value.Value);
-                
+                Settings.SerializeSetting();
+
             }
         }
 
@@ -105,10 +107,12 @@ namespace AccentStyle
             if ((bool)MB_YesNo.ShowDialog())
             {
                 Settings.SerializeSetting();
+                Settings.SerializeSettingTemp();
             }
             else
             {
-                Settings.DeserializeSetting();
+                Settings.DeserializeSettingTemp();
+                Settings.SerializeSetting();
             }
             
             
