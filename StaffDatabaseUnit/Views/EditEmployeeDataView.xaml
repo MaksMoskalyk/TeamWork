@@ -76,7 +76,7 @@
 
             <TabItem Header="Contact Info">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
@@ -90,7 +90,7 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
@@ -106,7 +106,7 @@
                             <Label Content="{Binding PhoneInputError}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Foreground="Red"
                                    Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
 
-                            <DataGrid x:Name="lb_PhonesList" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
+                            <DataGrid x:Name="lb_PhonesList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
                                  ItemsSource="{Binding EmployeeData.Phones, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
                                  DisplayMemberPath=""
@@ -139,7 +139,7 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
@@ -155,7 +155,7 @@
                             <Label Content="{Binding MailInputError}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Foreground="Red"
                                    Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
 
-                            <DataGrid x:Name="lb_EmailsList" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" 
+                            <DataGrid x:Name="lb_EmailsList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" 
                                       VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
                                  ItemsSource="{Binding EmployeeData.Mails, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
@@ -189,14 +189,14 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Label Content="Account" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
                             <Label Content="Web Service" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
                             <TextBox x:Name="tb_NewWebAccount" HorizontalAlignment="Stretch" Margin="5" TextWrapping="Wrap" VerticalAlignment="Stretch" FontSize="16"
-                                 Grid.Row="1" Grid.Column="1" MinWidth="300" Padding="0"
+                                 Grid.Row="1" Grid.Column="1" MinWidth="325" Padding="0"
                                  Controls:TextBoxHelper.ClearTextButton="True"
                                  Text="{Binding EmployeeData.InputWebAccount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             <ComboBox x:Name="cb_WebServices" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5" 
@@ -209,7 +209,7 @@
                                     Margin="5" VerticalAlignment="Stretch" FontSize="14"
                                     Grid.Row="1" Padding="5" Width="120"
                                     Command="{Binding ButtonAddWebServiceAccount}"/>
-                            <DataGrid x:Name="lb_WebAccountsList" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" 
+                            <DataGrid x:Name="lb_WebAccountsList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" 
                                      MinHeight="80" Grid.ColumnSpan="2"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
                                      ItemsSource="{Binding EmployeeData.WebAccounts, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
@@ -241,7 +241,7 @@
 
             <TabItem Header="Skills">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition></RowDefinition>
@@ -282,7 +282,7 @@
                             </ComboBox>
                         </Grid>
 
-                        <DataGrid x:Name="lb_SkillsList" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
+                        <DataGrid x:Name="lb_SkillsList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
                                  ItemsSource="{Binding EmployeeData.SkillTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                  SelectedItem="{Binding X, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}">
@@ -338,7 +338,7 @@
 
             <TabItem Header="Experience">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -460,7 +460,7 @@
                             </Grid>
                         </Grid>
 
-                        <DataGrid x:Name="dg_Experience" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
+                        <DataGrid x:Name="dg_Experience" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
                                   ItemsSource="{Binding EmployeeData.ExperienceTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                   SelectedItem="{Binding EmployeeData.SelectedExperienceTableUnit, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
                                   AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" CanUserResizeColumns="True">
@@ -477,7 +477,7 @@
 
             <TabItem Header="Education">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -588,7 +588,7 @@
                             </Grid>
                         </Grid>
 
-                        <DataGrid x:Name="dg_Education" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
+                        <DataGrid x:Name="dg_Education" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
                                   ItemsSource="{Binding EmployeeData.EducationTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                   SelectedItem="{Binding EmployeeData.SelectedEducationTableUnit, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
                                   AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
@@ -605,7 +605,7 @@
 
             <TabItem Header="General Info">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -614,7 +614,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <DataGrid HorizontalAlignment="Stretch" Margin="5" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14" MinHeight="50"
+                        <DataGrid BorderThickness="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14" MinHeight="50"
                                   ItemsSource="{Binding EmployeeData.LanguageTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                   AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>

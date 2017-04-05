@@ -143,14 +143,14 @@
 
                 <TabItem Header="Contact Info">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <Grid Background="#FFE5E5E5">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid Grid.Row="0" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" FontSize="15" MinHeight="50"
+                            <DataGrid BorderThickness="1" Grid.Row="0" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" FontSize="15" MinHeight="50"
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                       ItemsSource="{Binding CurrentEmployee.Phones, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                                 <DataGrid.Columns>
@@ -158,7 +158,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,20,5,5" VerticalAlignment="Stretch" FontSize="15" MinHeight="50"
+                            <DataGrid BorderThickness="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,20,5,5" VerticalAlignment="Stretch" FontSize="15" MinHeight="50"
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                       ItemsSource="{Binding CurrentEmployee.Mails, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                                 <DataGrid.Columns>
@@ -166,7 +166,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid Grid.Row="2" HorizontalAlignment="Stretch" Margin="5,20,5,5" VerticalAlignment="Stretch" FontSize="15" MinHeight="50"
+                            <DataGrid BorderThickness="1" Grid.Row="2" HorizontalAlignment="Stretch" Margin="5,20,5,5" VerticalAlignment="Stretch" FontSize="15" MinHeight="50"
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                       ItemsSource="{Binding CurrentEmployee.WebAccounts, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                                 <DataGrid.Columns>
@@ -180,13 +180,13 @@
 
                 <TabItem Header="Skills">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <Grid Background="#FFE5E5E5">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid x:Name="dg_SkillsTable" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
+                            <DataGrid x:Name="dg_SkillsTable" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
                                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                       ItemsSource="{Binding CurrentEmployee.SkillTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
@@ -201,14 +201,14 @@
             
                 <TabItem Header="Education &amp; Experience">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <Grid Background="#FFE5E5E5">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid x:Name="dg_Education" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14"
+                            <DataGrid x:Name="dg_Education" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14"
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                   ItemsSource="{Binding CurrentEmployee.EducationTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                                 <DataGrid.Columns>
@@ -219,7 +219,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid x:Name="dg_Experience" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
+                            <DataGrid x:Name="dg_Experience" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                   ItemsSource="{Binding CurrentEmployee.ExperienceTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                                 <DataGrid.Columns>
@@ -235,7 +235,7 @@
 
                 <TabItem Header="General Info">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <Grid Background="#FFE5E5E5">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
@@ -243,7 +243,7 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid HorizontalAlignment="Stretch" Margin="5,5,5,10" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14" MinHeight="50"
+                            <DataGrid BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,5,5,10" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14" MinHeight="50"
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                       ItemsSource="{Binding CurrentEmployee.LanguageTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                                 <DataGrid.Columns>
