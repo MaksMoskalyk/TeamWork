@@ -104,11 +104,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\InputEmployeeDataModel\AccountData.cs" />
     <Compile Include="Model\ShowEmployeeDataModel\LanguagesInfo.cs" />
     <Compile Include="Model\ShowEmployeeDataModel\SkillsInfo.cs" />
     <Compile Include="Model\ShowEmployeeDataModel\SpecificEmployee.cs" />
     <Compile Include="ViewModels\Authentication\DatabaseAuthenticationEntity.cs" />
     <Compile Include="ViewModels\Authentication\IDatabaseAuthentication.cs" />
+    <Compile Include="ViewModels\ChangeAccountInfoVM\ChangeAccountInfoGlueCode.cs" />
+    <Compile Include="ViewModels\ChangeAccountInfoVM\ChangeAccountInfoViewModel.cs" />
     <Compile Include="ViewModels\ChangeAccountInfoVM\PasswordBoxAssistant.cs" />
     <Compile Include="ViewModels\InputEmployeeDataVM\DatabaseInteraction\DatabaseInputEmployeeDataEntity.cs" />
     <Compile Include="ViewModels\InputEmployeeDataVM\DatabaseInteraction\IDatabaseInputEmployeeData.cs" />
