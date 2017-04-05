@@ -45,7 +45,7 @@
                 </i:Interaction.Behaviors>
             </PasswordBox>
 
-            <Button x:Name="BEnter" Content="Log in" Margin="5" Command="{Binding BEnter_Click}" ToolTip="Enter to gallery" Grid.Row="6"  />
+            <Button x:Name="BEnter" Content="Log in" Margin="10,4,10,10" Command="{Binding BEnter_Click}" ToolTip="Enter to gallery" Grid.Row="6"  />
             <Label Margin="5"  Content="{Binding TxError,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="#FFF50202" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Grid.Row="5" />
         </Grid>
     </Grid>

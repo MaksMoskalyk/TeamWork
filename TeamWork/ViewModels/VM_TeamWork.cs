@@ -2176,7 +2176,7 @@ namespace TeamWork
             }
             catch (Exception ex)
             {
-                SysPMList.Add(ex.Message);
+                ////SysPMList.Add(ex.Message);
             }
 
         }
@@ -2306,7 +2306,7 @@ namespace TeamWork
             }
             catch (Exception ex)
             {
-                SysPMList.Add(ex.Message);
+                ////SysPMList.Add(ex.Message);
             }
         }
         void loadCurTsInfo()
@@ -2387,7 +2387,7 @@ namespace TeamWork
             }
             catch (Exception ex)
             {
-                SysPMList.Add(ex.Message);
+                ////SysPMList.Add(ex.Message);
             }
         }
         public void uploadAllProjects()
@@ -2431,7 +2431,7 @@ namespace TeamWork
             }
             catch (Exception ex)
             {
-                SysPMList.Add(ex.Message);
+                //SysPMList.Add(ex.Message);
             }
         }
         public void loadAllProjects()
@@ -2475,7 +2475,7 @@ namespace TeamWork
             }
             catch (Exception ex)
             {
-                SysPMList.Add(ex.Message);
+                //SysPMList.Add(ex.Message);
             }
         }
         public void loadAllTasks()

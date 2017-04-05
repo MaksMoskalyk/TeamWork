@@ -101,20 +101,26 @@ namespace AccentStyle
 
         private void saveBeforClosed(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            CustomMessageBox.MessageBox MB_YesNo = new CustomMessageBox.MessageBox();
-            VM_CustomMessageBox VM_YesNo = new VM_CustomMessageBox("Save style", "Do you want save this style setting?");
-            MB_YesNo.DataContext = VM_YesNo;
-            if ((bool)MB_YesNo.ShowDialog())
+            var tM = new ClientSettings();
+            tM.DeserializeSetting();
+            var tT = new ClientSettings();
+            tT.DeserializeSettingTemp();
+            if ((tM.color != tT.color || tM.accent != tT.accent) && tM.appTheme != tT.appTheme )
             {
-                Settings.SerializeSetting();
-                Settings.SerializeSettingTemp();
+                CustomMessageBox.MessageBox MB_YesNo = new CustomMessageBox.MessageBox();
+                VM_CustomMessageBox VM_YesNo = new VM_CustomMessageBox("Save style", "Do you want save this style setting?");
+                MB_YesNo.DataContext = VM_YesNo;
+                if ((bool)MB_YesNo.ShowDialog())
+                {
+                    Settings.SerializeSetting();
+                    Settings.SerializeSettingTemp();
+                }
+                else
+                {
+                    Settings.DeserializeSettingTemp();
+                    Settings.SerializeSetting();
+                }
             }
-            else
-            {
-                Settings.DeserializeSettingTemp();
-                Settings.SerializeSetting();
-            }
-            
             
         }
     }
