@@ -150,11 +150,13 @@ namespace TeamWork
         private List<checkEl<KeyValuePair<int, string>>> currentProjTypes;
         private List<checkEl<KeyValuePair<int, string>>> currentProjOS;
         private object selTreeElemPr;
-
+        private object selTreeElemTask;
+        private KeyValuePair<int, string> selSearchElemPr;
+        private KeyValuePair<int, string> selSearchElemTask;
         private List<checkEl<TeamworkDB.ProjectFile>> curProjFiles;
 
         private TeamworkDB.Project currentProject;
-        private object selTreeElemTask;
+        
         private string currentTask;
         private string сurTaskName;
         private DateTime curTaskCreationDate;
@@ -234,7 +236,8 @@ namespace TeamWork
             selTreeElemPr = new object();
             listFindProjects = new ObservableCollection<KeyValuePair<int, string>>();
             listFindTasks = new ObservableCollection<KeyValuePair<int, string>>();
-
+            selSearchElemPr = new KeyValuePair<int, string>();
+            selSearchElemTask = new KeyValuePair<int, string>();
             listCustomer = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
             listDuration = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
             listLead = new ObservableCollection<checkEl<KeyValuePair<int, string>>>();
@@ -1268,6 +1271,32 @@ namespace TeamWork
                     IsChangePr = true;
                 }
                 OnPropertyChanged("ListEmpl");
+            }
+        }
+        public KeyValuePair<int, string> SelSearchElemPr
+        {
+            get
+            {
+                return selSearchElemPr;
+            }
+            set
+            {
+                selSearchElemPr = value;
+                SelTreeElemPr = new treeElem(selSearchElemPr.Key, selSearchElemPr.Value, null);
+                OnPropertyChanged("SelSearchElemPr");
+            }
+        }
+        public KeyValuePair<int, string> SelSearchElemTask
+        {
+            get
+            {
+                return selSearchElemTask;
+            }
+            set
+            {
+                selSearchElemTask = value;
+                SelTreeElemTask = new treeElem(selSearchElemTask.Key, selSearchElemTask.Value, null);
+                OnPropertyChanged("SelSearchElemTask");
             }
         }
         
@@ -2615,7 +2644,7 @@ namespace TeamWork
                 }
                 catch (Exception ex)
                 {
-                    uiContext.Send(d => SysPMList.Add("System " + ex.Message), null);
+                    uiContext.Send(d => SysPMList.Insert(0, "System " + ex.Message), null);
                 }
             });
         }
@@ -2630,29 +2659,29 @@ namespace TeamWork
                 }
                 catch (Exception ex)
                 {
-                    uiContext.Send(d => SysPMList.Add("System " + ex.Message), null);
+                    uiContext.Send(d => SysPMList.Insert(0, "System " + ex.Message), null);
                 }
             });
         }
         public void sendSystemMessageCB(string mes)
         {
-            uiContext.Send(d => SysPMList.Add(mes + " - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
+            uiContext.Send(d => SysPMList.Insert(0, mes + " - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
             iSysPMList = 0;
         }
         public void UpdateEmployeesCB()
         {
-            uiContext.Send(d => SysPMList.Add("Information about employees was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
+            uiContext.Send(d => SysPMList.Insert(0, "Information about employees was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
             iSysPMList = 0;
         }
         public void UpdateProjectsCB()
         {
-            uiContext.Send(d => SysPMList.Add("Suppor information about projects was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
+            uiContext.Send(d => SysPMList.Insert(0, "Suppor information about projects was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
             loadAllProjects();
             iSysPMList = 0;
         }
         public void UpdateTasksCB()
         {
-            uiContext.Send(d => SysPMList.Add("Suppor information about tasks was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
+            uiContext.Send(d => SysPMList.Insert(0, "Suppor information about tasks was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString()), null);
             loadAllTasks();
             iSysPMList = 0;
         }
@@ -2683,6 +2712,8 @@ namespace TeamWork
             addEmployeeView.Data = inputEmployeeDataViewModel;
             inputEmployeeDataViewModel.CurrentWindow = addEmployeeView;
             addEmployeeView.ShowView();
+            SysPMList.Insert(0, "Information about employees was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString());
+
         }
 
         private DelegateCommand MShwAllEmployee;
@@ -2707,6 +2738,7 @@ namespace TeamWork
                 ShowEmployeeDataViewModel showEmployeeDataViewModel = new ShowEmployeeDataViewModel();
                 showEmployeeView.Data = showEmployeeDataViewModel;
                 showEmployeeView.ShowView();
+                SysPMList.Insert(0, "Information about employees was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString());
             }
             catch (Exception error)
             {
@@ -2733,11 +2765,12 @@ namespace TeamWork
             WinEdPr.DataContext = VM_EdPr;
             WinEdPr.ShowDialog();
             if (VM_EdPr.IsChanged)
-            {
-                loadAllProjects();
-                SysPMList.Add("Suppor information about projects was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString());
-            }
-
+            {}
+            SysPMList.Insert(0, "Suppor information about projects was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString());
+            SysPMList = new List<string>(SysPMList);
+            loadAllProjects();
+            loadAllTasks();
+            LoadSearchNorms();
         }
         private DelegateCommand MEditTskSupp;
         public ICommand MEditTskSupp_Click
@@ -2758,10 +2791,12 @@ namespace TeamWork
             WinEdT.DataContext = VM_EdTask;
             WinEdT.ShowDialog();
             if (VM_EdTask.IsChanged)
-            {
-                loadAllTasks();
-                SysPMList.Add("Suppor information about tasks was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString());
-            }
+            {}
+            SysPMList.Insert(0,"Suppor information about tasks was updated - Time: " + DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString());
+            SysPMList = new List<string>(SysPMList);
+            loadAllProjects();
+            loadAllTasks();
+            LoadSearchNorms();
         }
         #endregion
 
@@ -3267,8 +3302,9 @@ namespace TeamWork
                 }
                 catch (Exception ex)
                 {
-                    uiContext.Send(d => SysPMList.Add("System " + ex.Message), null);
-                    iSysPMList = 0;
+                    uiContext.Send(d => SysPMList.Insert(0, "System " + ex.Message), null);
+                    SysPMList = new List<string>(SysPMList);
+                    
                 }
             });
         }

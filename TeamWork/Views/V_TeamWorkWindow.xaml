@@ -92,7 +92,7 @@
                         <ScrollViewer Margin="0" Grid.Row="1" Grid.ColumnSpan="3">
                             <StackPanel>
                                 <Button Visibility="{Binding VSearchPrjct, Mode=TwoWay}" Command="{Binding BAllPrjcts_Click}">Back to all projects</Button>
-                                <ListBox Visibility="{Binding VSearchPrjct, Mode=TwoWay}" ItemsSource="{Binding ListFindProjects, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                <ListBox Visibility="{Binding VSearchPrjct, Mode=TwoWay}" SelectedItem="{Binding SelSearchElemPr, Mode=TwoWay}" ItemsSource="{Binding ListFindProjects, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" >
@@ -122,7 +122,7 @@
                     <Grid x:Name="GridR" Grid.Column="1" Margin="1" >
                         <ScrollViewer>
                             <StackPanel Margin="0">
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Customer</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Customer:</Label>
                                 <ItemsControl ItemsSource="{Binding ListCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -135,7 +135,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Duration</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Duration:</Label>
                                 <ItemsControl ItemsSource="{Binding ListDuration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -148,7 +148,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Lead</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Lead:</Label>
                                 <ItemsControl ItemsSource="{Binding ListLead, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -161,7 +161,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Operation system</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Operation system:</Label>
                                 <ItemsControl ItemsSource="{Binding ListOperationSystem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -174,7 +174,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Skills</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Skills:</Label>
                                 <ItemsControl ItemsSource="{Binding ListSkill, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -187,7 +187,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Stage</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Stage:</Label>
                                 <ItemsControl ItemsSource="{Binding ListStage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -200,7 +200,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Type</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Type:</Label>
                                 <ItemsControl ItemsSource="{Binding ListType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -247,7 +247,7 @@
                         <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3">
                             <StackPanel>
                                 <Button Visibility="{Binding VSearchTask, Mode=TwoWay}" Command="{Binding BAllTasks_Click}">Back to all tasks</Button>
-                                <ListBox Visibility="{Binding VSearchTask, Mode=TwoWay}"  ItemsSource="{Binding ListFindTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                <ListBox Visibility="{Binding VSearchTask, Mode=TwoWay}" SelectedItem="{Binding SelSearchElemTask, Mode=TwoWay}" ItemsSource="{Binding ListFindTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding SelIndFindProj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" >
@@ -277,7 +277,7 @@
                     <Grid x:Name="GridL" Grid.Column="1" Margin="1" >
                         <ScrollViewer>
                             <StackPanel Margin="0">
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Assignee</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Assignee:</Label>
                                 <ItemsControl ItemsSource="{Binding ListAssignee, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -290,7 +290,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Priority</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Priority:</Label>
                                 <ItemsControl ItemsSource="{Binding ListPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -303,7 +303,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Status</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Status:</Label>
                                 <ItemsControl ItemsSource="{Binding ListStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -316,7 +316,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Type</Label>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Type:</Label>
                                 <ItemsControl ItemsSource="{Binding ListTypeTasks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
