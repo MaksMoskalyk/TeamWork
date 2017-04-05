@@ -105,7 +105,7 @@ namespace AccentStyle
             tM.DeserializeSetting();
             var tT = new ClientSettings();
             tT.DeserializeSettingTemp();
-            if ((tM.color != tT.color || tM.accent != tT.accent) && tM.appTheme != tT.appTheme )
+            if (tM.color != tT.color || tM.accent != tT.accent || tM.appTheme != tT.appTheme )
             {
                 CustomMessageBox.MessageBox MB_YesNo = new CustomMessageBox.MessageBox();
                 VM_CustomMessageBox VM_YesNo = new VM_CustomMessageBox("Save style", "Do you want save this style setting?");
