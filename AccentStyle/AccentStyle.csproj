@@ -103,7 +103,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DialogCloser.cs" />
+    <Compile Include="MessageBox.xaml.cs">
+      <DependentUpon>MessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ThemeManagerHelper.cs" />
+    <Compile Include="VM_CustomMessageBox.cs" />
     <Page Include="AccentStyleWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,6 +121,10 @@
       <DependentUpon>AccentStyleWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientSettings.cs" />
@@ -148,6 +157,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Status-mail-task-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DelegateCommand\DelegateCommand.csproj">
+      <Project>{DB973E44-6E02-45D1-B640-1A4AF0C453F5}</Project>
+      <Name>DelegateCommand</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VM_Base\VM_Base.csproj">
+      <Project>{C0DE49BD-C2B1-4B30-A3CB-D000773E92C7}</Project>
+      <Name>VM_Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

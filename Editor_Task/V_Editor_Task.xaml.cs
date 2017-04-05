@@ -44,7 +44,10 @@ namespace Editor_Task
             accentThemeWindow.Closed += (o, args) => accentThemeWindow = null;
             accentThemeWindow.Left = this.Left + this.ActualWidth / 2.0;
             accentThemeWindow.Top = this.Top + this.ActualHeight / 2.0;
-            accentThemeWindow.Show();
+            if ((bool)accentThemeWindow.ShowDialog()) { }
+            ClientSettings Settings = new ClientSettings();
+            Settings.DeserializeSetting();
+            Settings.SetSetting(this);
 
         }
     }

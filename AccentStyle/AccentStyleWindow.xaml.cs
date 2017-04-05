@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using CustomMessageBox;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 
@@ -15,6 +16,7 @@ namespace AccentStyle
     /// </summary>
     public partial class AccentStyleWindow : MetroWindow
     {
+        ClientSettings Settings = new ClientSettings();
         public static readonly DependencyProperty ColorsProperty
             = DependencyProperty.Register("Colors",
                                           typeof(List<KeyValuePair<string, Color>>),
@@ -50,8 +52,8 @@ namespace AccentStyle
 
             theme = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, theme.Item2, ThemeManager.GetAppTheme("Base" + ((Button)sender).Content));
-            ClientSettings Settings = new ClientSettings(ThemeManager.GetAppTheme("Base" + ((Button)sender).Content).Name, theme.Item2.Name);
-            Settings.SerializeSetting();
+            Settings = new ClientSettings(ThemeManager.GetAppTheme("Base" + ((Button)sender).Content).Name, theme.Item2.Name);
+            
         }
 
         private void ChangeAppAccentButtonClick(object sender, RoutedEventArgs e)
@@ -61,8 +63,8 @@ namespace AccentStyle
 
             theme = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(((Button)sender).Content.ToString()), theme.Item1);
-            ClientSettings Settings = new ClientSettings(theme.Item1.Name, ThemeManager.GetAccent(((Button)sender).Content.ToString()).Name);
-            Settings.SerializeSetting();
+            Settings = new ClientSettings(theme.Item1.Name, ThemeManager.GetAccent(((Button)sender).Content.ToString()).Name);
+            
         }
 
         private void AccentSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -76,8 +78,8 @@ namespace AccentStyle
                 theme = ThemeManager.DetectAppStyle(Application.Current);
                 ThemeManager.ChangeAppStyle(Application.Current, selectedAccent, theme.Item1);
     
-                ClientSettings Settings = new ClientSettings(theme.Item1.Name, selectedAccent.Name);
-                Settings.SerializeSetting();
+                Settings = new ClientSettings(theme.Item1.Name, selectedAccent.Name);
+                
             }
         }
 
@@ -90,9 +92,26 @@ namespace AccentStyle
                 ThemeManagerHelper.CreateAppStyleBy(selectedColor.Value.Value, true,this);
                 ThemeManagerHelper.CreateAppStyleBy(selectedColor.Value.Value, true);
            
-                ClientSettings Settings = new ClientSettings(theme.Item1.Name, selectedColor.Value.Value);
+                Settings = new ClientSettings(theme.Item1.Name, selectedColor.Value.Value);
+                
+            }
+        }
+
+        private void saveBeforClosed(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CustomMessageBox.MessageBox MB_YesNo = new CustomMessageBox.MessageBox();
+            VM_CustomMessageBox VM_YesNo = new VM_CustomMessageBox("Save style", "Do you want save this style setting?");
+            MB_YesNo.DataContext = VM_YesNo;
+            if ((bool)MB_YesNo.ShowDialog())
+            {
                 Settings.SerializeSetting();
             }
+            else
+            {
+                Settings.DeserializeSetting();
+            }
+            
+            
         }
     }
 }

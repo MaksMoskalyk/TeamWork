@@ -11,7 +11,7 @@
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       ResizeMode="NoResize"
                       ShowMinButton="False"
-                      ShowMaxRestoreButton="False" Icon="Status-mail-task-icon.png">
+                      ShowMaxRestoreButton="False" Icon="Status-mail-task-icon.png" Closing="saveBeforClosed">
 
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
