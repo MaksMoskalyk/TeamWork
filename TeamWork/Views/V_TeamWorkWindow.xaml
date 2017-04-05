@@ -650,7 +650,7 @@
 
                                         </Grid>
 
-                                        <DataGrid ItemsSource="{Binding CurProjFiles}" Grid.Row="1" Grid.ColumnSpan="4" CanUserAddRows="False" AutoGenerateColumns="False">
+                                        <DataGrid BorderThickness="1" ItemsSource="{Binding CurProjFiles}" Grid.Row="1" Grid.ColumnSpan="4" CanUserAddRows="False" AutoGenerateColumns="False">
                                             <DataGrid.Columns>
                                                 <DataGridCheckBoxColumn Binding="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                     <DataGridCheckBoxColumn.ElementStyle>
@@ -878,7 +878,7 @@
 
                                             </Grid>
 
-                                            <DataGrid ItemsSource="{Binding TaskFiles }" CanUserAddRows="False" Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="False">
+                                            <DataGrid BorderThickness="1" ItemsSource="{Binding TaskFiles }" CanUserAddRows="False" Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="False">
                                                 <DataGrid.Columns>
                                                     <DataGridCheckBoxColumn Binding="{Binding isCheck, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                         <DataGridCheckBoxColumn.ElementStyle>
