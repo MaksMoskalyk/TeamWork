@@ -128,7 +128,7 @@ namespace StaffDatabaseUnit
         {
             try
             {
-                string result = "Done!";
+                string result = "Employee successfully added";
 
                 if (InputDataVerification(employeeData))
                 {
