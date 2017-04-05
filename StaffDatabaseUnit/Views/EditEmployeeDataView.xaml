@@ -4,7 +4,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        Title="Edit Employee's Data" Height="730" Width="930" BorderBrush="{DynamicResource AccentColorBrush}"
+        Title="Edit Employee's Data" Height="730" Width="930" BorderBrush="{DynamicResource AccentColorBrush}" ResizeMode="CanMinimize"
                       BorderThickness="2" Icon="/StaffDatabaseUnit;component/Status-mail-task-icon.png">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
