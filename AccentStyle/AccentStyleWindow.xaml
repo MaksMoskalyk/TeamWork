@@ -11,7 +11,7 @@
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       ResizeMode="NoResize"
                       ShowMinButton="False"
-                      ShowMaxRestoreButton="False" Icon="Status-mail-task-icon.png" Closing="saveBeforClosed">
+                      ShowMaxRestoreButton="False" Icon="Status-mail-task-icon.png" Closing="saveBeforClosed" >
 
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
@@ -34,68 +34,45 @@
     </Controls:MetroWindow.TitleTemplate>
 
     <Grid>
-
-        <Grid.Resources>
-            <Style TargetType="Button"
-                   BasedOn="{StaticResource MetroButton}">
-                <Setter Property="Height"
-                        Value="23" />
-                <Setter Property="Margin"
-                        Value="2" />
-            </Style>
-        </Grid.Resources>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <UniformGrid Grid.Row="0"
-                             Columns="3">
-                <Label Content="Background color:" ></Label>
-                <Button Content="Dark"
-                            Click="ChangeAppThemeButtonClick" Margin="0,2,2,2" />
-                <Button Content="Light"
-                            Click="ChangeAppThemeButtonClick" Margin="2,2,7,2" />
-
-
-            </UniformGrid>
-
-
-
-            <UniformGrid Grid.Row="2" Margin="5" Columns="2" Rows="2">
-                <TextBlock Text="Base metro colors: " Margin="0,3,54,3" VerticalAlignment="Center" />
-                <ComboBox x:Name="AccentSelector"
-                              Margin="-54,0,2,0"
+        <Label Content="Background color:" FontSize="14" ></Label>
+        <Button Content="Dark" FontSize="14"
+                            Click="ChangeAppThemeButtonClick" Margin="2" Grid.Column="1" />
+        <Button Content="Light" FontSize="14"
+                            Click="ChangeAppThemeButtonClick" Margin="2" Grid.Column="2" />
+        <TextBlock Text="Base metro colors: " FontSize="14" Margin="5" VerticalAlignment="Center" Grid.Row="1" />
+        <ComboBox x:Name="AccentSelector" FontSize="16"
+                              Margin="5"
                               VerticalAlignment="Center"
                               SelectionChanged="AccentSelectionChanged"
-                              ItemsSource="{x:Static metro:ThemeManager.Accents}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <TextBlock Text="RGB colors:" Margin="0,3,54,3" VerticalAlignment="Center" />
-                <ComboBox x:Name="ColorsSelector"
+                              ItemsSource="{x:Static metro:ThemeManager.Accents}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Text="RGB colors:" FontSize="14" Margin="5" VerticalAlignment="Center" Grid.Row="2" />
+        <ComboBox x:Name="ColorsSelector" FontSize="16"
                               VerticalAlignment="Center"
                               SelectionChanged="ColorsSelectorOnSelectionChanged"
-                              ItemsSource="{Binding Colors}" Margin="-54,0,2,0">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Key}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </UniformGrid>
-        </Grid>
+                              ItemsSource="{Binding Colors}" Margin="5" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Key}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
     </Grid>
 
