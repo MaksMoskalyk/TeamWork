@@ -371,7 +371,7 @@
                     </Grid>
                     <ScrollViewer Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
                         <StackPanel IsEnabled="{Binding IsEnableEditPr}" >
-                            <Expander Header="Base info" Margin="0"  VerticalAlignment="Top">
+                            <Expander Header="Base info" Margin="0" IsExpanded="{Binding IsSelectedPrjct,Mode=OneWay}" VerticalAlignment="Top">
                                 <Grid Margin="0"  VerticalAlignment="Top">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -442,7 +442,7 @@
                                     <TextBox IsEnabled="{Binding IsTeamlead, Mode=TwoWay}" Text="{Binding CurProjDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Row="10" Grid.ColumnSpan="3"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"/>
                                 </Grid>
                             </Expander>
-                            <Expander Header="Operation system" >
+                            <Expander Header="Operation system" IsExpanded="{Binding IsSelectedPrjct,Mode=OneWay}">
                                 <Grid Margin="0" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
@@ -486,7 +486,7 @@
                                 </Grid>
 
                             </Expander>
-                            <Expander Header="Skills" >
+                            <Expander Header="Skills" IsExpanded="{Binding IsSelectedPrjct,Mode=OneWay}">
                                 <Grid Margin="0" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50"/>
@@ -529,7 +529,7 @@
 
                             </Expander>
 
-                            <Expander Header="Development team" >
+                            <Expander Header="Development team" IsExpanded="{Binding IsSelectedPrjct,Mode=OneWay}">
                                 <Grid Margin="0" VerticalAlignment="Top" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -580,7 +580,7 @@
 
                                 </Grid>
                             </Expander>
-                            <Expander Header="Types" >
+                            <Expander Header="Types" IsExpanded="{Binding IsSelectedPrjct,Mode=OneWay}">
                                 <Grid Margin="0" IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -623,8 +623,8 @@
                                     </ListBox>
                                 </Grid>
                             </Expander>
-                            <Expander Header="Files" >
-                                <ScrollViewer IsEnabled="{Binding CanChangePr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Expander Header="Files" IsExpanded="{Binding IsSelectedPrjct,Mode=OneWay}" >
+                                <ScrollViewer IsEnabled="{Binding IsSelectedPrjct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <Grid Margin="0" VerticalAlignment="Top" >
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="30"/>
@@ -701,7 +701,7 @@
                     <Grid Grid.Row="2" >
                         <ScrollViewer Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <StackPanel IsEnabled="{Binding IsEnableEditTask}">
-                                <Expander Header="Base info" Margin="0" VerticalAlignment="Top">
+                                <Expander Header="Base info" IsExpanded="{Binding IsEnableEditTask,Mode=OneWay}">
                                     <Grid Margin="0" VerticalAlignment="Top">
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -759,7 +759,7 @@
                                         <Label Content="{Binding CurTaskProject, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" Grid.Column="1" Grid.Row="7"/>
                                     </Grid>
                                 </Expander>
-                                <Expander Header="Assignees">
+                                <Expander Header="Assignees" IsExpanded="{Binding IsEnableEditTask,Mode=OneWay}">
                                     <Grid Margin="0" >
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="50" />
@@ -803,7 +803,7 @@
                                         </ListBox>
                                     </Grid>
                                 </Expander>
-                                <Expander Header="Description">
+                                <Expander Header="Description" IsExpanded="{Binding IsEnableEditTask,Mode=OneWay}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="50" />
@@ -822,8 +822,8 @@
                                 </Expander>
 
 
-                                <Expander Header="Comments" >
-                                    <Grid IsEnabled="{Binding CanChangeTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Expander Header="Comments" IsExpanded="{Binding IsEnableEditTask,Mode=OneWay}">
+                                    <Grid IsEnabled="{Binding IsSelectedTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>
@@ -851,8 +851,8 @@
                                     </Grid>
 
                                 </Expander>
-                                <Expander Header="Files" >
-                                    <ScrollViewer IsEnabled="{Binding CanChangeTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Expander Header="Files" IsExpanded="{Binding IsEnableEditTask,Mode=OneWay}">
+                                    <ScrollViewer IsEnabled="{Binding IsSelectedTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                         <Grid Margin="0" VerticalAlignment="Top" >
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="30"/>

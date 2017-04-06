@@ -819,12 +819,13 @@ namespace TeamWork
                 currentEmployee = database.GetEmployeeByLogin(login);
                 if (currentEmployee != null)
                 {
-                   
-                    IsTeamlead = currentEmployee.Position_Id == 5;
-                    if(!IsTeamlead)
-                        IsHR = currentEmployee.Position_Id == 6;
-                    if (!IsHR && !IsTeamlead)
-                        IsAdmin = currentEmployee.Position_Id == 7;
+
+                    //IsTeamlead = currentEmployee.Position_Id == 5;
+                    //if(!IsTeamlead)
+                    //    IsHR = currentEmployee.Position_Id == 6;
+                    //if (!IsHR && !IsTeamlead)
+                    //    IsAdmin = currentEmployee.Position_Id == 7;
+                    IsAdmin = true;
                     loadAllProjects();
                     loadAllTasks();
                     EnterProgram();
@@ -2303,6 +2304,7 @@ namespace TeamWork
                     CurProjSkills.Add(new checkEl<KeyValuePair<int, string>>(temp));
                     ListProjSkills.Remove(temp);
                 }
+                ListProjSkills = new List<KeyValuePair<int, string>>(ListProjSkills);
                 CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>(CurProjSkills);
                 CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>();
                 tempClass = F_Projects.GetProjectTypes(tempPr.id);
@@ -2311,6 +2313,7 @@ namespace TeamWork
                     CurProjTypes.Add(new checkEl<KeyValuePair<int, string>>(temp));
                     ListProjTypes.Remove(temp);
                 }
+                ListProjTypes = new List<KeyValuePair<int, string>>(ListProjTypes);
                 CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>(CurProjTypes);
                 CurProjOS = new List<checkEl<KeyValuePair<int, string>>>();
                 tempClass = F_Projects.GetProjectOSs(tempPr.id);
@@ -2319,6 +2322,7 @@ namespace TeamWork
                     CurProjOS.Add(new checkEl<KeyValuePair<int, string>>(temp));
                     ListProjOS.Remove(temp);
                 }
+                ListProjOS = new List<KeyValuePair<int, string>>(ListProjOS);
                 CurProjOS = new List<checkEl<KeyValuePair<int, string>>>(CurProjOS);
                 DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>();
                 var tempClasskp = F_Staff.GetProjectEmployees(tempPr.id);
@@ -2327,6 +2331,7 @@ namespace TeamWork
                     DevelopTeam.Add(new checkEl<KeyValuePair<int, string>>(temp));
                     ListEmpl.Remove(temp);
                 }
+                ListEmpl = new List<KeyValuePair<int, string>>(ListEmpl);
                 DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>(DevelopTeam);
                 CurProjLead = F_Staff.GetProjectLead(currentProject.Id);
                 IsNewProj = false;
@@ -2392,7 +2397,11 @@ namespace TeamWork
                 TaskAssignees = new List<checkEl<KeyValuePair<int, string>>>();
                 List<KeyValuePair<int, string>> tempClass = F_Task.GetIssueAssigneesNameWithId(tempPr.id, tempTs.id);
                 foreach (var temp in tempClass)
+                {
                     TaskAssignees.Add(new checkEl<KeyValuePair<int, string>>(temp));
+                    ListTaskAssignees.Remove(temp);
+                }
+                ListTaskAssignees = new List<KeyValuePair<int, string>>(ListTaskAssignees);
                 TaskAssignees = new List<checkEl<KeyValuePair<int, string>>>(TaskAssignees);
                 TaskFiles = new List<checkEl<TaskFile>>();
                 List<TeamworkDB.TaskFile> tempFiels = F_Task.GetIssueFiles(tempPr.id, tempTs.id);
@@ -3632,19 +3641,26 @@ namespace TeamWork
             {
                 if (ButtonSetFavProjClick == null)
                 {
-                    ButtonSetFavProjClick = new DelegateCommand(param => this.SetFavProj(),param => IsSelProject());
+                    ButtonSetFavProjClick = new DelegateCommand(param => this.SetFavProj(),param => IsSelFavProject());
                 }
                 return ButtonSetFavProjClick;
             }
         }
-        bool IsSelProject()
+        bool IsSelFavProject()
         {
+            try {
             if (CurrentProject != null)
             {
                 var temp = F_Projects.GetProject(CurrentProject.Id);
                 return temp.EmployeesAndProjects.Where(t => t.Employee_Id == CurrentEmployee.Id).ToList().Count > 0;
             }
             else
+                return CurrentProject != null;
+            }
+            catch { return CurrentProject != null; }
+        }
+        bool IsSelProject()
+        {
                 return CurrentProject != null;
         }
         public void SetFavProj()
@@ -3687,7 +3703,7 @@ namespace TeamWork
         }
         public void AddProj()
         {
-            CurProjName = "New Project";
+            CurProjName = "New"+ DateTime.Now;
             CurProjCreationDate = DateTime.Now;
             CurProjDueDate = DateTime.Now.AddHours(1);
             CurProjDescription = "";
@@ -3706,6 +3722,7 @@ namespace TeamWork
             IsChangePr = false;
             IsNewProj = true;
             IsEnableEditPr = true;
+
         }
         
         private DelegateCommand ButtonDelProjClick;
@@ -3728,22 +3745,6 @@ namespace TeamWork
                 messBoxOk("Not selected project", "Project");
                 return;
             }
-            if (IsNewProj)
-            {
-                if (messBoxYesNo("Do you want to save new project?", "Save new project"))
-                {
-                    if (!IsEnabledSavePr)
-                    {
-                        messBoxOk("You need to fill in all fields in project", "Can't save");
-                        return;
-
-                    }
-                    else
-                    {
-                        SaveAllChProj();
-                    }
-                }
-            }
             if (messBoxYesNo("Do you want to delete this project?", "Delete project"))
             {
                 
@@ -3757,9 +3758,50 @@ namespace TeamWork
                     messBoxOk(mess, "Delete project");
             }
             loadAllListPrInfo();
+            uploadAllProjects();
+            loadNulPrInfo();
+            IsNewProj = false;
+            IsEnabledSavePr = false;
+            IsEnabledFavPr = false;
+            IsEnabledAddPr = true;
+            IsEnabledDelPr = false;
+            IsEnableEditPr = false;
+            IsSelectedPrjct = false;
+        }
+        void loadNulPrInfo()
+        {
+            try
+            {
+
+                currentProject = null;
+                loadAllListPrInfo();
+
+                CurProjName = "";
+                CurProjCreationDate = new DateTime ();
+                CurProjDueDate = new DateTime();
+
+                CurProjDescription = null;
+                CurProjDuration = new KeyValuePair<int, string> ();
+                CurProjCustomer = new KeyValuePair<int, string>();
+                CurProjStage = new KeyValuePair<int, string>();
+                CurProjObjective = new KeyValuePair<int, string>();
+                CurProjFiles = new List<checkEl<ProjectFile>>();
+                CurProjSkills = new List<checkEl<KeyValuePair<int, string>>>();
+                CurProjTypes = new List<checkEl<KeyValuePair<int, string>>>();
+                
+                CurProjOS = new List<checkEl<KeyValuePair<int, string>>>();
+                
+                DevelopTeam = new List<checkEl<KeyValuePair<int, string>>>();
+               
+                ListEmpl = new List<KeyValuePair<int, string>>();
+                
+            }
+            catch (Exception ex)
+            {
+                ////SysPMList.Add(ex.Message);
+            }
         }
 
-       
         private DelegateCommand ButtonAddTaskClick;
         public ICommand BAddTask_Click
         {
@@ -3780,7 +3822,7 @@ namespace TeamWork
         public void AddTask()
         {
             DateTime curDate = DateTime.Now;
-            string newTaskName = "New Task";
+            string newTaskName = "New"+ DateTime.Now;
             CurTaskName = newTaskName;
             TaskAssignees = new List<checkEl<KeyValuePair<int, string>>>();
             CurTaskCreationDate = curDate;
@@ -3859,10 +3901,41 @@ namespace TeamWork
                     messBoxOk(mess, "Delete project");
             }
 
-            loadAllTasks();
-
+            //loadAllTasks();
+            uploadAllTasks();
+            loadNullTsInfo();
+            IsNewTask = false;
+            IsChangeTask = false;
+            IsEnableEditTask = false;
+            IsSelectedTask = false;
         }
-
+        void loadNullTsInfo()
+        {
+            try
+            {
+                CurTaskName = "";
+                CurTaskCreationDate = new DateTime ();
+                CurTaskDueDate = new DateTime();
+                CurTaskCreator = "";
+                CurTaskStatus = new KeyValuePair<int, string>  ();
+                CurTaskPriority = new KeyValuePair<int, string>();
+                CurTaskType = new KeyValuePair<int, string>();
+                CurTaskProject = "";
+                CurTaskDescription = "";
+                TaskAssignees = new List<checkEl<KeyValuePair<int, string>>>();
+                
+                TaskFiles = new List<checkEl<TaskFile>>();
+               
+                ListComments =new List<TaskComment> ();
+                IsNewTask = false;
+                IsChangeTask = false;
+                IsSelectedTask = false;
+            }
+            catch (Exception ex)
+            {
+                ////SysPMList.Add(ex.Message);
+            }
+        }
         private DelegateCommand ButtonEditPrNameClick;
         public ICommand BEditPrName_Click
         {
@@ -3982,7 +4055,7 @@ namespace TeamWork
             {
                 if (ButtonAddPrSkillsClick == null)
                 {
-                    ButtonAddPrSkillsClick = new DelegateCommand(param => this.AddPrSkills(),param => true);
+                    ButtonAddPrSkillsClick = new DelegateCommand(param => this.AddPrSkills(),param => CBSelPrSkill>=0);
                 }
                 return ButtonAddPrSkillsClick;
             }
@@ -4002,12 +4075,24 @@ namespace TeamWork
             {
                 if (ButtonDelPrSkillsClick == null)
                 {
-                    ButtonDelPrSkillsClick = new DelegateCommand(param => this.DelPrSkills(),param => true);
+                    ButtonDelPrSkillsClick = new DelegateCommand(param => this.DelPrSkills(),param => IsEnDelPrSkills());
                 }
                 return ButtonDelPrSkillsClick;
             }
         }
-
+        public bool IsEnDelPrSkills()
+        {
+            bool flag = false;
+            if (CurProjSkills != null)
+                for (int i = CurProjSkills.Count - 1; i >= 0; i--)
+                {
+                    if (CurProjSkills[i].isCheck)
+                    {
+                        flag = true;
+                    }
+                }
+            return flag;
+        }
         public void DelPrSkills()
         {
             for (int i = CurProjSkills.Count - 1; i >= 0; i--)
@@ -4029,7 +4114,7 @@ namespace TeamWork
             {
                 if (ButtonAddEmplPrjctClick == null)
                 {
-                    ButtonAddEmplPrjctClick = new DelegateCommand(param => this.AddEmplPrjct(), param => true);
+                    ButtonAddEmplPrjctClick = new DelegateCommand(param => this.AddEmplPrjct(), param => CBEmplPrjct>=0);
                 }
                 return ButtonAddEmplPrjctClick;
             }
@@ -4049,12 +4134,24 @@ namespace TeamWork
             {
                 if (ButtonDelEmplPrjctClick == null)
                 {
-                    ButtonDelEmplPrjctClick = new DelegateCommand(param => this.DelEmplPrjct(), param => true);
+                    ButtonDelEmplPrjctClick = new DelegateCommand(param => this.DelEmplPrjct(), param => IsEnDelEmplPrjct());
                 }
                 return ButtonDelEmplPrjctClick;
             }
         }
-
+        public bool IsEnDelEmplPrjct()
+        {
+            bool flag = false;
+            if (DevelopTeam != null)
+                for (int i = DevelopTeam.Count - 1; i >= 0; i--)
+                {
+                    if (DevelopTeam[i].isCheck)
+                    {
+                        flag = true;
+                    }
+                }
+            return flag;
+        }
         public void DelEmplPrjct()
         {
             for (int i = DevelopTeam.Count - 1; i >= 0; i--)
@@ -4076,7 +4173,7 @@ namespace TeamWork
             {
                 if (ButtonAddPrOSClick == null)
                 {
-                    ButtonAddPrOSClick = new DelegateCommand(param => this.AddPrOS(),param => true);
+                    ButtonAddPrOSClick = new DelegateCommand(param => this.AddPrOS(),param => CBSelPrOS>=0);
                 }
                 return ButtonAddPrOSClick;
             }
@@ -4096,12 +4193,24 @@ namespace TeamWork
             {
                 if (ButtonDelPrOSClick == null)
                 {
-                    ButtonDelPrOSClick = new DelegateCommand(param => this.DelPrOS(),param => true);
+                    ButtonDelPrOSClick = new DelegateCommand(param => this.DelPrOS(),param => IsEnDelPrOS());
                 }
                 return ButtonDelPrOSClick;
             }
         }
-
+        public bool IsEnDelPrOS()
+        {
+            bool flag = false;
+            if(CurProjOS!=null)
+            for (int i = CurProjOS.Count - 1; i >= 0; i--)
+            {
+                if (CurProjOS[i].isCheck)
+                {
+                    flag = true;
+                }
+            }
+            return flag;
+        }
         public void DelPrOS()
         {
             for (int i = CurProjOS.Count - 1; i >= 0; i--)
@@ -4124,7 +4233,7 @@ namespace TeamWork
             {
                 if (ButtonAddPrTypesClick == null)
                 {
-                    ButtonAddPrTypesClick = new DelegateCommand(param => this.AddPrTypes(),param => true);
+                    ButtonAddPrTypesClick = new DelegateCommand(param => this.AddPrTypes(),param => CBSelPrTypes >= 0);
                 }
                 return ButtonAddPrTypesClick;
             }
@@ -4145,12 +4254,24 @@ namespace TeamWork
             {
                 if (ButtonDelPrTypesClick == null)
                 {
-                    ButtonDelPrTypesClick = new DelegateCommand(param => this.DelPrTypes(),param => true);
+                    ButtonDelPrTypesClick = new DelegateCommand(param => this.DelPrTypes(),param => IsEnDelPrTypes());
                 }
                 return ButtonDelPrTypesClick;
             }
         }
-
+        public bool IsEnDelPrTypes()
+        {
+            bool flag = false;
+            if (CurProjTypes != null)
+                for (int i = CurProjTypes.Count - 1; i >= 0; i--)
+                {
+                    if (CurProjTypes[i].isCheck)
+                    {
+                        flag = true;
+                    }
+                }
+            return flag;
+        }
         public void DelPrTypes()
         {
             for (int i = CurProjTypes.Count - 1; i >= 0; i--)
@@ -4440,7 +4561,7 @@ namespace TeamWork
             {
                 if (ButtonAddTaskAssigneesClick == null)
                 {
-                    ButtonAddTaskAssigneesClick = new DelegateCommand(param => this.AddTaskAssignees(), param => true);
+                    ButtonAddTaskAssigneesClick = new DelegateCommand(param => this.AddTaskAssignees(), param => CBSelTaskAssignees>=0);
                 }
                 return ButtonAddTaskAssigneesClick;
             }
@@ -4462,13 +4583,25 @@ namespace TeamWork
             {
                 if (ButtonDelTaskAssigneesClick == null)
                 {
-                    ButtonDelTaskAssigneesClick = new DelegateCommand(param => this.DelTaskAssignees(), param => true);
+                    ButtonDelTaskAssigneesClick = new DelegateCommand(param => this.DelTaskAssignees(), param => IsEnDelTaskAssignees());
                 }
                 return ButtonDelTaskAssigneesClick;
             }
         }
 
-
+        public bool IsEnDelTaskAssignees()
+        {
+            bool flag = false;
+            if (TaskAssignees != null)
+                for (int i = TaskAssignees.Count - 1; i >= 0; i--)
+                {
+                    if (TaskAssignees[i].isCheck)
+                    {
+                        flag = true;
+                    }
+                }
+            return flag;
+        }
 
         public void DelTaskAssignees()
         {
