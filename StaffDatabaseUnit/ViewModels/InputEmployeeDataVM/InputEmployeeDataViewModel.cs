@@ -156,7 +156,8 @@ namespace StaffDatabaseUnit
 
         private bool IsAddEmployeeAvailable()
         {
-            return true;
+            return (!employeeData.Employee.Name.Contains(" ") &&
+                !employeeData.Employee.Surname.Contains(" "));
         }
         #endregion
 

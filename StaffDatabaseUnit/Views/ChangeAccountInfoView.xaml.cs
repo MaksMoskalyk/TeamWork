@@ -71,5 +71,10 @@ namespace StaffDatabaseUnit
             get { return this.Title; }
             set { this.Title = value; }
         }
+
+        private void b_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

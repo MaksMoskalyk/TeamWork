@@ -155,6 +155,7 @@
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
     <Compile Include="Model\InputEmployeeDataModel\WebServiceTableUnit.cs" />
     <Compile Include="Views\ViewFactory\AbstractViewFactory.cs" />
+    <Compile Include="Views\ViewFactory\SpecificFactories\ChangeAccountInfoViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\DatabaseAdministrationViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\EditEmployeeDataViewFactory.cs" />
     <Compile Include="Views\ViewFactory\SpecificFactories\AddEmployeeViewFactory.cs" />

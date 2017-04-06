@@ -40,8 +40,8 @@
                    local:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Grid.Row="9" VerticalAlignment="Stretch">
-            <Button x:Name="b_Ok" Command="{Binding ButtonOkClick}" Content="Ok" Margin="0,0,20,0" FontSize="16" MinWidth="110" TabIndex="2"/>
-            <Button x:Name="b_Cancel" Command="{Binding ButtonCancelClick}" Content="Cancel" FontSize="16" MinWidth="110" IsCancel="True" TabIndex="3" />
+            <Button x:Name="b_Ok" Command="{Binding ButtonOkClick}" Content="Save" Margin="0,0,20,0" FontSize="16" MinWidth="110" TabIndex="2"/>
+            <Button x:Name="b_Cancel" Command="{Binding ButtonCancelClick}" Content="Cancel" FontSize="16" MinWidth="110" IsCancel="True" TabIndex="3" Click="b_Cancel_Click" />
         </StackPanel>
         <Label x:Name="tb_Error" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="14" Margin="0"
                  Content="{Binding Error, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Foreground="Red" />
