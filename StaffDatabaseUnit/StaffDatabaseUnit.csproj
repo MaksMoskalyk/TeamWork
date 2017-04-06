@@ -104,7 +104,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\InputEmployeeDataModel\AccountData.cs" />
     <Compile Include="Model\ShowEmployeeDataModel\LanguagesInfo.cs" />
     <Compile Include="Model\ShowEmployeeDataModel\SkillsInfo.cs" />
     <Compile Include="Model\ShowEmployeeDataModel\SpecificEmployee.cs" />

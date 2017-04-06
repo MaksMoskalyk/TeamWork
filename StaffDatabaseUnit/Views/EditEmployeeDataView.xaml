@@ -209,7 +209,7 @@
                             </ComboBox>
                             <Button x:Name="b_AddNewWebAccount" Content="Add Account" Grid.Column="2" HorizontalAlignment="Stretch" 
                                     Margin="5" VerticalAlignment="Stretch" FontSize="14"
-                                    Grid.Row="1" Padding="5" Width=" }"
+                                    Grid.Row="1" Padding="5" Width="130"
                                     Command="{Binding ButtonAddWebServiceAccount}"/>
                             <DataGrid x:Name="lb_WebAccountsList" BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" 
                                      MinHeight="80" Grid.ColumnSpan="2"

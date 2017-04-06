@@ -767,8 +767,10 @@ namespace StaffDatabaseUnit
                 temp.Employee.Name = updatedEmployee.Employee.Name;
                 temp.Employee.Surname = updatedEmployee.Employee.Surname;
                 temp.Employee.DateOfBirth = updatedEmployee.Employee.DateOfBirth;
-                temp.SelectedCity = updatedEmployee.SelectedCity;
-                temp.SelectedCountry = updatedEmployee.SelectedCountry;
+                //temp.SelectedCity = updatedEmployee.SelectedCity;
+                //temp.SelectedCountry = updatedEmployee.SelectedCountry;
+                temp.Employee.CountryAndCity = updatedEmployee.Employee.CountryAndCity;
+                temp.Employee.Residence_Id = updatedEmployee.Employee.Residence_Id;
                 temp.Employee.Citizenship_Id = updatedEmployee.SelectedCitizenship.Id;
                 if(updatedEmployee.SelectedGender == "Male")
                     temp.Employee.Gender = "M";
