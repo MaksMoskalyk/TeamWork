@@ -100,13 +100,14 @@
                                  Controls:TextBoxHelper.ClearTextButton="True"
                                  Text="{Binding EmployeeData.InputPhone, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             <Button x:Name="b_AddNewPhone" Content="Add Phone" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5"
-                                    VerticalAlignment="Stretch" FontSize="14" Width="120"
+                                    VerticalAlignment="Stretch" FontSize="14" Width="130"
                                     Grid.Row="1" Padding="5"
                                     Command="{Binding ButtonAddPhone}"/>
-                            <Label Content="{Binding PhoneInputError}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Foreground="Red"
+                            <Label Content="{Binding PhoneInputError}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Foreground="Red"
                                    Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
+                            <Label Grid.Column="2" Grid.Row="1" Margin="5,5,5,0" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
 
-                            <DataGrid x:Name="lb_PhonesList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
+                            <DataGrid x:Name="lb_PhonesList" BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
                                  ItemsSource="{Binding EmployeeData.Phones, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
                                  DisplayMemberPath=""
@@ -121,13 +122,13 @@
                                 </i:Interaction.Triggers>
                             </DataGrid>
                             <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch">
-                                <Button Content="Edit" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Edit" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditPhone}"/>
-                                <Button Content="Save changes" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Save changes" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditPhoneSaveChanges}"/>
-                                <Button Content="Cancel" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Cancel" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditPhoneCancelChanges}"/>
-                                <Button Content="Delete" Margin="0,0,0,0" FontSize="14" Width="120"
+                                <Button Content="Delete" Margin="0,0,0,0" FontSize="14" Width="130"
                                         Command="{Binding ButtonDeletePhone}"/>
                             </StackPanel>
                         </Grid>
@@ -149,13 +150,14 @@
                                  Controls:TextBoxHelper.ClearTextButton="True"
                                  Text="{Binding EmployeeData.InputMail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             <Button x:Name="b_AddNewEmail" Content="Add Email" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5" 
-                                    VerticalAlignment="Stretch" FontSize="14" Width="120"
+                                    VerticalAlignment="Stretch" FontSize="14" Width="130"
                                     Grid.Row="1" Padding="5"
                                     Command="{Binding ButtonAddMail}"/>
-                            <Label Content="{Binding MailInputError}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Foreground="Red"
+                            <Label Content="{Binding MailInputError}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Foreground="Red"
                                    Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
+                            <Label Grid.Column="2" Grid.Row="1" Margin="5,5,5,0" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
 
-                            <DataGrid x:Name="lb_EmailsList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" 
+                            <DataGrid x:Name="lb_EmailsList" BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" 
                                       VerticalAlignment="Stretch" FontSize="14" MinHeight="80"
                                  ItemsSource="{Binding EmployeeData.Mails, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
@@ -171,14 +173,14 @@
                                 </i:Interaction.Triggers>
                             </DataGrid>
                             <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch">
-                                <Button Content="Edit" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Edit" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditMail}"/>
-                                <Button Content="Save changes" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Save changes" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditMailSaveChanges}"/>
-                                <Button Content="Cancel" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Cancel" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditMailCancelChanges}"/>
-                                <Button Content="Delete" Margin="0,0,0,0" FontSize="14" Width="120"
-                                        Command="{Binding ButtonDeleteMail}" Background="#FFF7F7F7"/>
+                                <Button Content="Delete" Margin="0,0,0,0" FontSize="14" Width="130"
+                                        Command="{Binding ButtonDeleteMail}"/>
                             </StackPanel>
                         </Grid>
 
@@ -196,7 +198,7 @@
                             <Label Content="Account" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
                             <Label Content="Web Service" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,5,5,0" VerticalAlignment="Stretch" FontSize="14"/>
                             <TextBox x:Name="tb_NewWebAccount" HorizontalAlignment="Stretch" Margin="5" TextWrapping="Wrap" VerticalAlignment="Stretch" FontSize="16"
-                                 Grid.Row="1" Grid.Column="1" MinWidth="325" Padding="0"
+                                 Grid.Row="1" Grid.Column="1" MinWidth="315" Padding="0"
                                  Controls:TextBoxHelper.ClearTextButton="True"
                                  Text="{Binding EmployeeData.InputWebAccount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             <ComboBox x:Name="cb_WebServices" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5" 
@@ -207,9 +209,9 @@
                             </ComboBox>
                             <Button x:Name="b_AddNewWebAccount" Content="Add Account" Grid.Column="2" HorizontalAlignment="Stretch" 
                                     Margin="5" VerticalAlignment="Stretch" FontSize="14"
-                                    Grid.Row="1" Padding="5" Width="120"
+                                    Grid.Row="1" Padding="5" Width=" }"
                                     Command="{Binding ButtonAddWebServiceAccount}"/>
-                            <DataGrid x:Name="lb_WebAccountsList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" 
+                            <DataGrid x:Name="lb_WebAccountsList" BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14" 
                                      MinHeight="80" Grid.ColumnSpan="2"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
                                      ItemsSource="{Binding EmployeeData.WebAccounts, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
@@ -225,13 +227,13 @@
                                 </i:Interaction.Triggers>
                             </DataGrid>
                             <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch">
-                                <Button Content="Edit" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Edit" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditWebServiceAccount}"/>
-                                <Button Content="Save changes" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Save changes" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditWebAccountSaveChanges}"/>
-                                <Button Content="Cancel" Margin="0,0,0,5" FontSize="14" Width="120"
+                                <Button Content="Cancel" Margin="0,0,0,5" FontSize="14" Width="130"
                                         Command="{Binding ButtonEditWebAccountCancelChanges}"/>
-                                <Button Content="Delete" Margin="0,0,0,0" FontSize="14" Width="120"
+                                <Button Content="Delete" Margin="0,0,0,0" FontSize="14" Width="130"
                                         Command="{Binding ButtonDeleteWebServiceAccount}"/>
                             </StackPanel>
                         </Grid>
@@ -282,7 +284,7 @@
                             </ComboBox>
                         </Grid>
 
-                        <DataGrid x:Name="lb_SkillsList" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
+                        <DataGrid x:Name="lb_SkillsList" BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch" FontSize="14"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
                                  ItemsSource="{Binding EmployeeData.SkillTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                  SelectedItem="{Binding X, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}">
@@ -460,7 +462,7 @@
                             </Grid>
                         </Grid>
 
-                        <DataGrid x:Name="dg_Experience" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
+                        <DataGrid x:Name="dg_Experience" BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
                                   ItemsSource="{Binding EmployeeData.ExperienceTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                   SelectedItem="{Binding EmployeeData.SelectedExperienceTableUnit, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
                                   AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" CanUserResizeColumns="True">
@@ -588,7 +590,7 @@
                             </Grid>
                         </Grid>
 
-                        <DataGrid x:Name="dg_Education" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
+                        <DataGrid x:Name="dg_Education" BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5,15,5,5" Grid.Row="2" VerticalAlignment="Stretch" FontSize="14"
                                   ItemsSource="{Binding EmployeeData.EducationTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                   SelectedItem="{Binding EmployeeData.SelectedEducationTableUnit, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
                                   AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
@@ -614,7 +616,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <DataGrid BorderThickness="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14" MinHeight="50"
+                        <DataGrid BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch" Margin="5" Grid.Row="0" VerticalAlignment="Stretch" FontSize="14" MinHeight="50"
                                   ItemsSource="{Binding EmployeeData.LanguageTableUnits, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                   AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>

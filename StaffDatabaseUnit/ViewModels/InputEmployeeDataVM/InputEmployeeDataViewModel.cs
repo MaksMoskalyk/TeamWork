@@ -128,7 +128,7 @@ namespace StaffDatabaseUnit
         {
             try
             {
-                string result = "Done!";
+                string result = "Employee successfully added";
 
                 if (InputDataVerification(employeeData))
                 {
@@ -415,7 +415,7 @@ namespace StaffDatabaseUnit
         private bool IsAddPhoneAvailable()
         {
             if (employeeData.InputPhone == "" || employeeData.InputPhone == null
-                || isPhoneEditionStarted)
+                || employeeData.InputPhone.Contains(" ") || isPhoneEditionStarted)
             {
                 PhoneInputError = "";
                 return false;
@@ -605,7 +605,7 @@ namespace StaffDatabaseUnit
         private bool IsAddMailAvailable()
         {
             if (employeeData.InputMail == "" || employeeData.InputMail == null
-                || isMailEditionStarted)
+                || employeeData.InputMail.Contains(" ") || isMailEditionStarted)
             {
                 MailInputError = "";
                 return false;
@@ -783,7 +783,7 @@ namespace StaffDatabaseUnit
         private bool IsAddWebServiceAccountAvailable()
         {
             if (employeeData.InputWebAccount == "" || employeeData.InputWebAccount == null
-                || isWebAccountEditionStarted)
+                || employeeData.InputWebAccount.Contains(" ") || isWebAccountEditionStarted)
                 return false;
             else
                 return true;
