@@ -37,6 +37,8 @@ namespace StaffDatabaseUnit
         public InputEmployeeDataGlueCode()
         {
             employeeData = new EmployeeData();
+            employeeData.Employee.Name = "";
+            employeeData.Employee.Surname = "";
             currentEmployee = new Employee();
             database = new DatabaseInputEmployeeDataEntity();
 

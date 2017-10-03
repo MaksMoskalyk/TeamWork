@@ -767,8 +767,7 @@ namespace StaffDatabaseUnit
                 temp.Employee.Name = updatedEmployee.Employee.Name;
                 temp.Employee.Surname = updatedEmployee.Employee.Surname;
                 temp.Employee.DateOfBirth = updatedEmployee.Employee.DateOfBirth;
-                temp.SelectedCity = updatedEmployee.SelectedCity;
-                temp.SelectedCountry = updatedEmployee.SelectedCountry;
+                temp.Employee.Residence_Id = updatedEmployee.Employee.Residence_Id;
                 temp.Employee.Citizenship_Id = updatedEmployee.SelectedCitizenship.Id;
                 if(updatedEmployee.SelectedGender == "Male")
                     temp.Employee.Gender = "M";
@@ -779,7 +778,28 @@ namespace StaffDatabaseUnit
                 temp.Employee.ProfessionalDescription = updatedEmployee.Employee.ProfessionalDescription;
                 temp.Employee.GeneralDescription = updatedEmployee.Employee.GeneralDescription;
 
+                //temp.Employee.EmployeesAndMails = updatedEmployee.Employee.EmployeesAndMails;
+                //foreach (var mail in updatedEmployee.Mails)
+                //{
+                //    temp.Employee.EmployeesAndMails.Add(new EmployeeAndMail(temp.Employee.Id, mail));
+                //}
+                
+
+                database.Employees.Attach(temp.Employee);
                 database.Employees.Add(temp.Employee);
+                database.SaveChanges();
+
+
+                employeeQuery = (from Employees in database.Employees
+                                     where Employees.Name == temp.Employee.Name
+                                     where Employees.Surname == temp.Employee.Surname
+                                     where Employees.DateOfBirth == temp.Employee.DateOfBirth
+                                     select Employees).SingleOrDefault();
+
+                foreach (var mail in updatedEmployee.Mails)
+                {
+                    temp.Employee.EmployeesAndMails.Add(new EmployeeAndMail(employeeQuery.Id, mail));
+                }
                 database.SaveChanges();
 
                 //foreach (var projectId in projectsId)

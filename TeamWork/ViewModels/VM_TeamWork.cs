@@ -111,6 +111,7 @@ namespace TeamWork
         public AbstractViewFactory viewFactory;
         protected IView showEmployeeView;
         protected IView addEmployeeView;
+        protected IView editEmployeeAccount;
         private bool isNewPrjct;
         private bool isNewTask;
         private string login;
@@ -2806,6 +2807,26 @@ namespace TeamWork
             loadAllProjects();
             loadAllTasks();
             LoadSearchNorms();
+        }
+
+        private DelegateCommand MEditEmployeeAccount;
+        public ICommand MEditEmployeeAccount_Click
+        {
+            get
+            {
+                if (MEditEmployeeAccount == null)
+                {
+                    MEditEmployeeAccount = new DelegateCommand(param => EditEmployeeAccount(), param => true);
+                }
+                return MEditEmployeeAccount;
+            }
+        }
+
+        void EditEmployeeAccount()
+        {
+            viewFactory = new ChangeAccountInfoViewFactory();
+            editEmployeeAccount = viewFactory.CreateView();
+            editEmployeeAccount.ShowView();
         }
         #endregion
 

@@ -36,6 +36,7 @@
                 <MenuItem Header="Users" Visibility="{Binding VHR, Mode=TwoWay}">
                     <MenuItem Header="Add" Command="{Binding MAddEmployee_Click}"></MenuItem>
                     <MenuItem Header="Show all info" Command="{Binding MShwAllEmployee_Click}"></MenuItem>
+                    <MenuItem Header="Edit account" Command="{Binding MEditEmployeeAccount_Click}"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Projects" Visibility="{Binding VAdmin, Mode=TwoWay}">
                     <MenuItem Header="Edit supporting information" Command="{Binding MEditPrjSupp_Click}"></MenuItem>
