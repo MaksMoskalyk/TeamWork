@@ -1,4 +1,4 @@
-# TeamWork
+# TeamWork (The project is in development)
 # NAME OF PROJECT: Team Work;
 # DESCRIPTION: WPF project for documentation, planning and organization of team work;
 # TEAM: 3 members;
