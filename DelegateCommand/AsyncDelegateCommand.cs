@@ -10,6 +10,7 @@ namespace DelegateCommandNS
     class AsyncDelegateCommand : ICommand
     {
         private Func<object, Task> asyncExecute;
+
         private Predicate<object> canExecute;
 
         public AsyncDelegateCommand(Func<object, Task> asyncExecute,

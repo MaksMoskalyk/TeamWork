@@ -46,7 +46,6 @@ namespace FileSharing.Server
                     };
                 }
             }
-
             return fileTransferResponse;
         }
 

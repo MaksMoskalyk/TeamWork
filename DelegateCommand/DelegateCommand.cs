@@ -10,6 +10,7 @@ namespace DelegateCommandNS
     public class DelegateCommand : ICommand
     {
         private Action<object> execute;
+
         private Predicate<object> canExecute;
 
         public DelegateCommand(Action<object> execute, Predicate<object> canExecute)
