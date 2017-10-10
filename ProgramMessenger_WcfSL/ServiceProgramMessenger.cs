@@ -10,6 +10,7 @@ namespace ProgramMessenger_WcfSL
     public class ServiceProgramMessenger : IServiceProgramMessenger
     {
         static List<DataValuesProgramMessenger> src = new List<DataValuesProgramMessenger>();
+
         static List<string> users = new List<string>();
 
         public void sendSystemMessageSPM(string message)
@@ -57,7 +58,7 @@ namespace ProgramMessenger_WcfSL
 
     public class DataValuesProgramMessenger
     {
-        //ссылка на контракт обратного вызова
+        
         public IClientCallbackProgramMessenger callback = null;
 
         public void sendSystemMessage(string message)

@@ -29,7 +29,6 @@ namespace ProgramMessenger_WcfSL
         void UpdateEmployeesSPM();
     }
 
-
     public interface IClientCallbackProgramMessenger
     {
         [OperationContract(IsOneWay = true)]
