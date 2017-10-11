@@ -37,7 +37,30 @@ namespace TeamworkDBEntity
 
             WebServicesInsertion(context);
             CompaniesInsertion(context);
-            AccessLevelsInsertion(context);            
+            AccessLevelsInsertion(context);
+
+            DefaultUser(context);
+
+
+        }
+
+        private void DefaultUser(TeamworkDBContext context)
+        {
+            Employee admin = new Employee()
+            {
+                Name = "admin",
+                Surname = "admin",
+                Gender = "M",
+                DateOfBirth = new DateTime(1, 1, 1)
+            };
+            context.Accounts.Add(new Account()
+            {
+                Login = "admin",
+                Password = "admin",
+                AccessLevel_Id = 2,
+                Employee = admin
+            });
+            context.SaveChanges();
         }
 
         private void PositionsInsertion(TeamworkDBContext context)
